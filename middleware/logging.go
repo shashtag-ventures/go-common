@@ -64,6 +64,7 @@ func scrubPayload(payload []byte) string {
 func RequestLogger() func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			// Quiet healthy heartbeat noise
 			if r.URL.Path == "/api/v1/health" || r.URL.Path == "/health" {
 				next.ServeHTTP(w, r)
 				return
@@ -80,21 +81,9 @@ func RequestLogger() func(http.Handler) http.Handler {
 			next.ServeHTTP(rw, r)
 
 			ctx := r.Context()
-			requestID, _ := ctx.Value(RequestIDKey).(string)
-			
-			var traceID string
-			if span := trace.SpanFromContext(ctx); span.SpanContext().IsValid() {
-				traceID = span.SpanContext().TraceID().String()
-			}
-
-			var userID uint
-			if user, ok := ctx.Value(UserContextKey).(*AuthenticatedUser); ok {
-				userID = user.ID
-			}
-
 			duration := time.Since(start)
 
-			// LOG LEVEL ESCALATION: Auto-detect importance
+			// Logic for log level escalation
 			level := slog.LevelInfo
 			if rw.statusCode >= 500 {
 				level = slog.LevelError
@@ -102,29 +91,41 @@ func RequestLogger() func(http.Handler) http.Handler {
 				level = slog.LevelWarn
 			}
 
-			attrs := []any{
-				"method",      r.Method,
-				"url",         r.URL.String(),
-				"status",      rw.statusCode,
-				"duration_ms", duration.Milliseconds(),
-				"size_bytes",  rw.size, // Bandwidth tracking
-				"user_id",     userID,
-				"request_id",  requestID,
-				"trace_id",    traceID,
-				"ip",          r.RemoteAddr,
-				"user_agent",  r.UserAgent(),
-				"referer",     r.Referer(), // RESTORED
+			// Extract IDs
+			requestID, _ := ctx.Value(RequestIDKey).(string)
+			var traceID string
+			if span := trace.SpanFromContext(ctx); span.SpanContext().IsValid() {
+				traceID = span.SpanContext().TraceID().String()
+			}
+			var userID uint
+			if user, ok := ctx.Value(UserContextKey).(*AuthenticatedUser); ok {
+				userID = user.ID
 			}
 
-			if len(reqBody) > 0 && len(reqBody) < 4096 {
-				attrs = append(attrs, "payload", scrubPayload(reqBody))
-			}
-
-			if rw.statusCode >= 400 && rw.body.Len() > 0 {
-				attrs = append(attrs, "error_detail", rw.body.String())
-			}
-
-			slog.Log(ctx, level, "HTTP Request", attrs...)
+			// MASTER-TIER GROUPED LOGGING
+			slog.Log(ctx, level, "HTTP Request",
+				slog.Group("http",
+					slog.String("method", r.Method),
+					slog.String("url", r.URL.String()),
+					slog.Int("status", rw.statusCode),
+					slog.Int64("duration_ms", duration.Milliseconds()),
+					slog.Int("size_bytes", rw.size),
+					slog.String("host", r.Host),
+					slog.String("proto", r.Proto),
+				),
+				slog.Group("user",
+					slog.Uint64("id", uint64(userID)),
+					slog.String("ip", r.RemoteAddr),
+					slog.String("ua", r.UserAgent()),
+					slog.String("referer", r.Referer()),
+				),
+				slog.Group("trace",
+					slog.String("request_id", requestID),
+					slog.String("trace_id", traceID),
+				),
+				slog.String("payload", scrubPayload(reqBody)),
+				slog.String("error", rw.body.String()),
+			)
 		})
 	}
 }
