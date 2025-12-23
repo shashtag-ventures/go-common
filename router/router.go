@@ -17,21 +17,47 @@ type Config struct {
 	OtelServiceName string
 }
 
+// Router is a wrapper around http.ServeMux that supports middleware via .Use()
+type Router struct {
+	*http.ServeMux
+	middlewares []func(http.Handler) http.Handler
+}
+
+// Use adds middleware(s) to the router.
+func (r *Router) Use(m ...func(http.Handler) http.Handler) {
+	r.middlewares = append(r.middlewares, m...)
+}
+
 // New creates and configures the main and API routers with standard middleware.
-func New(cfg Config) (*http.ServeMux, *http.ServeMux) {
+func New(cfg Config) (*http.ServeMux, *Router) {
 	mainRouter := http.NewServeMux()
-	apiRouter := http.NewServeMux()
+	apiMux := http.NewServeMux()
+	
+	apiRouter := &Router{
+		ServeMux: apiMux,
+	}
 
-	var apiHandler http.Handler = apiRouter
-	apiHandler = middleware.MetricsMiddleware(apiHandler)
-	apiHandler = middleware.RateLimitMiddleware(cfg.RateLimit)(apiHandler)
-	apiHandler = otelhttp.NewHandler(apiHandler, cfg.OtelServiceName)
-	apiHandler = middleware.RequestIDMiddleware(apiHandler)
-	apiHandler = middleware.TrailingSlashMiddleware(apiHandler)
-	apiHandler = middleware.CorsMiddleware(cfg.Cors, apiHandler)
+	// Wrapper to apply all middlewares
+	mainRouter.HandleFunc("/api/"+cfg.ApiVersion+"/", func(w http.ResponseWriter, r *http.Request) {
+		var handler http.Handler = apiRouter.ServeMux
+		
+		// Apply custom middlewares added via .Use()
+		for i := len(apiRouter.middlewares) - 1; i >= 0; i-- {
+			handler = apiRouter.middlewares[i](handler)
+		}
 
-	apiPath := "/api/" + cfg.ApiVersion + "/"
-	mainRouter.Handle(apiPath, http.StripPrefix(strings.TrimSuffix(apiPath, "/"), apiHandler))
+		// Apply standard system middlewares
+		handler = middleware.MetricsMiddleware(handler)
+		handler = middleware.RateLimitMiddleware(cfg.RateLimit)(handler)
+		handler = otelhttp.NewHandler(handler, cfg.OtelServiceName)
+		handler = middleware.RequestIDMiddleware(handler)
+		handler = middleware.TrailingSlashMiddleware(handler)
+		handler = middleware.CorsMiddleware(cfg.Cors, handler)
+
+		apiPath := "/api/" + cfg.ApiVersion
+		http.StripPrefix(apiPath, handler).ServeHTTP(w, r)
+	})
+
 	mainRouter.Handle("/metrics", promhttp.Handler())
 
 	apiRouter.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
