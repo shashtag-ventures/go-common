@@ -40,25 +40,28 @@ func New(cfg Config) (*http.ServeMux, *Router) {
 	mainRouter.HandleFunc("/api/"+cfg.ApiVersion+"/", func(w http.ResponseWriter, r *http.Request) {
 		var handler http.Handler = apiRouter.ServeMux
 
-		// Apply custom middlewares added via .Use()
+		// Apply custom middlewares added via .Use() (Deepest level)
 		for i := len(apiRouter.middlewares) - 1; i >= 0; i-- {
 			handler = apiRouter.middlewares[i](handler)
 		}
 
-		// Apply standard system middlewares in CORRECT PRODUCTION ORDER:
-		// 1. Recover from panics (Inner protection)
-		handler = middleware.Recovery()(handler)
-		// 2. Metrics 
-		handler = middleware.MetricsMiddleware(handler)
-		// 3. OpenTelemetry 
-		handler = otelhttp.NewHandler(handler, cfg.OtelServiceName)
-		// 4. Global Request Logger (Captures final status after metrics/telemetry)
-		handler = middleware.RequestLogger()(handler)
-		// 5. Rate Limiting
-		handler = middleware.RateLimitMiddleware(cfg.RateLimit)(handler)
-		// 6. Request ID (Assign IDs early)
+		// Apply standard system middlewares in the "Perfect Order"
+		
+		// 1. Assign Request ID first (Outermost)
 		handler = middleware.RequestIDMiddleware(handler)
-		// 7. Utilities (Trailing slash, CORS)
+		
+		// 2. Global Request Logger (must be outside security layers to log blocks)
+		handler = middleware.RequestLogger()(handler)
+		
+		// 3. Panic Recovery (inner protection)
+		handler = middleware.Recovery()(handler)
+		
+		// 4. Observability
+		handler = middleware.MetricsMiddleware(handler)
+		handler = otelhttp.NewHandler(handler, cfg.OtelServiceName)
+		
+		// 5. Security & Redirects
+		handler = middleware.RateLimitMiddleware(cfg.RateLimit)(handler)
 		handler = middleware.TrailingSlashMiddleware(handler)
 		handler = middleware.CorsMiddleware(cfg.Cors, handler)
 
