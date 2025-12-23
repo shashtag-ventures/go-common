@@ -2,6 +2,7 @@ package gormutil
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/shashtag-ventures/go-common/middleware"
@@ -36,7 +37,9 @@ func (r *Repository[T]) FindByID(ctx context.Context, id any) (*T, error) {
 	logger := middleware.GetLoggerFromContext(ctx)
 	var entity T
 	if err := r.db.WithContext(ctx).First(&entity, id).Error; err != nil {
-		logger.Error("Failed to find entity by ID in DB", "id", id, "error", err)
+		if !errors.Is(err, gorm.ErrRecordNotFound) {
+			logger.Error("Failed to find entity by ID in DB", "id", id, "error", err)
+		}
 		return nil, fmt.Errorf("failed to find entity by ID %v: %w", id, err)
 	}
 	return &entity, nil
@@ -73,7 +76,9 @@ func (r *Repository[T]) FindOneBy(ctx context.Context, query string, args ...any
 	logger := middleware.GetLoggerFromContext(ctx)
 	var entity T
 	if err := r.db.WithContext(ctx).Where(query, args...).First(&entity).Error; err != nil {
-		logger.Error("Failed to find entity in DB", "query", query, "args", args, "error", err)
+		if !errors.Is(err, gorm.ErrRecordNotFound) {
+			logger.Error("Failed to find entity in DB", "query", query, "args", args, "error", err)
+		}
 		return nil, fmt.Errorf("failed to find entity: %w", err)
 	}
 	return &entity, nil
@@ -84,7 +89,9 @@ func (r *Repository[T]) Find(ctx context.Context, query string, args ...any) ([]
 	logger := middleware.GetLoggerFromContext(ctx)
 	var entities []*T
 	if err := r.db.WithContext(ctx).Where(query, args...).Find(&entities).Error; err != nil {
-		logger.Error("Failed to find entities in DB", "query", query, "args", args, "error", err)
+		if !errors.Is(err, gorm.ErrRecordNotFound) {
+			logger.Error("Failed to find entities in DB", "query", query, "args", args, "error", err)
+		}
 		return nil, fmt.Errorf("failed to find entities: %w", err)
 	}
 	return entities, nil
@@ -95,7 +102,9 @@ func (r *Repository[T]) FindAll(ctx context.Context) ([]*T, error) {
 	logger := middleware.GetLoggerFromContext(ctx)
 	var entities []*T
 	if err := r.db.WithContext(ctx).Find(&entities).Error; err != nil {
-		logger.Error("Failed to find all entities in DB", "error", err)
+		if !errors.Is(err, gorm.ErrRecordNotFound) {
+			logger.Error("Failed to find all entities in DB", "error", err)
+		}
 		return nil, fmt.Errorf("failed to find all entities: %w", err)
 	}
 	return entities, nil
