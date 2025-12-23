@@ -2,7 +2,6 @@ package router
 
 import (
 	"net/http"
-	"strings"
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/shashtag-ventures/go-common/middleware"
@@ -32,7 +31,7 @@ func (r *Router) Use(m ...func(http.Handler) http.Handler) {
 func New(cfg Config) (*http.ServeMux, *Router) {
 	mainRouter := http.NewServeMux()
 	apiMux := http.NewServeMux()
-	
+
 	apiRouter := &Router{
 		ServeMux: apiMux,
 	}
@@ -40,7 +39,7 @@ func New(cfg Config) (*http.ServeMux, *Router) {
 	// Wrapper to apply all middlewares
 	mainRouter.HandleFunc("/api/"+cfg.ApiVersion+"/", func(w http.ResponseWriter, r *http.Request) {
 		var handler http.Handler = apiRouter.ServeMux
-		
+
 		// Apply custom middlewares added via .Use()
 		for i := len(apiRouter.middlewares) - 1; i >= 0; i-- {
 			handler = apiRouter.middlewares[i](handler)
