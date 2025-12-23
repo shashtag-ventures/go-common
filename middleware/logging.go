@@ -4,6 +4,8 @@ import (
 	"log/slog"
 	"net/http"
 	"time"
+
+	"go.opentelemetry.io/otel/trace"
 )
 
 // responseWriter is a minimal wrapper for http.ResponseWriter that intercepts the status code.
@@ -26,19 +28,25 @@ func RequestLogger() func(http.Handler) http.Handler {
 			// Wrap the response writer to capture the status code
 			rw := &responseWriter{w, http.StatusOK}
 
-			// Extract request ID if present in context (from RequestID middleware)
+			// 1. Extract request ID (Your custom ID)
 			requestID, _ := r.Context().Value(RequestIDKey).(string)
+
+			// 2. Extract OpenTelemetry Trace ID (The industry standard)
+			var traceID string
+			if span := trace.SpanFromContext(r.Context()); span.SpanContext().IsValid() {
+				traceID = span.SpanContext().TraceID().String()
+			}
 
 			// Process the request
 			next.ServeHTTP(rw, r)
 
-			// Post-processing: try to extract user ID if auth middleware has run
+			// 3. Extract user ID if auth has run
 			var userID uint
 			if user, ok := r.Context().Value(UserContextKey).(*AuthenticatedUser); ok {
 				userID = user.ID
 			}
 
-			// Log the completed request with full original URL and duration
+			// Log the completed request with high-fidelity metadata
 			slog.Info("HTTP Request",
 				"method", r.Method,
 				"url", r.URL.String(),
@@ -46,7 +54,10 @@ func RequestLogger() func(http.Handler) http.Handler {
 				"duration", time.Since(start).String(),
 				"user_id", userID,
 				"request_id", requestID,
+				"trace_id", traceID, // Links logs to OTel traces
 				"ip", r.RemoteAddr,
+				"user_agent", r.UserAgent(),
+				"referer", r.Referer(),
 			)
 		})
 	}
