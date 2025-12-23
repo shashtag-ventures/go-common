@@ -101,6 +101,11 @@ func (r *Repository[T]) FindAll(ctx context.Context) ([]*T, error) {
 	return entities, nil
 }
 
+// DB returns the underlying gorm.DB instance with the provided context.
+func (r *Repository[T]) DB(ctx context.Context) *gorm.DB {
+	return r.db.WithContext(ctx)
+}
+
 // getDB returns the transaction if it's not nil, otherwise it returns the base DB connection.
 func (r *Repository[T]) getDB(tx *gorm.DB) *gorm.DB {
 	if tx != nil {

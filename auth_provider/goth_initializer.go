@@ -4,6 +4,7 @@ import (
 	"github.com/gorilla/sessions"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
+	"github.com/markbates/goth/providers/github"
 	"github.com/markbates/goth/providers/google"
 )
 
@@ -12,7 +13,10 @@ type GothConfig struct {
 	SessionSecret      string
 	GoogleClientID     string
 	GoogleClientSecret string
-	CallbackURL        string
+	GoogleCallbackURL  string
+	GitHubClientID     string
+	GitHubClientSecret string
+	GitHubCallbackURL  string
 }
 
 // OAuthProviderInitializer defines the interface for initializing OAuth providers.
@@ -37,9 +41,18 @@ func (g *GothInitializer) Init() error {
 	// Use Gorilla Sessions for storing Goth sessions.
 	gothic.Store = sessions.NewCookieStore([]byte(g.cfg.SessionSecret))
 
-	// Register Google OAuth2 provider.
-	goth.UseProviders(
-		google.New(g.cfg.GoogleClientID, g.cfg.GoogleClientSecret, g.cfg.CallbackURL, "email", "profile"),
-	)
+	var providers []goth.Provider
+
+	// Register Google OAuth2 provider if credentials are provided.
+	if g.cfg.GoogleClientID != "" && g.cfg.GoogleClientSecret != "" {
+		providers = append(providers, google.New(g.cfg.GoogleClientID, g.cfg.GoogleClientSecret, g.cfg.GoogleCallbackURL, "email", "profile"))
+	}
+
+	// Register GitHub OAuth2 provider if credentials are provided.
+	if g.cfg.GitHubClientID != "" && g.cfg.GitHubClientSecret != "" {
+		providers = append(providers, github.New(g.cfg.GitHubClientID, g.cfg.GitHubClientSecret, g.cfg.GitHubCallbackURL, "user:email", "read:user"))
+	}
+
+	goth.UseProviders(providers...)
 	return nil
 }
