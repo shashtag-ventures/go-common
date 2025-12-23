@@ -45,11 +45,20 @@ func New(cfg Config) (*http.ServeMux, *Router) {
 			handler = apiRouter.middlewares[i](handler)
 		}
 
-		// Apply standard system middlewares
+		// Apply standard system middlewares in CORRECT PRODUCTION ORDER:
+		// 1. Recover from panics (Inner protection)
+		handler = middleware.Recovery()(handler)
+		// 2. Metrics 
 		handler = middleware.MetricsMiddleware(handler)
-		handler = middleware.RateLimitMiddleware(cfg.RateLimit)(handler)
+		// 3. OpenTelemetry 
 		handler = otelhttp.NewHandler(handler, cfg.OtelServiceName)
+		// 4. Global Request Logger (Captures final status after metrics/telemetry)
+		handler = middleware.RequestLogger()(handler)
+		// 5. Rate Limiting
+		handler = middleware.RateLimitMiddleware(cfg.RateLimit)(handler)
+		// 6. Request ID (Assign IDs early)
 		handler = middleware.RequestIDMiddleware(handler)
+		// 7. Utilities (Trailing slash, CORS)
 		handler = middleware.TrailingSlashMiddleware(handler)
 		handler = middleware.CorsMiddleware(cfg.Cors, handler)
 

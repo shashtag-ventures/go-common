@@ -32,14 +32,21 @@ func RequestLogger() func(http.Handler) http.Handler {
 			// Process the request
 			next.ServeHTTP(rw, r)
 
+			// Post-processing: try to extract user ID if auth middleware has run
+			var userID uint
+			if user, ok := r.Context().Value(UserContextKey).(*AuthenticatedUser); ok {
+				userID = user.ID
+			}
+
 			// Log the completed request with full original URL and duration
 			slog.Info("HTTP Request",
 				"method", r.Method,
-				"url", r.URL.String(), // Full original URL
+				"url", r.URL.String(),
 				"status", rw.statusCode,
 				"duration", time.Since(start).String(),
-				"ip", r.RemoteAddr,
+				"user_id", userID,
 				"request_id", requestID,
+				"ip", r.RemoteAddr,
 			)
 		})
 	}
