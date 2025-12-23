@@ -2,15 +2,16 @@ package middleware
 
 import (
 	"bytes"
+	"encoding/json"
 	"io"
 	"log/slog"
 	"net/http"
+	"strings"
 	"time"
 
 	"go.opentelemetry.io/otel/trace"
 )
 
-// responseWriter is a minimal wrapper for http.ResponseWriter that intercepts the status code and captures error bodies.
 type responseWriter struct {
 	http.ResponseWriter
 	statusCode int
@@ -29,13 +30,45 @@ func (rw *responseWriter) Write(b []byte) (int, error) {
 	return rw.ResponseWriter.Write(b)
 }
 
-// RequestLogger returns a middleware that logs the full details of every request.
+// scrubPayload parses JSON and masks sensitive keys within the payload string.
+func scrubPayload(payload []byte) string {
+	if len(payload) == 0 {
+		return ""
+	}
+	var data map[string]interface{}
+	if err := json.Unmarshal(payload, &data); err != nil {
+		return string(payload) // Return as-is if not valid JSON
+	}
+
+	sensitiveKeys := []string{"password", "token", "secret", "access_token", "refresh_token"}
+	var scrub func(m map[string]interface{})
+	scrub = func(m map[string]interface{}) {
+		for k, v := range m {
+			for _, sk := range sensitiveKeys {
+				if strings.EqualFold(k, sk) {
+					m[k] = "[MASKED]"
+				}
+			}
+			if child, ok := v.(map[string]interface{}); ok {
+				scrub(child)
+			}
+		}
+	}
+	scrub(data)
+	scrubbed, _ := json.Marshal(data)
+	return string(scrubbed)
+}
+
 func RequestLogger() func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			start := time.Now()
+			// Skip logging for successful health checks to reduce noise
+			if r.URL.Path == "/api/v1/health" || r.URL.Path == "/health" {
+				next.ServeHTTP(w, r)
+				return
+			}
 
-			// 1. Capture Request Body safely for non-GET requests
+			start := time.Now()
 			var reqBody []byte
 			if r.Body != nil && r.Method != http.MethodGet {
 				reqBody, _ = io.ReadAll(r.Body)
@@ -43,13 +76,9 @@ func RequestLogger() func(http.Handler) http.Handler {
 			}
 
 			rw := &responseWriter{w, http.StatusOK, bytes.NewBuffer(nil)}
-
-			// Process the request
 			next.ServeHTTP(rw, r)
 
-			// 2. Metadata Extraction (After next.ServeHTTP so context is fully populated if possible)
 			requestID, _ := r.Context().Value(RequestIDKey).(string)
-			
 			var traceID string
 			if span := trace.SpanFromContext(r.Context()); span.SpanContext().IsValid() {
 				traceID = span.SpanContext().TraceID().String()
@@ -60,7 +89,6 @@ func RequestLogger() func(http.Handler) http.Handler {
 				userID = user.ID
 			}
 
-			// 3. Prepare log attributes
 			attrs := []any{
 				"method",      r.Method,
 				"url",         r.URL.String(),
@@ -74,12 +102,10 @@ func RequestLogger() func(http.Handler) http.Handler {
 				"referer",     r.Referer(),
 			}
 
-			// Add payload if it exists and is reasonable in size
-			if len(reqBody) > 0 && len(reqBody) < 2048 {
-				attrs = append(attrs, "request_payload", string(reqBody))
+			if len(reqBody) > 0 && len(reqBody) < 4096 {
+				attrs = append(attrs, "request_payload", scrubPayload(reqBody))
 			}
 
-			// Add error response if applicable
 			if rw.statusCode >= 400 && rw.body.Len() > 0 {
 				attrs = append(attrs, "response_error", rw.body.String())
 			}
