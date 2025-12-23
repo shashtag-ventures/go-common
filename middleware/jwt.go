@@ -3,7 +3,6 @@ package middleware
 import (
 	"context"
 	"fmt"
-	"log/slog"
 	"net/http"
 
 	customErrors "github.com/shashtag-ventures/go-common/errors"
@@ -15,10 +14,8 @@ import (
 func JWTAuthMiddleware(jwtSecret string) func(next http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			slog.Info("JWTAuthMiddleware: Request received", "method", r.Method, "url", r.URL.String())
 			cookie, err := r.Cookie("jwt_token")
 			if err != nil {
-				slog.Warn("JWTAuthMiddleware: Missing JWT cookie", "error", err)
 				jsonResponse.SendErrorResponse(w, customErrors.New("missing jwt cookie", err), http.StatusUnauthorized)
 				return
 			}
@@ -27,7 +24,6 @@ func JWTAuthMiddleware(jwtSecret string) func(next http.Handler) http.Handler {
 
 			claims, err := jwt.ParseToken(tokenString, jwtSecret)
 			if err != nil {
-				slog.Error("JWTAuthMiddleware: Invalid or expired token", "error", err)
 				jsonResponse.SendErrorResponse(w, fmt.Errorf("invalid or expired token: %w", err), http.StatusUnauthorized)
 				return
 			}
@@ -39,10 +35,7 @@ func JWTAuthMiddleware(jwtSecret string) func(next http.Handler) http.Handler {
 				Role:  claims.Role, // Role is now a simple string
 			}
 
-			slog.Info("JWTAuthMiddleware: User authenticated from token", "userID", authenticatedUser.ID, "role", authenticatedUser.Role)
-
 			ctx := context.WithValue(r.Context(), UserContextKey, authenticatedUser)
-			slog.Info("JWTAuthMiddleware: User set in context")
 			next.ServeHTTP(w, r.WithContext(ctx))
 		})
 	}
