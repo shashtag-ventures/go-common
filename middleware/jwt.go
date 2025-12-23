@@ -15,7 +15,7 @@ import (
 func JWTAuthMiddleware(jwtSecret string) func(next http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			slog.Info("JWTAuthMiddleware: Request received", "path", r.URL.Path)
+			slog.Info("JWTAuthMiddleware: Request received", "method", r.Method, "url", r.URL.String())
 			cookie, err := r.Cookie("jwt_token")
 			if err != nil {
 				slog.Warn("JWTAuthMiddleware: Missing JWT cookie", "error", err)
