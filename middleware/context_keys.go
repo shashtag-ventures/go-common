@@ -18,12 +18,21 @@ const (
 )
 
 // GetLoggerFromContext retrieves the logger from the context.
-// If no logger is found, it returns the default logger.
 func GetLoggerFromContext(ctx context.Context) *slog.Logger {
 	if logger, ok := ctx.Value(LoggerContextKey).(*slog.Logger); ok {
 		return logger
 	}
 	return slog.Default()
+}
+
+// EnrichLogger adds attributes to the logger stored in the context and returns a new context.
+// Use this inside handlers to add metadata (like project_id) that should appear in all subsequent logs.
+func EnrichLogger(ctx context.Context, attrs ...slog.Attr) context.Context {
+	logger := GetLoggerFromContext(ctx)
+	for _, attr := range attrs {
+		logger = logger.With(attr)
+	}
+	return context.WithValue(ctx, LoggerContextKey, logger)
 }
 
 // GetRequestIDFromContext retrieves the request ID from the context.

@@ -64,7 +64,6 @@ func scrubPayload(payload []byte) string {
 func RequestLogger() func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			// Quiet healthy heartbeat noise
 			if r.URL.Path == "/api/v1/health" || r.URL.Path == "/health" {
 				next.ServeHTTP(w, r)
 				return
@@ -83,7 +82,7 @@ func RequestLogger() func(http.Handler) http.Handler {
 			ctx := r.Context()
 			duration := time.Since(start)
 
-			// Logic for log level escalation
+			// Smart Escalation
 			level := slog.LevelInfo
 			if rw.statusCode >= 500 {
 				level = slog.LevelError
@@ -91,7 +90,7 @@ func RequestLogger() func(http.Handler) http.Handler {
 				level = slog.LevelWarn
 			}
 
-			// Extract IDs
+			// Metadata extraction
 			requestID, _ := ctx.Value(RequestIDKey).(string)
 			var traceID string
 			if span := trace.SpanFromContext(ctx); span.SpanContext().IsValid() {
@@ -102,8 +101,9 @@ func RequestLogger() func(http.Handler) http.Handler {
 				userID = user.ID
 			}
 
-			// MASTER-TIER GROUPED LOGGING
-			slog.Log(ctx, level, "HTTP Request",
+			// FINAL LOG - Uses the enriched logger from context
+			logger := GetLoggerFromContext(ctx)
+			logger.Log(ctx, level, "HTTP Request",
 				slog.Group("http",
 					slog.String("method", r.Method),
 					slog.String("url", r.URL.String()),
@@ -112,6 +112,7 @@ func RequestLogger() func(http.Handler) http.Handler {
 					slog.Int("size_bytes", rw.size),
 					slog.String("host", r.Host),
 					slog.String("proto", r.Proto),
+					slog.String("content_type", rw.Header().Get("Content-Type")),
 				),
 				slog.Group("user",
 					slog.Uint64("id", uint64(userID)),
