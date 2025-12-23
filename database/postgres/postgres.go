@@ -5,6 +5,7 @@ import (
 	"log/slog"
 	"time"
 
+	"github.com/shashtag-ventures/go-common/gormutil"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	tracing "gorm.io/plugin/opentelemetry/tracing"
@@ -30,8 +31,12 @@ func New(cfg DBConfig) (*gorm.DB, error) {
 	cnn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 		cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.DbName, cfg.SSLMode)
 
-	// Open a new GORM database connection.
-	dbClient, err := gorm.Open(postgres.Open(cnn), &gorm.Config{})
+	// Open a new GORM database connection with custom contextual logger.
+	dbClient, err := gorm.Open(postgres.Open(cnn), &gorm.Config{
+		Logger: &gormutil.GormLogger{
+			SlowThreshold: 200 * time.Millisecond,
+		},
+	})
 	if err != nil {
 		return nil, fmt.Errorf("failed to open database connection: %w", err)
 	}
