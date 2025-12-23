@@ -15,10 +15,11 @@ type Config struct {
 	Level slog.Level
 }
 
-// New creates a new slog.Logger instance with automatic environment detection and sensitive data masking.
+// New creates a new slog.Logger instance with source mapping and data masking.
 func New(cfg Config) *slog.Logger {
 	opts := &slog.HandlerOptions{
-		Level: cfg.Level,
+		Level:     cfg.Level,
+		AddSource: true, // THE ARCHITECT TOUCH: Adds file and line number
 		ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
 			// 1. Mask sensitive keys
 			key := strings.ToLower(a.Key)
@@ -39,10 +40,10 @@ func New(cfg Config) *slog.Logger {
 	if strings.ToLower(cfg.Env) == "production" || strings.ToLower(cfg.Env) == "prod" {
 		handler = slog.NewJSONHandler(os.Stdout, opts)
 	} else {
-		// Use 'tint' for beautiful colored output in development
 		handler = tint.NewHandler(os.Stdout, &tint.Options{
 			Level:      cfg.Level,
-			TimeFormat: "15:04:05", // Shorter time for dev readability
+			TimeFormat: "15:04:05",
+			AddSource:  true, // Also show source in Dev
 		})
 	}
 	
