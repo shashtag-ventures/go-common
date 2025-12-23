@@ -40,30 +40,31 @@ func New(cfg Config) (*http.ServeMux, *Router) {
 	mainRouter.HandleFunc("/api/"+cfg.ApiVersion+"/", func(w http.ResponseWriter, r *http.Request) {
 		var handler http.Handler = apiRouter.ServeMux
 
-		// Apply custom middlewares added via .Use() (Deepest level)
+		// Apply custom middlewares added via .Use()
 		for i := len(apiRouter.middlewares) - 1; i >= 0; i-- {
 			handler = apiRouter.middlewares[i](handler)
 		}
 
-		// Apply standard system middlewares in the "Perfect Order"
+		// PRODUCTION-ORDER STACK:
+		// Logic: Last applied is FIRST executed.
 		
-		// 1. Assign Request ID first (Outermost)
-		handler = middleware.RequestIDMiddleware(handler)
-		
-		// 2. Global Request Logger (must be outside security layers to log blocks)
-		handler = middleware.RequestLogger()(handler)
-		
-		// 3. Panic Recovery (inner protection)
-		handler = middleware.Recovery()(handler)
-		
-		// 4. Observability
-		handler = middleware.MetricsMiddleware(handler)
-		handler = otelhttp.NewHandler(handler, cfg.OtelServiceName)
-		
-		// 5. Security & Redirects
+		// 5. Security & Redirects (Inner-most system layers)
 		handler = middleware.RateLimitMiddleware(cfg.RateLimit)(handler)
 		handler = middleware.TrailingSlashMiddleware(handler)
 		handler = middleware.CorsMiddleware(cfg.Cors, handler)
+
+		// 4. Observability (Capture metrics and traces for the secured request)
+		handler = middleware.MetricsMiddleware(handler)
+		handler = otelhttp.NewHandler(handler, cfg.OtelServiceName)
+
+		// 3. Panic Recovery (Protect monitoring layers from handler crashes)
+		handler = middleware.Recovery()(handler)
+
+		// 2. Global Request Logger (Must run after ID is set)
+		handler = middleware.RequestLogger()(handler)
+
+		// 1. Assign Request ID (Outer-most layer - must run first)
+		handler = middleware.RequestIDMiddleware(handler)
 
 		apiPath := "/api/" + cfg.ApiVersion
 		http.StripPrefix(apiPath, handler).ServeHTTP(w, r)
