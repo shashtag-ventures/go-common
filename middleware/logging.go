@@ -81,16 +81,24 @@ func RequestLogger() func(http.Handler) http.Handler {
 
 			ctx := r.Context()
 			duration := time.Since(start)
+			ms := duration.Milliseconds()
+
+			// Latency Classification
+			latencyClass := "fast"
+			if ms > 500 {
+				latencyClass = "slow"
+			} else if ms > 200 {
+				latencyClass = "p90"
+			}
 
 			// Smart Escalation
 			level := slog.LevelInfo
 			if rw.statusCode >= 500 {
 				level = slog.LevelError
-			} else if rw.statusCode >= 400 || duration > 500*time.Millisecond {
+			} else if rw.statusCode >= 400 || latencyClass == "slow" {
 				level = slog.LevelWarn
 			}
 
-			// Metadata extraction
 			requestID, _ := ctx.Value(RequestIDKey).(string)
 			var traceID string
 			if span := trace.SpanFromContext(ctx); span.SpanContext().IsValid() {
@@ -101,14 +109,14 @@ func RequestLogger() func(http.Handler) http.Handler {
 				userID = user.ID
 			}
 
-			// FINAL LOG - Uses the enriched logger from context
 			logger := GetLoggerFromContext(ctx)
 			logger.Log(ctx, level, "HTTP Request",
 				slog.Group("http",
 					slog.String("method", r.Method),
 					slog.String("url", r.URL.String()),
 					slog.Int("status", rw.statusCode),
-					slog.Int64("duration_ms", duration.Milliseconds()),
+					slog.Int64("duration_ms", ms),
+					slog.String("latency_class", latencyClass),
 					slog.Int("size_bytes", rw.size),
 					slog.String("host", r.Host),
 					slog.String("proto", r.Proto),
