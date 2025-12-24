@@ -33,6 +33,20 @@ func (rw *responseWriter) Write(b []byte) (int, error) {
 	return n, err
 }
 
+// getRealIP extracts the real client IP, considering proxies like Nginx or Cloudflare.
+func getRealIP(r *http.Request) string {
+	if ip := r.Header.Get("CF-Connecting-IP"); ip != "" {
+		return ip
+	}
+	if ip := r.Header.Get("X-Forwarded-For"); ip != "" {
+		return strings.Split(ip, ",")[0]
+	}
+	if ip := r.Header.Get("X-Real-IP"); ip != "" {
+		return ip
+	}
+	return r.RemoteAddr
+}
+
 func scrubPayload(payload []byte) string {
 	if len(payload) == 0 {
 		return ""
@@ -81,21 +95,11 @@ func RequestLogger() func(http.Handler) http.Handler {
 
 			ctx := r.Context()
 			duration := time.Since(start)
-			ms := duration.Milliseconds()
 
-			// Latency Classification
-			latencyClass := "fast"
-			if ms > 500 {
-				latencyClass = "slow"
-			} else if ms > 200 {
-				latencyClass = "p90"
-			}
-
-			// Smart Escalation
 			level := slog.LevelInfo
 			if rw.statusCode >= 500 {
 				level = slog.LevelError
-			} else if rw.statusCode >= 400 || latencyClass == "slow" {
+			} else if rw.statusCode >= 400 || duration > 500*time.Millisecond {
 				level = slog.LevelWarn
 			}
 
@@ -115,16 +119,19 @@ func RequestLogger() func(http.Handler) http.Handler {
 					slog.String("method", r.Method),
 					slog.String("url", r.URL.String()),
 					slog.Int("status", rw.statusCode),
-					slog.Int64("duration_ms", ms),
-					slog.String("latency_class", latencyClass),
+					slog.Int64("duration_ms", duration.Milliseconds()),
+					slog.String("latency_class", func() string {
+						ms := duration.Milliseconds()
+						if ms > 500 { return "slow" }
+						if ms > 200 { return "p90" }
+						return "fast"
+					}()),
 					slog.Int("size_bytes", rw.size),
-					slog.String("host", r.Host),
-					slog.String("proto", r.Proto),
 					slog.String("content_type", rw.Header().Get("Content-Type")),
 				),
 				slog.Group("user",
 					slog.Uint64("id", uint64(userID)),
-					slog.String("ip", r.RemoteAddr),
+					slog.String("ip", getRealIP(r)), // DETECT REAL IP
 					slog.String("ua", r.UserAgent()),
 					slog.String("referer", r.Referer()),
 				),
