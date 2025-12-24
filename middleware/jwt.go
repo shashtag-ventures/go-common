@@ -28,11 +28,15 @@ func JWTAuthMiddleware(jwtSecret string) func(next http.Handler) http.Handler {
 				return
 			}
 
-			// The AuthenticatedUser struct is defined in authz.go
 			authenticatedUser := &AuthenticatedUser{
 				ID:    claims.UserID,
 				Email: "", // Email is not in claims
-				Role:  claims.Role, // Role is now a simple string
+				Role:  claims.Role,
+			}
+
+			// NEW: Capture UserID in the mutable log state for the outer logger
+			if state, ok := r.Context().Value(LogStateKey).(*LogState); ok {
+				state.SetUser(authenticatedUser.ID)
 			}
 
 			ctx := context.WithValue(r.Context(), UserContextKey, authenticatedUser)

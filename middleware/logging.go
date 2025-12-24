@@ -33,7 +33,6 @@ func (rw *responseWriter) Write(b []byte) (int, error) {
 	return n, err
 }
 
-// getRealIP extracts the real client IP, considering proxies like Nginx or Cloudflare.
 func getRealIP(r *http.Request) string {
 	if ip := r.Header.Get("CF-Connecting-IP"); ip != "" {
 		return ip
@@ -95,53 +94,70 @@ func RequestLogger() func(http.Handler) http.Handler {
 
 			ctx := r.Context()
 			duration := time.Since(start)
+			ms := duration.Milliseconds()
 
+			// 1. Resolve State (The Mutable Fix)
+			var userID uint
+			var extraFields map[string]any
+			if state, ok := ctx.Value(LogStateKey).(*LogState); ok {
+				userID = state.UserID
+				extraFields = state.Fields
+			}
+
+			// 2. Logic Escalation
 			level := slog.LevelInfo
 			if rw.statusCode >= 500 {
 				level = slog.LevelError
-			} else if rw.statusCode >= 400 || duration > 500*time.Millisecond {
+			} else if rw.statusCode >= 400 || ms > 500 {
 				level = slog.LevelWarn
 			}
 
+			// 3. Metadata extraction
 			requestID, _ := ctx.Value(RequestIDKey).(string)
 			var traceID string
 			if span := trace.SpanFromContext(ctx); span.SpanContext().IsValid() {
 				traceID = span.SpanContext().TraceID().String()
 			}
-			var userID uint
-			if user, ok := ctx.Value(UserContextKey).(*AuthenticatedUser); ok {
-				userID = user.ID
-			}
 
-			logger := GetLoggerFromContext(ctx)
-			logger.Log(ctx, level, "HTTP Request",
+			// 4. Construct Final Grouped Log
+			attrs := []any{
 				slog.Group("http",
 					slog.String("method", r.Method),
 					slog.String("url", r.URL.String()),
 					slog.Int("status", rw.statusCode),
-					slog.Int64("duration_ms", duration.Milliseconds()),
-					slog.String("latency_class", func() string {
-						ms := duration.Milliseconds()
-						if ms > 500 { return "slow" }
-						if ms > 200 { return "p90" }
-						return "fast"
-					}()),
+					slog.Int64("duration_ms", ms),
 					slog.Int("size_bytes", rw.size),
-					slog.String("content_type", rw.Header().Get("Content-Type")),
+					slog.String("ua", r.UserAgent()),
+					slog.String("referer", r.Referer()),
 				),
 				slog.Group("user",
 					slog.Uint64("id", uint64(userID)),
-					slog.String("ip", getRealIP(r)), // DETECT REAL IP
-					slog.String("ua", r.UserAgent()),
-					slog.String("referer", r.Referer()),
+					slog.String("ip", getRealIP(r)),
 				),
 				slog.Group("trace",
 					slog.String("request_id", requestID),
 					slog.String("trace_id", traceID),
 				),
-				slog.String("payload", scrubPayload(reqBody)),
-				slog.String("error", rw.body.String()),
-			)
+			}
+
+			// Add enriched fields from handlers
+			if len(extraFields) > 0 {
+				appFields := []any{}
+				for k, v := range extraFields {
+					appFields = append(appFields, slog.Any(k, v))
+				}
+				attrs = append(attrs, slog.Group("app", appFields...))
+			}
+
+			if len(reqBody) > 0 && len(reqBody) < 4096 {
+				attrs = append(attrs, slog.String("payload", scrubPayload(reqBody)))
+			}
+
+			if rw.statusCode >= 400 && rw.body.Len() > 0 {
+				attrs = append(attrs, slog.String("error", rw.body.String()))
+			}
+
+			slog.Log(ctx, level, "HTTP Request", attrs...)
 		})
 	}
 }
