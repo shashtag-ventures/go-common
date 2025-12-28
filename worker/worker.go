@@ -3,7 +3,6 @@ package worker
 import (
 	"context"
 	"fmt"
-	"log/slog"
 	"runtime/debug"
 	"time"
 
