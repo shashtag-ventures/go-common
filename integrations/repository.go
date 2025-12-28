@@ -3,6 +3,7 @@ package integrations
 import (
 	"context"
 
+	"github.com/google/uuid"
 	"github.com/shashtag-ventures/go-common/gormutil"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -26,10 +27,10 @@ func (r *integrationRepository) SaveConnection(ctx context.Context, conn *Extern
 	}).Create(conn).Error
 }
 
-func (r *integrationRepository) GetConnection(ctx context.Context, userID uint, provider string) (*ExternalConnection, error) {
+func (r *integrationRepository) GetConnection(ctx context.Context, userID uuid.UUID, provider string) (*ExternalConnection, error) {
 	return r.repo.FindOneBy(ctx, "user_id = ? AND provider = ?", userID, provider)
 }
 
-func (r *integrationRepository) ListConnections(ctx context.Context, userID uint) ([]*ExternalConnection, error) {
+func (r *integrationRepository) ListConnections(ctx context.Context, userID uuid.UUID) ([]*ExternalConnection, error) {
 	return r.repo.Find(ctx, "user_id = ?", userID)
 }

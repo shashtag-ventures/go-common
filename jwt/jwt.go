@@ -9,13 +9,13 @@ import (
 
 // Claims defines the structure of the JWT claims, embedding standard registered claims.
 type Claims struct {
-	UserID uint
+	UserID string
 	Role   string
 	jwt.RegisteredClaims
 }
 
 // CreateToken generates a new JWT token for the given user ID and role.
-func CreateToken(userID uint, role string, jwtSecret string) (string, error) {
+func CreateToken(userID string, role string, jwtSecret string) (string, error) {
 	claims := &Claims{
 		UserID: userID,
 		Role:   role,

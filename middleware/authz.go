@@ -41,7 +41,7 @@ func AuthorizeRole(requiredRoles ...string) func(http.Handler) http.Handler {
 
 // AuthenticatedUser represents the authenticated user's information.
 type AuthenticatedUser struct {
-	ID    uint
+	ID    string
 	Email string
 	Role  string
 }

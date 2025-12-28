@@ -99,7 +99,7 @@ func RequestLogger() func(http.Handler) http.Handler {
 			duration := time.Since(start)
 			ms := duration.Milliseconds()
 
-			var userID uint
+			var userID string
 			var extraFields map[string]any
 			var breadcrumbs []string
 			if state, ok := ctx.Value(LogStateKey).(*LogState); ok {
@@ -130,7 +130,7 @@ func RequestLogger() func(http.Handler) http.Handler {
 					slog.Int("size_bytes", rw.size),
 				),
 				slog.Group("user",
-					slog.Uint64("id", uint64(userID)),
+					slog.String("id", userID),
 					slog.String("ip", getRealIP(r)),
 					slog.String("ua", r.UserAgent()),
 					slog.String("referer", r.Referer()),

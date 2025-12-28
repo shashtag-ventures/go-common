@@ -21,7 +21,7 @@ type LogState struct {
 	mu          sync.RWMutex
 	Fields      map[string]any
 	Breadcrumbs []string // NEW: Track the "story" of the request
-	UserID      uint
+	UserID      string
 }
 
 func (s *LogState) Set(key string, value any) {
@@ -39,7 +39,7 @@ func (s *LogState) AddBreadcrumb(msg string) {
 	s.Breadcrumbs = append(s.Breadcrumbs, msg)
 }
 
-func (s *LogState) SetUser(id uint) {
+func (s *LogState) SetUser(id string) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	s.UserID = id
