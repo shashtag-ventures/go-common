@@ -83,6 +83,26 @@ func SendErrorResponse(w http.ResponseWriter, err error, statusCode int) {
 	json.NewEncoder(w).Encode(errorResponse)
 }
 
+// SendAutoErrorResponse automatically determines the HTTP status code based on the error type
+// and sends a consistent JSON error response. If no mapping is found, it defaults to 500.
+func SendAutoErrorResponse(w http.ResponseWriter, err error) {
+	statusCode := http.StatusInternalServerError
+
+	var validationErrs validator.ValidationErrors
+	if errors.As(err, &validationErrs) {
+		statusCode = http.StatusBadRequest
+	} else {
+		for customErr, mappedStatusCode := range errorStatusCodeMap {
+			if errors.Is(err, customErr) {
+				statusCode = mappedStatusCode
+				break
+			}
+		}
+	}
+
+	SendErrorResponse(w, err, statusCode)
+}
+
 // JsonError creates a generic error for internal use.
 // It wraps the original error with a custom message.
 func JsonError(statusCode int, err error, message string) error {

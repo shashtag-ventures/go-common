@@ -1,6 +1,7 @@
 package config
 
 import (
+	"encoding/hex"
 	"fmt"
 	"log/slog"
 	"os"
@@ -48,4 +49,23 @@ func GetEnvAsSlogLevel(name string, defaultVal slog.Level) slog.Level {
 		return slog.Level(value)
 	}
 	return defaultVal
+}
+
+// GetEnvAsHexBytes retrieves an environment variable as hex-decoded bytes.
+// If the variable is not hex-encoded but matches the target length, it returns the raw bytes.
+func GetEnvAsHexBytes(name string) ([]byte, error) {
+	val, err := GetRequiredEnv(name)
+	if err != nil {
+		return nil, err
+	}
+
+	// If it looks like a hex string (even length and common key lengths like 32, 64)
+	if len(val) % 2 == 0 {
+		keyBytes, err := hex.DecodeString(val)
+		if err == nil {
+			return keyBytes, nil
+		}
+	}
+
+	return []byte(val), nil
 }
