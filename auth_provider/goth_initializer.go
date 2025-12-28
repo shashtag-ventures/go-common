@@ -4,19 +4,27 @@ import (
 	"github.com/gorilla/sessions"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
+	"github.com/markbates/goth/providers/bitbucket"
 	"github.com/markbates/goth/providers/github"
+	"github.com/markbates/goth/providers/gitlab"
 	"github.com/markbates/goth/providers/google"
 )
 
 // GothConfig holds the configuration for the Goth initializer.
 type GothConfig struct {
-	SessionSecret      string
-	GoogleClientID     string
-	GoogleClientSecret string
-	GoogleCallbackURL  string
-	GitHubClientID     string
-	GitHubClientSecret string
-	GitHubCallbackURL  string
+	SessionSecret          string
+	GoogleClientID         string
+	GoogleClientSecret     string
+	GoogleCallbackURL      string
+	GitHubClientID         string
+	GitHubClientSecret     string
+	GitHubCallbackURL      string
+	GitLabClientID         string
+	GitLabClientSecret     string
+	GitLabCallbackURL      string
+	BitbucketClientID      string
+	BitbucketClientSecret  string
+	BitbucketCallbackURL   string
 }
 
 // OAuthProviderInitializer defines the interface for initializing OAuth providers.
@@ -51,6 +59,16 @@ func (g *GothInitializer) Init() error {
 	// Register GitHub OAuth2 provider if credentials are provided.
 	if g.cfg.GitHubClientID != "" && g.cfg.GitHubClientSecret != "" {
 		providers = append(providers, github.New(g.cfg.GitHubClientID, g.cfg.GitHubClientSecret, g.cfg.GitHubCallbackURL))
+	}
+
+	// Register GitLab OAuth2 provider if credentials are provided.
+	if g.cfg.GitLabClientID != "" && g.cfg.GitLabClientSecret != "" {
+		providers = append(providers, gitlab.New(g.cfg.GitLabClientID, g.cfg.GitLabClientSecret, g.cfg.GitLabCallbackURL))
+	}
+
+	// Register Bitbucket OAuth2 provider if credentials are provided.
+	if g.cfg.BitbucketClientID != "" && g.cfg.BitbucketClientSecret != "" {
+		providers = append(providers, bitbucket.New(g.cfg.BitbucketClientID, g.cfg.BitbucketClientSecret, g.cfg.BitbucketCallbackURL))
 	}
 
 	goth.UseProviders(providers...)

@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/shashtag-ventures/go-common/integrations"
+	"github.com/shashtag-ventures/go-common/integrations/types"
 )
 
 type GitHubClient struct {
@@ -21,7 +21,7 @@ func NewGitHubClient() *GitHubClient {
 	}
 }
 
-func (c *GitHubClient) ListRepositories(ctx context.Context, token string) ([]integrations.Repository, error) {
+func (c *GitHubClient) ListRepositories(ctx context.Context, token string) ([]types.Repository, error) {
 	req, err := http.NewRequestWithContext(ctx, "GET", "https://api.github.com/user/repos?sort=updated&per_page=100", nil)
 	if err != nil {
 		return nil, err
@@ -52,9 +52,9 @@ func (c *GitHubClient) ListRepositories(ctx context.Context, token string) ([]in
 		return nil, err
 	}
 
-	repos := make([]integrations.Repository, len(githubRepos))
+	repos := make([]types.Repository, len(githubRepos))
 	for i, gr := range githubRepos {
-		repos[i] = integrations.Repository{
+		repos[i] = types.Repository{
 			Name:      gr.Name,
 			FullName:  gr.FullName,
 			URL:       gr.HTMLURL,
@@ -66,8 +66,8 @@ func (c *GitHubClient) ListRepositories(ctx context.Context, token string) ([]in
 	return repos, nil
 }
 
-func (c *GitHubClient) ListNamespaces(ctx context.Context, token string) ([]integrations.Namespace, error) {
-	namespaces := []integrations.Namespace{}
+func (c *GitHubClient) ListNamespaces(ctx context.Context, token string) ([]types.Namespace, error) {
+	namespaces := []types.Namespace{}
 
 	// 1. Fetch User (Personal Account)
 	userReq, err := http.NewRequestWithContext(ctx, "GET", "https://api.github.com/user", nil)
@@ -89,7 +89,7 @@ func (c *GitHubClient) ListNamespaces(ctx context.Context, token string) ([]inte
 			AvatarURL string `json:"avatar_url"`
 		}
 		if err := json.NewDecoder(userResp.Body).Decode(&user); err == nil {
-			namespaces = append(namespaces, integrations.Namespace{
+			namespaces = append(namespaces, types.Namespace{
 				Name:      user.Login,
 				AvatarURL: user.AvatarURL,
 				Type:      "User",
@@ -132,7 +132,7 @@ func (c *GitHubClient) ListNamespaces(ctx context.Context, token string) ([]inte
 					}
 				}
 				if !exists {
-					namespaces = append(namespaces, integrations.Namespace{
+					namespaces = append(namespaces, types.Namespace{
 						Name:      inst.Account.Login,
 						AvatarURL: inst.Account.AvatarURL,
 						Type:      inst.Account.Type,
