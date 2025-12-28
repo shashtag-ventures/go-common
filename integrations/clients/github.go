@@ -13,16 +13,18 @@ import (
 
 type GitHubClient struct {
 	HTTPClient *http.Client
+	BaseURL    string
 }
 
 func NewGitHubClient() *GitHubClient {
 	return &GitHubClient{
 		HTTPClient: &http.Client{Timeout: 10 * time.Second},
+		BaseURL:    "https://api.github.com",
 	}
 }
 
 func (c *GitHubClient) ListRepositories(ctx context.Context, token string) ([]types.Repository, error) {
-	req, err := http.NewRequestWithContext(ctx, "GET", "https://api.github.com/user/repos?sort=updated&per_page=100", nil)
+	req, err := http.NewRequestWithContext(ctx, "GET", c.BaseURL+"/user/repos?sort=updated&per_page=100", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -70,7 +72,7 @@ func (c *GitHubClient) ListNamespaces(ctx context.Context, token string) ([]type
 	namespaces := []types.Namespace{}
 
 	// 1. Fetch User (Personal Account)
-	userReq, err := http.NewRequestWithContext(ctx, "GET", "https://api.github.com/user", nil)
+	userReq, err := http.NewRequestWithContext(ctx, "GET", c.BaseURL+"/user", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -98,7 +100,7 @@ func (c *GitHubClient) ListNamespaces(ctx context.Context, token string) ([]type
 	}
 
 	// 2. Fetch Installations (The correct way for GitHub Apps)
-	instReq, err := http.NewRequestWithContext(ctx, "GET", "https://api.github.com/user/installations?per_page=100", nil)
+	instReq, err := http.NewRequestWithContext(ctx, "GET", c.BaseURL+"/user/installations?per_page=100", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -121,7 +123,7 @@ func (c *GitHubClient) ListNamespaces(ctx context.Context, token string) ([]type
 				} `json:"account"`
 			} `json:"installations"`
 		}
-		
+
 		if err := json.NewDecoder(instResp.Body).Decode(&result); err == nil {
 			for _, inst := range result.Installations {
 				exists := false

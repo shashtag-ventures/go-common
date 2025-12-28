@@ -9,11 +9,15 @@ import (
 
 func TestGothInitializer(t *testing.T) {
 	cfg := auth_provider.GothConfig{
-		SessionSecret:      "test-secret",
-		GoogleClientID:     "google-id",
-		GoogleClientSecret: "google-secret",
-		GitHubClientID:     "github-id",
-		GitHubClientSecret: "github-secret",
+		SessionSecret:         "test-secret",
+		GoogleClientID:        "google-id",
+		GoogleClientSecret:    "google-secret",
+		GitHubClientID:        "github-id",
+		GitHubClientSecret:    "github-secret",
+		GitLabClientID:        "gitlab-id",
+		GitLabClientSecret:    "gitlab-secret",
+		BitbucketClientID:     "bitbucket-id",
+		BitbucketClientSecret: "bitbucket-secret",
 	}
 
 	t.Run("Init success", func(t *testing.T) {
