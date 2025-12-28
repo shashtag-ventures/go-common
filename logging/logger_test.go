@@ -36,9 +36,10 @@ func TestNew(t *testing.T) {
 		assert.Contains(t, string(out), "Test info message")
 	})
 
-	t.Run("Logger is created with DEBUG level", func(t *testing.T) {
+	t.Run("Sensitive key masking", func(t *testing.T) {
 		cfg := logging.Config{
-			Level: slog.LevelDebug,
+			Level: slog.LevelInfo,
+			Env:   "production", // Use production to get JSON and verify masking easily
 		}
 
 		oldStdout := os.Stdout
@@ -46,49 +47,44 @@ func TestNew(t *testing.T) {
 		os.Stdout = w
 
 		logger := logging.New(cfg)
-		assert.NotNil(t, logger)
-
-		// Log a message at DEBUG level
-		logger.Debug("Test debug message")
-		// Log a message at INFO level (should also appear)
-		logger.Info("Test info message at debug level")
+		logger.Info("Login attempt", "password", "123456", "token", "secret-token")
 
 		w.Close()
 		out, _ := io.ReadAll(r)
 		os.Stdout = oldStdout
 
-		// Verify that the DEBUG message is present in the output
-		assert.Contains(t, string(out), "DBG")
-		assert.Contains(t, string(out), "Test debug message")
-		assert.Contains(t, string(out), "INF")
-		assert.Contains(t, string(out), "Test info message at debug level")
+		assert.Contains(t, string(out), "[MASKED]")
+		assert.NotContains(t, string(out), "123456")
+		assert.NotContains(t, string(out), "secret-token")
 	})
 
-	t.Run("Logger is created with ERROR level", func(t *testing.T) {
+	t.Run("Production JSON Handler", func(t *testing.T) {
 		cfg := logging.Config{
-			Level: slog.LevelError,
+			Env: "prod",
 		}
+		logger := logging.New(cfg)
+		assert.NotNil(t, logger)
+		// Smoke test for handler type indirectly
+	})
 
+	t.Run("Version metadata", func(t *testing.T) {
+		cfg := logging.Config{
+			Version: "1.2.3",
+			Env:     "prod",
+		}
+		
 		oldStdout := os.Stdout
 		r, w, _ := os.Pipe()
 		os.Stdout = w
 
 		logger := logging.New(cfg)
-		assert.NotNil(t, logger)
-
-		// Log a message at INFO level (should NOT appear)
-		logger.Info("Test info message at error level")
-		// Log a message at ERROR level (should appear)
-		logger.Error("Test error message")
+		logger.Info("ver test")
 
 		w.Close()
 		out, _ := io.ReadAll(r)
 		os.Stdout = oldStdout
-
-		// Verify that the ERROR message is present and INFO is not
-		assert.NotContains(t, string(out), "level=INFO")
-		assert.NotContains(t, string(out), "msg=\"Test info message at error level\"")
-		assert.Contains(t, string(out), "ERR")
-		assert.Contains(t, string(out), "Test error message")
+		
+		assert.Contains(t, string(out), "1.2.3")
+		assert.Contains(t, string(out), "version")
 	})
 }

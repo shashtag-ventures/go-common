@@ -91,4 +91,69 @@ func TestGenericRepository(t *testing.T) {
 		require.NoError(t, err)
 		assert.Len(t, all, 2)
 	})
+
+	t.Run("Find", func(t *testing.T) {
+		testutil.CleanTables(db, "test_models")
+		repo.Create(ctx, nil, &TestModel{Name: "search1"})
+		repo.Create(ctx, nil, &TestModel{Name: "search2"})
+		repo.Create(ctx, nil, &TestModel{Name: "other"})
+
+		results, err := repo.Find(ctx, "name LIKE ?", "search%")
+		require.NoError(t, err)
+		assert.Len(t, results, 2)
+	})
+
+	t.Run("DB and getDB", func(t *testing.T) {
+		assert.NotNil(t, repo.DB(ctx))
+		
+		// Indirectly test getDB via Create with transaction
+		tx := db.Begin()
+		err := repo.Create(ctx, tx, &TestModel{Name: "tx-test"})
+		assert.NoError(t, err)
+		tx.Rollback()
+		
+		// Verify not created due to rollback
+		_, err = repo.FindOneBy(ctx, "name = ?", "tx-test")
+		assert.Error(t, err)
+	})
+
+	t.Run("FindAll Error", func(t *testing.T) {
+		// Create a repository with a closed DB to force an error if possible, 
+		// or just a repo for a non-existent table.
+		type NonExistent struct{ gorm.Model }
+		repoErr := gormutil.NewRepository[NonExistent](db)
+		_, err := repoErr.FindAll(ctx)
+		assert.Error(t, err)
+	})
+
+	t.Run("Find Error", func(t *testing.T) {
+		type NonExistent struct{ gorm.Model }
+		repoErr := gormutil.NewRepository[NonExistent](db)
+		_, err := repoErr.Find(ctx, "id = ?", 1)
+		assert.Error(t, err)
+	})
+
+	t.Run("Failures", func(t *testing.T) {
+		testutil.CleanTables(db, "test_models")
+
+		// FindByID failure
+		_, err := repo.FindByID(ctx, 9999)
+		assert.Error(t, err)
+
+		// FindOneBy failure
+		_, err = repo.FindOneBy(ctx, "name = ?", "none")
+		assert.Error(t, err)
+
+		// Create failure (nil entity)
+		err = repo.Create(ctx, nil, nil)
+		assert.Error(t, err)
+
+		// Update failure (nil entity)
+		err = repo.Update(ctx, nil, nil)
+		assert.Error(t, err)
+
+		// Delete non-existent
+		err = repo.Delete(ctx, nil, &TestModel{Model: gorm.Model{ID: 9999}})
+		assert.NoError(t, err)
+	})
 }

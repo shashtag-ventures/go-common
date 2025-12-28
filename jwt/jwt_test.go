@@ -1,6 +1,7 @@
 package jwt_test
 
 import (
+	"fmt"
 	"testing"
 	"time"
 
@@ -10,12 +11,12 @@ import (
 )
 
 const (
-	testSecret    = "supersecretjwtkey"
+	testSecret  = "supersecretjwtkey"
 	wrongSecret = "wrongsecret"
 )
 
 func TestCreateToken(t *testing.T) {
-	userID := uint(123)
+	userID := fmt.Sprint(123)
 	role := "user"
 
 	tokenString, err := jwt.CreateToken(userID, role, testSecret)
@@ -34,7 +35,7 @@ func TestCreateToken(t *testing.T) {
 }
 
 func TestParseToken(t *testing.T) {
-	userID := uint(456)
+	userID := fmt.Sprint(456)
 	role := "admin"
 
 	// Test Case 1: Successful parsing of a valid token
@@ -89,5 +90,15 @@ func TestParseToken(t *testing.T) {
 		assert.Error(t, err)
 		assert.Nil(t, claims)
 		assert.Contains(t, err.Error(), "token signature is invalid")
+	})
+
+	t.Run("Invalid Signing Method", func(t *testing.T) {
+		// Use None signing method
+		token := gojwt.NewWithClaims(gojwt.SigningMethodNone, &jwt.Claims{UserID: "1"})
+		tokenString, _ := token.SignedString(gojwt.UnsafeAllowNoneSignatureType)
+		
+		_, err := jwt.ParseToken(tokenString, testSecret)
+		assert.Error(t, err)
+		assert.Contains(t, err.Error(), "unexpected signing method")
 	})
 }
