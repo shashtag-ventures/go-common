@@ -2,6 +2,7 @@ package netutil
 
 import (
 	"fmt"
+	"net"
 	"net/url"
 	"strings"
 )
@@ -37,4 +38,26 @@ func IsSafeRedirectURL(redirectURL, allowedBaseURL string) (bool, error) {
 	}
 
 	return false, nil
+}
+
+// GetCookieDomain extracts the domain for cookie setting from a URL string.
+// It handles localhost correctly (returning empty string) and prefixes root domains with a dot.
+func GetCookieDomain(frontendURL string) string {
+	if parsedURL, err := url.Parse(frontendURL); err == nil {
+		hostname := parsedURL.Hostname()
+
+		// If hostname is an IP address, return empty to let browser handle it
+		if net.ParseIP(hostname) != nil {
+			return ""
+		}
+
+		// Avoid setting domain for localhost to allow browser default behavior
+		if strings.Contains(hostname, ".") && !strings.HasSuffix(hostname, "localhost") {
+			if !strings.HasPrefix(hostname, ".") {
+				return "." + hostname
+			}
+			return hostname
+		}
+	}
+	return ""
 }

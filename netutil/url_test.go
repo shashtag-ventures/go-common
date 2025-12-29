@@ -79,3 +79,49 @@ func TestIsSafeRedirectURL(t *testing.T) {
 		})
 	}
 }
+
+func TestGetCookieDomain(t *testing.T) {
+	tests := []struct {
+		name        string
+		frontendURL string
+		want        string
+	}{
+		{
+			name:        "Localhost with port",
+			frontendURL: "http://localhost:3000",
+			want:        "",
+		},
+		{
+			name:        "Localhost IP",
+			frontendURL: "http://127.0.0.1:3000",
+			want:        "",
+		},
+		{
+			name:        "Production Domain",
+			frontendURL: "https://karada.ai",
+			want:        ".karada.ai",
+		},
+		{
+			name:        "Production Domain with www",
+			frontendURL: "https://www.karada.ai",
+			want:        ".www.karada.ai",
+		},
+		{
+			name:        "Subdomain",
+			frontendURL: "https://app.example.com",
+			want:        ".app.example.com",
+		},
+		{
+			name:        "Invalid URL",
+			frontendURL: ":/invalid",
+			want:        "",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := GetCookieDomain(tt.frontendURL); got != tt.want {
+				t.Errorf("GetCookieDomain() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
