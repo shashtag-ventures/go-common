@@ -43,7 +43,11 @@ func SendErrorResponse(w http.ResponseWriter, err error, statusCode int) {
 	var errorResponse ErrorResponse
 	errorResponse.Status = statusCode
 	errorResponse.Error = http.StatusText(statusCode)
-	errorResponse.Message = err.Error() // Default message
+	if err != nil {
+		errorResponse.Message = err.Error() // Default message
+	} else {
+		errorResponse.Message = errorResponse.Error
+	}
 
 	var validationErrs validator.ValidationErrors
 	// Check if the error is a validation error.
