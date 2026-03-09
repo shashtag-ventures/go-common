@@ -12,19 +12,21 @@ import (
 
 // GothConfig holds the configuration for the Goth initializer.
 type GothConfig struct {
-	SessionSecret          string
-	GoogleClientID         string
-	GoogleClientSecret     string
-	GoogleCallbackURL      string
-	GitHubClientID         string
-	GitHubClientSecret     string
-	GitHubCallbackURL      string
-	GitLabClientID         string
-	GitLabClientSecret     string
-	GitLabCallbackURL      string
-	BitbucketClientID      string
-	BitbucketClientSecret  string
-	BitbucketCallbackURL   string
+	SessionSecret         string
+	GoogleClientID        string
+	GoogleClientSecret    string
+	GoogleCallbackURL     string
+	GitHubClientID        string
+	GitHubClientSecret    string
+	GitHubCallbackURL     string
+	GitLabClientID        string
+	GitLabClientSecret    string
+	GitLabCallbackURL     string
+	BitbucketClientID     string
+	BitbucketClientSecret string
+	BitbucketCallbackURL  string
+	CookieDomain          string
+	Secure                bool
 }
 
 // OAuthProviderInitializer defines the interface for initializing OAuth providers.
@@ -47,7 +49,16 @@ func NewGothInitializer(cfg GothConfig) *GothInitializer {
 // Init initializes Goth with configured OAuth providers and session store.
 func (g *GothInitializer) Init() error {
 	// Use Gorilla Sessions for storing Goth sessions.
-	gothic.Store = sessions.NewCookieStore([]byte(g.cfg.SessionSecret))
+	store := sessions.NewCookieStore([]byte(g.cfg.SessionSecret))
+	store.Options = &sessions.Options{
+		Path:     "/",
+		Domain:   g.cfg.CookieDomain,
+		MaxAge:   86400 * 30, // 30 days
+		HttpOnly: true,
+		Secure:   g.cfg.Secure,
+		SameSite: 2, // http.SameSiteLaxMode is 2
+	}
+	gothic.Store = store
 
 	var providers []goth.Provider
 
