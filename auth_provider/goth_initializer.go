@@ -88,7 +88,7 @@ func (g *GothInitializer) Init() error {
 
 	// Register Microsoft OAuth2 provider if credentials are provided.
 	if g.cfg.MicrosoftClientID != "" && g.cfg.MicrosoftClientSecret != "" {
-		providers = append(providers, microsoftonline.New(g.cfg.MicrosoftClientID, g.cfg.MicrosoftClientSecret, g.cfg.MicrosoftCallbackURL, "openid", "email", "profile"))
+		providers = append(providers, microsoftonline.New(g.cfg.MicrosoftClientID, g.cfg.MicrosoftClientSecret, g.cfg.MicrosoftCallbackURL, "openid", "email", "profile", "User.Read"))
 	}
 
 	goth.UseProviders(providers...)
