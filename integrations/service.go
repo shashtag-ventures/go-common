@@ -14,6 +14,7 @@ import (
 // IntegrationService defines operations for managing external integrations.
 type IntegrationService interface {
 	SaveConnection(ctx context.Context, userID uuid.UUID, provider string, providerUserID string, username string, avatarURL string, accessToken string, refreshToken string) error
+	GetConnectionByProviderID(ctx context.Context, provider string, providerUserID string) (*ExternalConnection, error)
 	GetUserConnections(ctx context.Context, userID uuid.UUID) ([]*ExternalConnection, error)
 	ListUserRepositories(ctx context.Context, userID uuid.UUID, provider string) ([]types.Repository, error)
 	ListUserNamespaces(ctx context.Context, userID uuid.UUID, provider string) ([]types.Namespace, error)
@@ -67,6 +68,10 @@ func (s *integrationService) SaveConnection(ctx context.Context, userID uuid.UUI
 	}
 
 	return nil
+}
+
+func (s *integrationService) GetConnectionByProviderID(ctx context.Context, provider string, providerUserID string) (*ExternalConnection, error) {
+	return s.db.GetConnectionByProviderID(ctx, provider, providerUserID)
 }
 
 func (s *integrationService) GetUserConnections(ctx context.Context, userID uuid.UUID) ([]*ExternalConnection, error) {

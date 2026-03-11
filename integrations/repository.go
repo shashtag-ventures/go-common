@@ -31,6 +31,10 @@ func (r *integrationRepository) GetConnection(ctx context.Context, userID uuid.U
 	return r.repo.FindOneBy(ctx, "user_id = ? AND provider = ?", userID, provider)
 }
 
+func (r *integrationRepository) GetConnectionByProviderID(ctx context.Context, provider string, providerUserID string) (*ExternalConnection, error) {
+	return r.repo.FindOneBy(ctx, "provider = ? AND provider_user_id = ?", provider, providerUserID)
+}
+
 func (r *integrationRepository) ListConnections(ctx context.Context, userID uuid.UUID) ([]*ExternalConnection, error) {
 	return r.repo.Find(ctx, "user_id = ?", userID)
 }

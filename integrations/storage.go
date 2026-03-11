@@ -10,5 +10,6 @@ import (
 type IntegrationStorage interface {
 	SaveConnection(ctx context.Context, conn *ExternalConnection) error
 	GetConnection(ctx context.Context, userID uuid.UUID, provider string) (*ExternalConnection, error)
+	GetConnectionByProviderID(ctx context.Context, provider string, providerUserID string) (*ExternalConnection, error)
 	ListConnections(ctx context.Context, userID uuid.UUID) ([]*ExternalConnection, error)
 }
