@@ -20,6 +20,12 @@ type BitbucketConfig struct {
 	ClientSecret string
 }
 
+// MicrosoftConfig holds credentials for Microsoft OAuth.
+type MicrosoftConfig struct {
+	ClientID     string
+	ClientSecret string
+}
+
 // RateLimitConfig defines settings for API rate limiting.
 type RateLimitConfig struct {
 	Enabled bool

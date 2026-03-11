@@ -8,6 +8,7 @@ import (
 	"github.com/markbates/goth/providers/github"
 	"github.com/markbates/goth/providers/gitlab"
 	"github.com/markbates/goth/providers/google"
+	"github.com/markbates/goth/providers/microsoftonline"
 )
 
 // GothConfig holds the configuration for the Goth initializer.
@@ -25,6 +26,9 @@ type GothConfig struct {
 	BitbucketClientID     string
 	BitbucketClientSecret string
 	BitbucketCallbackURL  string
+	MicrosoftClientID     string
+	MicrosoftClientSecret string
+	MicrosoftCallbackURL  string
 	CookieDomain          string
 	Secure                bool
 }
@@ -80,6 +84,11 @@ func (g *GothInitializer) Init() error {
 	// Register Bitbucket OAuth2 provider if credentials are provided.
 	if g.cfg.BitbucketClientID != "" && g.cfg.BitbucketClientSecret != "" {
 		providers = append(providers, bitbucket.New(g.cfg.BitbucketClientID, g.cfg.BitbucketClientSecret, g.cfg.BitbucketCallbackURL))
+	}
+
+	// Register Microsoft OAuth2 provider if credentials are provided.
+	if g.cfg.MicrosoftClientID != "" && g.cfg.MicrosoftClientSecret != "" {
+		providers = append(providers, microsoftonline.New(g.cfg.MicrosoftClientID, g.cfg.MicrosoftClientSecret, g.cfg.MicrosoftCallbackURL, "openid", "email", "profile"))
 	}
 
 	goth.UseProviders(providers...)
