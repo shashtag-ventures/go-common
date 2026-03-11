@@ -69,7 +69,7 @@ func (g *GothInitializer) Init() error {
 
 	// Register GitHub OAuth2 provider if credentials are provided.
 	if g.cfg.GitHubClientID != "" && g.cfg.GitHubClientSecret != "" {
-		providers = append(providers, github.New(g.cfg.GitHubClientID, g.cfg.GitHubClientSecret, g.cfg.GitHubCallbackURL))
+		providers = append(providers, github.New(g.cfg.GitHubClientID, g.cfg.GitHubClientSecret, g.cfg.GitHubCallbackURL, "user:email"))
 	}
 
 	// Register GitLab OAuth2 provider if credentials are provided.
