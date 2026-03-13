@@ -46,8 +46,16 @@ func (s *gcpService) DeployService(ctx context.Context, karadaProjectID string, 
 							Ports: []*runpb.ContainerPort{
 								{ContainerPort: 8080},
 							},
+							Resources: &runpb.ResourceRequirements{
+								CpuIdle:          true,
+								StartupCpuBoost: true,
+							},
 						},
 					},
+					Scaling: &runpb.RevisionScaling{
+						MaxInstanceCount: 5,
+					},
+					SessionAffinity: true,
 				},
 			},
 		}
@@ -74,12 +82,17 @@ func (s *gcpService) DeployService(ctx context.Context, karadaProjectID string, 
 							Ports: []*runpb.ContainerPort{
 								{ContainerPort: 8080},
 							},
+							Resources: &runpb.ResourceRequirements{
+								CpuIdle:          true,
+								StartupCpuBoost: true,
+							},
 						},
 					},
 					Scaling: &runpb.RevisionScaling{
 						MinInstanceCount: 0,
-						MaxInstanceCount: 1, // Keep it safe for now
+						MaxInstanceCount: 5, 
 					},
+					SessionAffinity: true, // Crucial for stateful MCP sessions
 				},
 				Ingress: runpb.IngressTraffic_INGRESS_TRAFFIC_ALL,
 			},
