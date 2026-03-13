@@ -10,6 +10,7 @@ import (
 	"google.golang.org/api/iterator"
 )
 
+// DeployService handles the creation or update of a Cloud Run service with Session Affinity and CPU Boost.
 func (s *gcpService) DeployService(ctx context.Context, karadaProjectID string, imageName string, serviceName string) (string, error) {
 	// Apply a timeout to prevent hanging the deployment process
 	ctx, cancel := context.WithTimeout(ctx, 3*time.Minute)
