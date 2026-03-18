@@ -2,6 +2,7 @@ package router
 
 import (
 	"net/http"
+	"sync"
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/shashtag-ventures/go-common/middleware"
@@ -20,11 +21,58 @@ type Config struct {
 type Router struct {
 	*http.ServeMux
 	middlewares []func(http.Handler) http.Handler
+	config      Config
+	once        sync.Once
+	fullHandler http.Handler
 }
 
 // Use adds middleware(s) to the router.
 func (r *Router) Use(m ...func(http.Handler) http.Handler) {
 	r.middlewares = append(r.middlewares, m...)
+}
+
+// buildHandler wraps the base ServeMux with all configured and custom middlewares.
+func (r *Router) buildHandler() http.Handler {
+	var handler http.Handler = r.ServeMux
+
+	// Apply custom middlewares added via .Use()
+	// Reverse order for standard middleware wrap logic (last applied is first executed)
+	for i := len(r.middlewares) - 1; i >= 0; i-- {
+		handler = r.middlewares[i](handler)
+	}
+
+	// PRODUCTION-ORDER STACK:
+	// Logic: Last applied is FIRST executed.
+
+	// 5. Security & Redirects (Inner-most system layers)
+	handler = middleware.RateLimitMiddleware(r.config.RateLimit)(handler)
+	handler = middleware.TrailingSlashMiddleware(handler)
+	handler = middleware.CorsMiddleware(r.config.Cors, handler)
+
+	// 4. Observability (Capture metrics and traces for the secured request)
+	handler = middleware.MetricsMiddleware(handler)
+	handler = otelhttp.NewHandler(handler, r.config.OtelServiceName)
+
+	// 3. Panic Recovery (Protect monitoring layers from handler crashes)
+	handler = middleware.Recovery()(handler)
+
+	// 2. Global Request Logger (Must run after ID is set)
+	handler = middleware.RequestLogger()(handler)
+
+	// 1. Assign Request ID (Outer-most layer - must run first)
+	handler = middleware.RequestIDMiddleware(handler)
+
+	return handler
+}
+
+// ServeHTTP implements http.Handler and lazily builds the middleware chain.
+func (r *Router) ServeHTTP(w http.ResponseWriter, r2 *http.Request) {
+	r.once.Do(func() {
+		r.fullHandler = r.buildHandler()
+	})
+
+	apiPath := "/api/" + r.config.ApiVersion
+	http.StripPrefix(apiPath, r.fullHandler).ServeHTTP(w, r2)
 }
 
 // New creates and configures the main and API routers with standard middleware.
@@ -34,41 +82,11 @@ func New(cfg Config) (*http.ServeMux, *Router) {
 
 	apiRouter := &Router{
 		ServeMux: apiMux,
+		config:   cfg,
 	}
 
-	// Wrapper to apply all middlewares
-	mainRouter.HandleFunc("/api/"+cfg.ApiVersion+"/", func(w http.ResponseWriter, r *http.Request) {
-		var handler http.Handler = apiRouter.ServeMux
-
-		// Apply custom middlewares added via .Use()
-		for i := len(apiRouter.middlewares) - 1; i >= 0; i-- {
-			handler = apiRouter.middlewares[i](handler)
-		}
-
-		// PRODUCTION-ORDER STACK:
-		// Logic: Last applied is FIRST executed.
-		
-		// 5. Security & Redirects (Inner-most system layers)
-		handler = middleware.RateLimitMiddleware(cfg.RateLimit)(handler)
-		handler = middleware.TrailingSlashMiddleware(handler)
-		handler = middleware.CorsMiddleware(cfg.Cors, handler)
-
-		// 4. Observability (Capture metrics and traces for the secured request)
-		handler = middleware.MetricsMiddleware(handler)
-		handler = otelhttp.NewHandler(handler, cfg.OtelServiceName)
-
-		// 3. Panic Recovery (Protect monitoring layers from handler crashes)
-		handler = middleware.Recovery()(handler)
-
-		// 2. Global Request Logger (Must run after ID is set)
-		handler = middleware.RequestLogger()(handler)
-
-		// 1. Assign Request ID (Outer-most layer - must run first)
-		handler = middleware.RequestIDMiddleware(handler)
-
-		apiPath := "/api/" + cfg.ApiVersion
-		http.StripPrefix(apiPath, handler).ServeHTTP(w, r)
-	})
+	// Handle all API requests through the apiRouter, which manages the middleware chain.
+	mainRouter.Handle("/api/"+cfg.ApiVersion+"/", apiRouter)
 
 	mainRouter.Handle("/metrics", promhttp.Handler())
 
