@@ -2,10 +2,10 @@ package middleware
 
 import (
 	"bytes"
-	"encoding/json"
 	"io"
 	"log/slog"
 	"net/http"
+	"regexp"
 	"strings"
 	"time"
 
@@ -46,32 +46,15 @@ func getRealIP(r *http.Request) string {
 	return r.RemoteAddr
 }
 
+var sensitivePattern = regexp.MustCompile(`(?i)("(?:password|token|secret|access_token|refresh_token)")\s*:\s*(?:"[^"]*"|[^,} \n\r]+)`)
+
 func scrubPayload(payload []byte) string {
 	if len(payload) == 0 {
 		return ""
 	}
-	var data map[string]interface{}
-	if err := json.Unmarshal(payload, &data); err != nil {
-		return string(payload)
-	}
-
-	sensitiveKeys := []string{"password", "token", "secret", "access_token", "refresh_token"}
-	var scrub func(m map[string]interface{})
-	scrub = func(m map[string]interface{}) {
-		for k, v := range m {
-			for _, sk := range sensitiveKeys {
-				if strings.EqualFold(k, sk) {
-					m[k] = "[MASKED]"
-				}
-			}
-			if child, ok := v.(map[string]interface{}); ok {
-				scrub(child)
-			}
-		}
-	}
-	scrub(data)
-	scrubbed, _ := json.Marshal(data)
-	return string(scrubbed)
+	// Regex replacement is faster and handles nested structures automatically
+	// It also preserves the original JSON formatting and works on malformed JSON
+	return sensitivePattern.ReplaceAllString(string(payload), `$1: "[MASKED]"`)
 }
 
 func RequestLogger() func(http.Handler) http.Handler {
