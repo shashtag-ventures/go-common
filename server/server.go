@@ -22,9 +22,13 @@ type Server struct {
 
 // New creates a new Server instance.
 func New(addr string, handler http.Handler, shutdownTimeout time.Duration) *Server {
+	fullAddr := addr
+	if len(addr) > 0 && addr[0] != ':' {
+		fullAddr = ":" + addr
+	}
 	return &Server{
 		Server: &http.Server{
-			Addr:    ":" + addr,
+			Addr:    fullAddr,
 			Handler: handler,
 		},
 		shutdownTimeout: shutdownTimeout,

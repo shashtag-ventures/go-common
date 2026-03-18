@@ -1,4 +1,4 @@
-package auth_provider
+package auth
 
 import (
 	"github.com/gorilla/sessions"

@@ -1,16 +1,16 @@
-package auth_provider_test
+package auth_test
 
 import (
 	"testing"
 
 	"github.com/gorilla/sessions"
 	"github.com/markbates/goth/gothic"
-	"github.com/shashtag-ventures/go-common/auth_provider"
+	"github.com/shashtag-ventures/go-common/auth"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGothInitializer(t *testing.T) {
-	cfg := auth_provider.GothConfig{
+	cfg := auth.GothConfig{
 		SessionSecret:         "test-secret",
 		GoogleClientID:        "google-id",
 		GoogleClientSecret:    "google-secret",
@@ -23,27 +23,27 @@ func TestGothInitializer(t *testing.T) {
 	}
 
 	t.Run("Init success", func(t *testing.T) {
-		initializer := auth_provider.NewGothInitializer(cfg)
+		initializer := auth.NewGothInitializer(cfg)
 		err := initializer.Init()
 		assert.NoError(t, err)
 	})
 
 	t.Run("Init partial config", func(t *testing.T) {
-		partialCfg := auth_provider.GothConfig{
+		partialCfg := auth.GothConfig{
 			SessionSecret: "test-secret",
 		}
-		initializer := auth_provider.NewGothInitializer(partialCfg)
+		initializer := auth.NewGothInitializer(partialCfg)
 		err := initializer.Init()
 		assert.NoError(t, err)
 	})
 
 	t.Run("Verify cookie options", func(t *testing.T) {
-		cookieCfg := auth_provider.GothConfig{
+		cookieCfg := auth.GothConfig{
 			SessionSecret: "test-secret",
 			CookieDomain:  ".example.com",
 			Secure:        true,
 		}
-		initializer := auth_provider.NewGothInitializer(cookieCfg)
+		initializer := auth.NewGothInitializer(cookieCfg)
 		err := initializer.Init()
 		assert.NoError(t, err)
 
