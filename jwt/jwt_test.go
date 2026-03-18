@@ -19,7 +19,7 @@ func TestCreateToken(t *testing.T) {
 	userID := fmt.Sprint(123)
 	role := "user"
 
-	tokenString, err := jwt.CreateToken(userID, role, testSecret)
+	tokenString, err := jwt.CreateToken(userID, role, testSecret, time.Hour*24)
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, tokenString)
@@ -40,7 +40,7 @@ func TestParseToken(t *testing.T) {
 
 	// Test Case 1: Successful parsing of a valid token
 	t.Run("Valid Token", func(t *testing.T) {
-		tokenString, err := jwt.CreateToken(userID, role, testSecret)
+		tokenString, err := jwt.CreateToken(userID, role, testSecret, time.Hour*24)
 		assert.NoError(t, err)
 
 		claims, err := jwt.ParseToken(tokenString, testSecret)
@@ -54,7 +54,7 @@ func TestParseToken(t *testing.T) {
 
 	// Test Case 2: Invalid token (wrong secret)
 	t.Run("Invalid Secret", func(t *testing.T) {
-		tokenString, err := jwt.CreateToken(userID, role, testSecret)
+		tokenString, err := jwt.CreateToken(userID, role, testSecret, time.Hour*24)
 		assert.NoError(t, err)
 
 		claims, err := jwt.ParseToken(tokenString, wrongSecret)

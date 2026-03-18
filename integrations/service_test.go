@@ -8,6 +8,8 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/shashtag-ventures/go-common/crypto"
+	"github.com/shashtag-ventures/go-common/integrations/clients"
+	"github.com/shashtag-ventures/go-common/integrations/types"
 	"github.com/shashtag-ventures/go-common/testutil"
 	"github.com/stretchr/testify/assert"
 )
@@ -23,7 +25,12 @@ func TestIntegrationService(t *testing.T) {
 
 	encryptionKey := "12345678901234567890123456789012" // 32 bytes
 	storage := NewIntegrationRepository(db)
-	service := NewIntegrationService(storage, encryptionKey)
+	
+	ghClient := clients.NewGitHubClient()
+	clientsMap := map[string]types.IntegrationClient{
+		"github": ghClient,
+	}
+	service := NewIntegrationService(storage, encryptionKey, clientsMap)
 
 	userID := uuid.New()
 	provider := "github"
@@ -61,7 +68,8 @@ func TestIntegrationService(t *testing.T) {
 		defer server.Close()
 
 		impl := service.(*integrationService)
-		impl.githubClient.BaseURL = server.URL
+		ghClient := impl.clients[provider].(*clients.GitHubClient)
+		ghClient.BaseURL = server.URL
 
 		repos, err := service.ListUserRepositories(ctx, userID, provider)
 		assert.NoError(t, err)
@@ -91,7 +99,8 @@ func TestIntegrationService(t *testing.T) {
 		defer server.Close()
 
 		impl := service.(*integrationService)
-		impl.githubClient.BaseURL = server.URL
+		ghClient := impl.clients[provider].(*clients.GitHubClient)
+		ghClient.BaseURL = server.URL
 
 		namespaces, err := service.ListUserNamespaces(ctx, userID, provider)
 		assert.NoError(t, err)

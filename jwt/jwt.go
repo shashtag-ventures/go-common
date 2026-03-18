@@ -14,13 +14,13 @@ type Claims struct {
 	jwt.RegisteredClaims
 }
 
-// CreateToken generates a new JWT token for the given user ID and role.
-func CreateToken(userID string, role string, jwtSecret string) (string, error) {
+// CreateToken generates a new JWT token for the given user ID, role, and duration.
+func CreateToken(userID string, role string, jwtSecret string, duration time.Duration) (string, error) {
 	claims := &Claims{
 		UserID: userID,
 		Role:   role,
 		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 24)), // Token expires in 24 hours.
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(duration)),
 		},
 	}
 

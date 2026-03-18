@@ -48,7 +48,8 @@ type GoogleConfig struct {
 
 // JWTConfig holds settings for JSON Web Token handling.
 type JWTConfig struct {
-	Secret string
+	Secret            string
+	ExpirationSeconds int
 }
 
 // SessionConfig holds settings for session management.

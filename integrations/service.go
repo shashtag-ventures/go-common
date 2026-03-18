@@ -6,12 +6,10 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/shashtag-ventures/go-common/crypto"
-	"github.com/shashtag-ventures/go-common/integrations/clients"
 	"github.com/shashtag-ventures/go-common/integrations/types"
 	"github.com/shashtag-ventures/go-common/middleware"
 )
 
-// IntegrationService defines operations for managing external integrations.
 type IntegrationService interface {
 	SaveConnection(ctx context.Context, userID uuid.UUID, provider string, providerUserID string, username string, avatarURL string, accessToken string, refreshToken string) error
 	GetConnectionByProviderID(ctx context.Context, provider string, providerUserID string) (*ExternalConnection, error)
@@ -23,15 +21,15 @@ type IntegrationService interface {
 type integrationService struct {
 	db                 IntegrationStorage
 	tokenEncryptionKey string
-	githubClient       *clients.GitHubClient
+	clients            map[string]types.IntegrationClient
 }
 
 // NewIntegrationService creates a new instance of IntegrationService.
-func NewIntegrationService(db IntegrationStorage, tokenEncryptionKey string) IntegrationService {
+func NewIntegrationService(db IntegrationStorage, tokenEncryptionKey string, clients map[string]types.IntegrationClient) IntegrationService {
 	return &integrationService{
 		db:                 db,
 		tokenEncryptionKey: tokenEncryptionKey,
-		githubClient:       clients.NewGitHubClient(),
+		clients:            clients,
 	}
 }
 
@@ -89,12 +87,12 @@ func (s *integrationService) ListUserRepositories(ctx context.Context, userID uu
 		return nil, fmt.Errorf("failed to decrypt access token: %w", err)
 	}
 
-	switch provider {
-	case "github":
-		return s.githubClient.ListRepositories(ctx, accessToken)
-	default:
-		return nil, fmt.Errorf("provider %s not supported for repo listing", provider)
+	client, ok := s.clients[provider]
+	if !ok {
+		return nil, fmt.Errorf("provider %s not supported for repository listing", provider)
 	}
+
+	return client.ListRepositories(ctx, accessToken)
 }
 
 func (s *integrationService) ListUserNamespaces(ctx context.Context, userID uuid.UUID, provider string) ([]types.Namespace, error) {
@@ -108,10 +106,10 @@ func (s *integrationService) ListUserNamespaces(ctx context.Context, userID uuid
 		return nil, fmt.Errorf("failed to decrypt access token: %w", err)
 	}
 
-	switch provider {
-	case "github":
-		return s.githubClient.ListNamespaces(ctx, accessToken)
-	default:
+	client, ok := s.clients[provider]
+	if !ok {
 		return nil, fmt.Errorf("provider %s not supported for namespace listing", provider)
 	}
+
+	return client.ListNamespaces(ctx, accessToken)
 }

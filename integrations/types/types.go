@@ -1,6 +1,14 @@
 package types
 
-import "time"
+import (
+	"context"
+	"time"
+)
+
+type IntegrationClient interface {
+	ListRepositories(ctx context.Context, token string) ([]Repository, error)
+	ListNamespaces(ctx context.Context, token string) ([]Namespace, error)
+}
 
 type Repository struct {
 	Name      string    `json:"name"`

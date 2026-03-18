@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
 
 	"github.com/shashtag-ventures/go-common/jwt"
 	"github.com/shashtag-ventures/go-common/middleware"
@@ -26,7 +27,7 @@ func TestJWTAuthMiddleware(t *testing.T) {
 	t.Run("Valid Token", func(t *testing.T) {
 		userID := "123"
 		role := "admin"
-		token, _ := jwt.CreateToken(userID, role, secret)
+		token, _ := jwt.CreateToken(userID, role, secret, time.Hour*24)
 
 		req := httptest.NewRequest(http.MethodGet, "/", nil)
 		req.AddCookie(&http.Cookie{Name: "jwt_token", Value: token})
