@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"context"
 	"errors"
 	"net/http"
 	"sync"
@@ -23,22 +24,38 @@ type client struct {
 }
 
 // RateLimitMiddleware provides a basic IP-based rate limiting.
+// DEPRECATED: Use RateLimitMiddlewareWithContext instead to avoid goroutine leaks.
 func RateLimitMiddleware(cfg RateLimitConfig) func(next http.Handler) http.Handler {
+	return RateLimitMiddlewareWithContext(context.Background(), cfg)
+}
+
+// RateLimitMiddlewareWithContext provides a basic IP-based rate limiting with context for cleanup.
+func RateLimitMiddlewareWithContext(ctx context.Context, cfg RateLimitConfig) func(next http.Handler) http.Handler {
 	mu := &sync.Mutex{}
 	clients := make(map[string]*client)
 
-	// Goroutine to periodically clean up old client entries from the map.
-	go func() {
-		for range time.Tick(time.Duration(cfg.Window) * time.Second) {
-			mu.Lock()
-			for ip, c := range clients {
-				if time.Since(c.lastRequest) > time.Duration(cfg.Window)*time.Second {
-					delete(clients, ip)
+	if cfg.Enabled {
+		// Goroutine to periodically clean up old client entries from the map.
+		go func() {
+			ticker := time.NewTicker(time.Duration(cfg.Window) * time.Second)
+			defer ticker.Stop()
+
+			for {
+				select {
+				case <-ticker.C:
+					mu.Lock()
+					for ip, c := range clients {
+						if time.Since(c.lastRequest) > time.Duration(cfg.Window)*time.Second {
+							delete(clients, ip)
+						}
+					}
+					mu.Unlock()
+				case <-ctx.Done():
+					return
 				}
 			}
-			mu.Unlock()
-		}
-	}()
+		}()
+	}
 
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
