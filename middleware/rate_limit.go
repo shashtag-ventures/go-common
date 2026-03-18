@@ -64,7 +64,7 @@ func RateLimitMiddlewareWithContext(ctx context.Context, cfg RateLimitConfig) fu
 				return
 			}
 
-			ip := r.RemoteAddr
+			ip := getRealIP(r)
 
 			mu.Lock()
 			c, found := clients[ip]
