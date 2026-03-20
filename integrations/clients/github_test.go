@@ -14,7 +14,7 @@ func TestGitHubClient_ListRepositories(t *testing.T) {
 	// Setup mock server
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Verify request
-		assert.Equal(t, "token test-token", r.Header.Get("Authorization"))
+		assert.Equal(t, "Bearer test-token", r.Header.Get("Authorization"))
 		assert.Equal(t, "application/vnd.github.v3+json", r.Header.Get("Accept"))
 		assert.Contains(t, r.URL.Path, "/user/repos")
 
@@ -44,7 +44,7 @@ func TestGitHubClient_ListRepositories(t *testing.T) {
 func TestGitHubClient_ListNamespaces(t *testing.T) {
 	// Setup mock server
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		assert.Equal(t, "token test-token", r.Header.Get("Authorization"))
+		assert.Equal(t, "Bearer test-token", r.Header.Get("Authorization"))
 
 		if r.URL.Path == "/user" {
 			user := map[string]any{

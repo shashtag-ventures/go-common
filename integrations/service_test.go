@@ -12,6 +12,7 @@ import (
 	"github.com/shashtag-ventures/go-common/integrations/types"
 	"github.com/shashtag-ventures/go-common/testutil"
 	"github.com/stretchr/testify/assert"
+	"time"
 )
 
 func TestIntegrationService(t *testing.T) {
@@ -37,7 +38,7 @@ func TestIntegrationService(t *testing.T) {
 	accessToken := "secret-token"
 
 	t.Run("SaveConnection encrypts tokens", func(t *testing.T) {
-		err := service.SaveConnection(ctx, userID, provider, "p-user-1", "user1", "https://avatar.com", accessToken, "refresh-123")
+		err := service.SaveConnection(ctx, userID, provider, "p-user-1", "user1", "https://avatar.com", accessToken, "refresh-123", time.Now().Add(1*time.Hour))
 		assert.NoError(t, err)
 
 		// Verify in DB that it is encrypted
@@ -62,7 +63,7 @@ func TestIntegrationService(t *testing.T) {
 	t.Run("ListUserRepositories decrypts and calls client", func(t *testing.T) {
 		// Mock GitHub API
 		server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			assert.Equal(t, "token "+accessToken, r.Header.Get("Authorization"))
+			assert.Equal(t, "Bearer "+accessToken, r.Header.Get("Authorization"))
 			w.Write([]byte(`[{"name": "repo1"}]`))
 		}))
 		defer server.Close()
@@ -79,7 +80,7 @@ func TestIntegrationService(t *testing.T) {
 
 	t.Run("ListUserRepositories returns error for unsupported provider", func(t *testing.T) {
 		// First save a connection for an unsupported provider
-		err := service.SaveConnection(ctx, userID, "unsupported", "p-user-2", "user2", "", "token", "")
+		err := service.SaveConnection(ctx, userID, "unsupported", "p-user-2", "user2", "", "token", "", time.Now())
 		assert.NoError(t, err)
 
 		_, err = service.ListUserRepositories(ctx, userID, "unsupported")

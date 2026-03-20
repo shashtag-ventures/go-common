@@ -29,7 +29,7 @@ func (c *GitHubClient) ListRepositories(ctx context.Context, token string) ([]ty
 		return nil, err
 	}
 
-	req.Header.Set("Authorization", "token "+token)
+	req.Header.Set("Authorization", "Bearer "+token)
 	req.Header.Set("Accept", "application/vnd.github.v3+json")
 
 	resp, err := c.HTTPClient.Do(req)
@@ -76,7 +76,7 @@ func (c *GitHubClient) ListNamespaces(ctx context.Context, token string) ([]type
 	if err != nil {
 		return nil, err
 	}
-	userReq.Header.Set("Authorization", "token "+token)
+	userReq.Header.Set("Authorization", "Bearer "+token)
 	userReq.Header.Set("Accept", "application/vnd.github.v3+json")
 
 	userResp, err := c.HTTPClient.Do(userReq)
@@ -104,7 +104,7 @@ func (c *GitHubClient) ListNamespaces(ctx context.Context, token string) ([]type
 	if err != nil {
 		return nil, err
 	}
-	instReq.Header.Set("Authorization", "token "+token)
+	instReq.Header.Set("Authorization", "Bearer "+token)
 	instReq.Header.Set("Accept", "application/vnd.github.v3+json")
 
 	instResp, err := c.HTTPClient.Do(instReq)
@@ -153,7 +153,7 @@ func (c *GitHubClient) ListNamespaces(ctx context.Context, token string) ([]type
 	// 3. Fetch Organizations
 	orgsReq, err := http.NewRequestWithContext(ctx, "GET", c.BaseURL+"/user/orgs?per_page=100", nil)
 	if err == nil {
-		orgsReq.Header.Set("Authorization", "token "+token)
+		orgsReq.Header.Set("Authorization", "Bearer "+token)
 		orgsReq.Header.Set("Accept", "application/vnd.github.v3+json")
 
 		orgsResp, err := c.HTTPClient.Do(orgsReq)

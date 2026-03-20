@@ -8,10 +8,11 @@ import (
 	"github.com/shashtag-ventures/go-common/crypto"
 	"github.com/shashtag-ventures/go-common/integrations/types"
 	"github.com/shashtag-ventures/go-common/middleware"
+	"time"
 )
 
 type IntegrationService interface {
-	SaveConnection(ctx context.Context, userID uuid.UUID, provider string, providerUserID string, username string, avatarURL string, accessToken string, refreshToken string) error
+	SaveConnection(ctx context.Context, userID uuid.UUID, provider string, providerUserID string, username string, avatarURL string, accessToken string, refreshToken string, expiresAt time.Time) error
 	GetConnectionByProviderID(ctx context.Context, provider string, providerUserID string) (*ExternalConnection, error)
 	GetUserConnections(ctx context.Context, userID uuid.UUID) ([]*ExternalConnection, error)
 	ListUserRepositories(ctx context.Context, userID uuid.UUID, provider string) ([]types.Repository, error)
@@ -33,7 +34,7 @@ func NewIntegrationService(db IntegrationStorage, tokenEncryptionKey string, cli
 	}
 }
 
-func (s *integrationService) SaveConnection(ctx context.Context, userID uuid.UUID, provider string, providerUserID string, username string, avatarURL string, accessToken string, refreshToken string) error {
+func (s *integrationService) SaveConnection(ctx context.Context, userID uuid.UUID, provider string, providerUserID string, username string, avatarURL string, accessToken string, refreshToken string, expiresAt time.Time) error {
 	logger := middleware.GetLoggerFromContext(ctx)
 
 	// Encrypt tokens before saving
@@ -56,6 +57,7 @@ func (s *integrationService) SaveConnection(ctx context.Context, userID uuid.UUI
 		ProviderUserID: providerUserID,
 		AccessToken:    encryptedAccess,
 		RefreshToken:   encryptedRefresh,
+		ExpiresAt:      expiresAt,
 		Username:       username,
 		AvatarURL:      avatarURL,
 	}
