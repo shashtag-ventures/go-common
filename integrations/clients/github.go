@@ -145,7 +145,47 @@ func (c *GitHubClient) ListNamespaces(ctx context.Context, token string) ([]type
 	} else {
 		// Log error or handle failure
 		body, _ := io.ReadAll(instResp.Body)
-		return namespaces, fmt.Errorf("failed to fetch installations: %s", string(body))
+		// We'll just ignore errors from installations if it's not a GitHub app and proceed.
+		// Alternatively, you might want to return here. But it's safer to just log and continue.
+		fmt.Printf("failed to fetch installations: %s\n", string(body))
+	}
+
+	// 3. Fetch Organizations
+	orgsReq, err := http.NewRequestWithContext(ctx, "GET", c.BaseURL+"/user/orgs?per_page=100", nil)
+	if err == nil {
+		orgsReq.Header.Set("Authorization", "token "+token)
+		orgsReq.Header.Set("Accept", "application/vnd.github.v3+json")
+
+		orgsResp, err := c.HTTPClient.Do(orgsReq)
+		if err == nil {
+			defer orgsResp.Body.Close()
+
+			if orgsResp.StatusCode == http.StatusOK {
+				var orgs []struct {
+					Login     string `json:"login"`
+					AvatarURL string `json:"avatar_url"`
+				}
+
+				if err := json.NewDecoder(orgsResp.Body).Decode(&orgs); err == nil {
+					for _, org := range orgs {
+						exists := false
+						for _, existing := range namespaces {
+							if existing.Name == org.Login {
+								exists = true
+								break
+							}
+						}
+						if !exists {
+							namespaces = append(namespaces, types.Namespace{
+								Name:      org.Login,
+								AvatarURL: org.AvatarURL,
+								Type:      "Organization",
+							})
+						}
+					}
+				}
+			}
+		}
 	}
 
 	return namespaces, nil
