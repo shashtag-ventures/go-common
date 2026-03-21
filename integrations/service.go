@@ -78,20 +78,53 @@ func (s *integrationService) GetUserConnections(ctx context.Context, userID uuid
 	return s.db.ListConnections(ctx, userID)
 }
 
+func (s *integrationService) ensureValidToken(ctx context.Context, conn *ExternalConnection, client types.IntegrationClient) (string, error) {
+	accessToken, err := crypto.Decrypt(conn.AccessToken, s.tokenEncryptionKey)
+	if err != nil {
+		return "", fmt.Errorf("failed to decrypt access token: %w", err)
+	}
+
+	if !conn.ExpiresAt.IsZero() && time.Now().Add(1*time.Minute).After(conn.ExpiresAt) {
+		decryptedRefresh, err := crypto.Decrypt(conn.RefreshToken, s.tokenEncryptionKey)
+		if err == nil && decryptedRefresh != "" {
+			refreshResp, err := client.RefreshToken(ctx, decryptedRefresh)
+			if err == nil && refreshResp != nil {
+				accessToken = refreshResp.AccessToken
+				
+				conn.AccessToken, _ = crypto.Encrypt(refreshResp.AccessToken, s.tokenEncryptionKey)
+				if refreshResp.RefreshToken != "" {
+					conn.RefreshToken, _ = crypto.Encrypt(refreshResp.RefreshToken, s.tokenEncryptionKey)
+				}
+				if !refreshResp.ExpiresAt.IsZero() {
+					conn.ExpiresAt = refreshResp.ExpiresAt
+				}
+				
+				if err := s.db.SaveConnection(ctx, conn); err != nil {
+					middleware.GetLoggerFromContext(ctx).Error("Failed to save refreshed token", "error", err)
+				}
+			} else {
+				middleware.GetLoggerFromContext(ctx).Error("Failed to refresh token", "error", err)
+			}
+		}
+	}
+
+	return accessToken, nil
+}
+
 func (s *integrationService) ListUserRepositories(ctx context.Context, userID uuid.UUID, provider string) ([]types.Repository, error) {
 	conn, err := s.db.GetConnection(ctx, userID, provider)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get connection: %w", err)
 	}
 
-	accessToken, err := crypto.Decrypt(conn.AccessToken, s.tokenEncryptionKey)
-	if err != nil {
-		return nil, fmt.Errorf("failed to decrypt access token: %w", err)
-	}
-
 	client, ok := s.clients[provider]
 	if !ok {
 		return nil, fmt.Errorf("provider %s not supported for repository listing", provider)
+	}
+
+	accessToken, err := s.ensureValidToken(ctx, conn, client)
+	if err != nil {
+		return nil, err
 	}
 
 	return client.ListRepositories(ctx, accessToken)
@@ -103,14 +136,14 @@ func (s *integrationService) ListUserNamespaces(ctx context.Context, userID uuid
 		return nil, fmt.Errorf("failed to get connection: %w", err)
 	}
 
-	accessToken, err := crypto.Decrypt(conn.AccessToken, s.tokenEncryptionKey)
-	if err != nil {
-		return nil, fmt.Errorf("failed to decrypt access token: %w", err)
-	}
-
 	client, ok := s.clients[provider]
 	if !ok {
 		return nil, fmt.Errorf("provider %s not supported for namespace listing", provider)
+	}
+
+	accessToken, err := s.ensureValidToken(ctx, conn, client)
+	if err != nil {
+		return nil, err
 	}
 
 	return client.ListNamespaces(ctx, accessToken)

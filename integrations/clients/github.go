@@ -6,20 +6,26 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
+	"strings"
 	"time"
 
 	"github.com/shashtag-ventures/go-common/integrations/types"
 )
 
 type GitHubClient struct {
-	HTTPClient *http.Client
-	BaseURL    string
+	HTTPClient   *http.Client
+	BaseURL      string
+	ClientID     string
+	ClientSecret string
 }
 
-func NewGitHubClient() *GitHubClient {
+func NewGitHubClient(clientID, clientSecret string) *GitHubClient {
 	return &GitHubClient{
-		HTTPClient: &http.Client{Timeout: 10 * time.Second},
-		BaseURL:    "https://api.github.com",
+		HTTPClient:   &http.Client{Timeout: 10 * time.Second},
+		BaseURL:      "https://api.github.com",
+		ClientID:     clientID,
+		ClientSecret: clientSecret,
 	}
 }
 
@@ -189,4 +195,60 @@ func (c *GitHubClient) ListNamespaces(ctx context.Context, token string) ([]type
 	}
 
 	return namespaces, nil
+}
+
+func (c *GitHubClient) RefreshToken(ctx context.Context, refreshToken string) (*types.TokenRefreshResponse, error) {
+	if c.ClientID == "" || c.ClientSecret == "" {
+		return nil, fmt.Errorf("github client id or secret not configured")
+	}
+
+	data := url.Values{}
+	data.Set("client_id", c.ClientID)
+	data.Set("client_secret", c.ClientSecret)
+	data.Set("grant_type", "refresh_token")
+	data.Set("refresh_token", refreshToken)
+
+	req, err := http.NewRequestWithContext(ctx, "POST", "https://github.com/login/oauth/access_token", strings.NewReader(data.Encode()))
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("Accept", "application/json")
+
+	resp, err := c.HTTPClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("failed to refresh github token, status: %s", resp.Status)
+	}
+
+	var result struct {
+		AccessToken          string `json:"access_token"`
+		RefreshToken         string `json:"refresh_token"`
+		ExpiresIn            int    `json:"expires_in"`
+		RefreshTokenExpiresIn int    `json:"refresh_token_expires_in"`
+		Error                string `json:"error"`
+		ErrorDescription     string `json:"error_description"`
+	}
+
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		return nil, err
+	}
+
+	if result.Error != "" {
+		return nil, fmt.Errorf("github oauth error: %s - %s", result.Error, result.ErrorDescription)
+	}
+
+	res := &types.TokenRefreshResponse{
+		AccessToken:  result.AccessToken,
+		RefreshToken: result.RefreshToken,
+	}
+	if result.ExpiresIn > 0 {
+		res.ExpiresAt = time.Now().Add(time.Duration(result.ExpiresIn) * time.Second)
+	}
+
+	return res, nil
 }

@@ -27,7 +27,7 @@ func TestIntegrationService(t *testing.T) {
 	encryptionKey := "12345678901234567890123456789012" // 32 bytes
 	storage := NewIntegrationRepository(db)
 	
-	ghClient := clients.NewGitHubClient()
+	ghClient := clients.NewGitHubClient("dummyID", "dummySecret")
 	clientsMap := map[string]types.IntegrationClient{
 		"github": ghClient,
 	}
