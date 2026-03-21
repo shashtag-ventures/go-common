@@ -16,6 +16,7 @@ type IntegrationService interface {
 	GetConnectionByProviderID(ctx context.Context, provider string, providerUserID string) (*ExternalConnection, error)
 	GetUserConnections(ctx context.Context, userID uuid.UUID) ([]*ExternalConnection, error)
 	ListUserRepositories(ctx context.Context, userID uuid.UUID, provider string) ([]types.Repository, error)
+	ListUserRepositoriesPaginated(ctx context.Context, userID uuid.UUID, provider string, search string, namespace string, page int, limit int) ([]types.Repository, error)
 	ListUserNamespaces(ctx context.Context, userID uuid.UUID, provider string) ([]types.Namespace, error)
 }
 
@@ -128,6 +129,32 @@ func (s *integrationService) ListUserRepositories(ctx context.Context, userID uu
 	}
 
 	return client.ListRepositories(ctx, accessToken)
+}
+
+func (s *integrationService) ListUserRepositoriesPaginated(ctx context.Context, userID uuid.UUID, provider string, search string, namespace string, page int, limit int) ([]types.Repository, error) {
+	conn, err := s.db.GetConnection(ctx, userID, provider)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get connection: %w", err)
+	}
+
+	client, ok := s.clients[provider]
+	if !ok {
+		return nil, fmt.Errorf("provider %s not supported for repository listing", provider)
+	}
+
+	accessToken, err := s.ensureValidToken(ctx, conn, client)
+	if err != nil {
+		return nil, err
+	}
+
+	if search != "" {
+		if namespace == "" || namespace == "all" {
+			namespace = conn.Username
+		}
+		return client.SearchRepositories(ctx, accessToken, search, namespace, page, limit)
+	}
+
+	return client.ListRepositoriesPaginated(ctx, accessToken, page, limit)
 }
 
 func (s *integrationService) ListUserNamespaces(ctx context.Context, userID uuid.UUID, provider string) ([]types.Namespace, error) {

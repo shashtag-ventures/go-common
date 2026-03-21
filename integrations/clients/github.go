@@ -29,8 +29,87 @@ func NewGitHubClient(clientID, clientSecret string) *GitHubClient {
 	}
 }
 
+func extractNextPageURL(linkHeader string) string {
+	if linkHeader == "" {
+		return ""
+	}
+	links := strings.Split(linkHeader, ",")
+	for _, link := range links {
+		parts := strings.Split(strings.TrimSpace(link), ";")
+		if len(parts) >= 2 && strings.Contains(parts[1], `rel="next"`) {
+			urlPart := strings.TrimSpace(parts[0])
+			if strings.HasPrefix(urlPart, "<") && strings.HasSuffix(urlPart, ">") {
+				return urlPart[1 : len(urlPart)-1]
+			}
+		}
+	}
+	return ""
+}
+
 func (c *GitHubClient) ListRepositories(ctx context.Context, token string) ([]types.Repository, error) {
-	req, err := http.NewRequestWithContext(ctx, "GET", c.BaseURL+"/user/repos?sort=updated&per_page=100", nil)
+	var allRepos []types.Repository
+	urlStr := c.BaseURL + "/user/repos?sort=updated&per_page=100"
+
+	for urlStr != "" {
+		req, err := http.NewRequestWithContext(ctx, "GET", urlStr, nil)
+		if err != nil {
+			return nil, err
+		}
+
+		req.Header.Set("Authorization", "Bearer "+token)
+		req.Header.Set("Accept", "application/vnd.github.v3+json")
+
+		resp, err := c.HTTPClient.Do(req)
+		if err != nil {
+			return nil, err
+		}
+
+		if resp.StatusCode != http.StatusOK {
+			resp.Body.Close()
+			return nil, fmt.Errorf("github api returned status: %s", resp.Status)
+		}
+
+		var githubRepos []struct {
+			Name      string    `json:"name"`
+			FullName  string    `json:"full_name"`
+			HTMLURL   string    `json:"html_url"`
+			Private   bool      `json:"private"`
+			UpdatedAt time.Time `json:"updated_at"`
+		}
+
+		if err := json.NewDecoder(resp.Body).Decode(&githubRepos); err != nil {
+			resp.Body.Close()
+			return nil, err
+		}
+
+		for _, gr := range githubRepos {
+			allRepos = append(allRepos, types.Repository{
+				Name:      gr.Name,
+				FullName:  gr.FullName,
+				URL:       gr.HTMLURL,
+				Private:   gr.Private,
+				UpdatedAt: gr.UpdatedAt,
+			})
+		}
+
+		urlStr = extractNextPageURL(resp.Header.Get("Link"))
+		resp.Body.Close()
+	}
+
+	return allRepos, nil
+}
+
+func (c *GitHubClient) ListRepositoriesPaginated(ctx context.Context, token string, page int, limit int) ([]types.Repository, error) {
+	if page < 1 {
+		page = 1
+	}
+	if limit < 1 {
+		limit = 100
+	}
+
+	urlStr := fmt.Sprintf("%s/user/repos?sort=updated&page=%d&per_page=%d", c.BaseURL, page, limit)
+
+	req, err := http.NewRequestWithContext(ctx, "GET", urlStr, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -62,6 +141,67 @@ func (c *GitHubClient) ListRepositories(ctx context.Context, token string) ([]ty
 
 	repos := make([]types.Repository, len(githubRepos))
 	for i, gr := range githubRepos {
+		repos[i] = types.Repository{
+			Name:      gr.Name,
+			FullName:  gr.FullName,
+			URL:       gr.HTMLURL,
+			Private:   gr.Private,
+			UpdatedAt: gr.UpdatedAt,
+		}
+	}
+
+	return repos, nil
+}
+
+func (c *GitHubClient) SearchRepositories(ctx context.Context, token string, query string, namespace string, page int, limit int) ([]types.Repository, error) {
+	if page < 1 {
+		page = 1
+	}
+	if limit < 1 {
+		limit = 100
+	}
+
+	q := query
+	if namespace != "" && namespace != "all" {
+		q = fmt.Sprintf("%s user:%s", query, namespace)
+	}
+
+	urlStr := fmt.Sprintf("%s/search/repositories?q=%s&page=%d&per_page=%d", c.BaseURL, url.QueryEscape(q), page, limit)
+
+	req, err := http.NewRequestWithContext(ctx, "GET", urlStr, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("Authorization", "Bearer "+token)
+	req.Header.Set("Accept", "application/vnd.github.v3+json")
+
+	resp, err := c.HTTPClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("github api returned status: %s", resp.Status)
+	}
+
+	var searchResult struct {
+		Items []struct {
+			Name      string    `json:"name"`
+			FullName  string    `json:"full_name"`
+			HTMLURL   string    `json:"html_url"`
+			Private   bool      `json:"private"`
+			UpdatedAt time.Time `json:"updated_at"`
+		} `json:"items"`
+	}
+
+	if err := json.NewDecoder(resp.Body).Decode(&searchResult); err != nil {
+		return nil, err
+	}
+
+	repos := make([]types.Repository, len(searchResult.Items))
+	for i, gr := range searchResult.Items {
 		repos[i] = types.Repository{
 			Name:      gr.Name,
 			FullName:  gr.FullName,
@@ -106,92 +246,104 @@ func (c *GitHubClient) ListNamespaces(ctx context.Context, token string) ([]type
 	}
 
 	// 2. Fetch Installations (The correct way for GitHub Apps)
-	instReq, err := http.NewRequestWithContext(ctx, "GET", c.BaseURL+"/user/installations?per_page=100", nil)
-	if err != nil {
-		return nil, err
-	}
-	instReq.Header.Set("Authorization", "Bearer "+token)
-	instReq.Header.Set("Accept", "application/vnd.github.v3+json")
+	instUrlStr := c.BaseURL + "/user/installations?per_page=100"
+	for instUrlStr != "" {
+		instReq, err := http.NewRequestWithContext(ctx, "GET", instUrlStr, nil)
+		if err != nil {
+			break
+		}
+		instReq.Header.Set("Authorization", "Bearer "+token)
+		instReq.Header.Set("Accept", "application/vnd.github.v3+json")
 
-	instResp, err := c.HTTPClient.Do(instReq)
-	if err != nil {
-		return nil, err
-	}
-	defer instResp.Body.Close()
-
-	if instResp.StatusCode == http.StatusOK {
-		var result struct {
-			Installations []struct {
-				Account struct {
-					Login     string `json:"login"`
-					AvatarURL string `json:"avatar_url"`
-					Type      string `json:"type"`
-				} `json:"account"`
-			} `json:"installations"`
+		instResp, err := c.HTTPClient.Do(instReq)
+		if err != nil {
+			break
 		}
 
-		if err := json.NewDecoder(instResp.Body).Decode(&result); err == nil {
-			for _, inst := range result.Installations {
-				exists := false
-				for _, existing := range namespaces {
-					if existing.Name == inst.Account.Login {
-						exists = true
-						break
+		if instResp.StatusCode == http.StatusOK {
+			var result struct {
+				Installations []struct {
+					Account struct {
+						Login     string `json:"login"`
+						AvatarURL string `json:"avatar_url"`
+						Type      string `json:"type"`
+					} `json:"account"`
+				} `json:"installations"`
+			}
+
+			if err := json.NewDecoder(instResp.Body).Decode(&result); err == nil {
+				for _, inst := range result.Installations {
+					exists := false
+					for _, existing := range namespaces {
+						if existing.Name == inst.Account.Login {
+							exists = true
+							break
+						}
+					}
+					if !exists {
+						namespaces = append(namespaces, types.Namespace{
+							Name:      inst.Account.Login,
+							AvatarURL: inst.Account.AvatarURL,
+							Type:      inst.Account.Type,
+						})
 					}
 				}
-				if !exists {
-					namespaces = append(namespaces, types.Namespace{
-						Name:      inst.Account.Login,
-						AvatarURL: inst.Account.AvatarURL,
-						Type:      inst.Account.Type,
-					})
-				}
 			}
+			instUrlStr = extractNextPageURL(instResp.Header.Get("Link"))
+		} else {
+			// Log error or handle failure
+			body, _ := io.ReadAll(instResp.Body)
+			// We'll just ignore errors from installations if it's not a GitHub app and proceed.
+			fmt.Printf("failed to fetch installations: %s\n", string(body))
+			instUrlStr = ""
 		}
-	} else {
-		// Log error or handle failure
-		body, _ := io.ReadAll(instResp.Body)
-		// We'll just ignore errors from installations if it's not a GitHub app and proceed.
-		// Alternatively, you might want to return here. But it's safer to just log and continue.
-		fmt.Printf("failed to fetch installations: %s\n", string(body))
+		instResp.Body.Close()
 	}
 
 	// 3. Fetch Organizations
-	orgsReq, err := http.NewRequestWithContext(ctx, "GET", c.BaseURL+"/user/orgs?per_page=100", nil)
-	if err == nil {
+	orgsUrlStr := c.BaseURL + "/user/orgs?per_page=100"
+	for orgsUrlStr != "" {
+		orgsReq, err := http.NewRequestWithContext(ctx, "GET", orgsUrlStr, nil)
+		if err != nil {
+			break
+		}
 		orgsReq.Header.Set("Authorization", "Bearer "+token)
 		orgsReq.Header.Set("Accept", "application/vnd.github.v3+json")
 
 		orgsResp, err := c.HTTPClient.Do(orgsReq)
-		if err == nil {
-			defer orgsResp.Body.Close()
+		if err != nil {
+			break
+		}
 
-			if orgsResp.StatusCode == http.StatusOK {
-				var orgs []struct {
-					Login     string `json:"login"`
-					AvatarURL string `json:"avatar_url"`
-				}
+		if orgsResp.StatusCode == http.StatusOK {
+			var orgs []struct {
+				Login     string `json:"login"`
+				AvatarURL string `json:"avatar_url"`
+			}
 
-				if err := json.NewDecoder(orgsResp.Body).Decode(&orgs); err == nil {
-					for _, org := range orgs {
-						exists := false
-						for _, existing := range namespaces {
-							if existing.Name == org.Login {
-								exists = true
-								break
-							}
+			if err := json.NewDecoder(orgsResp.Body).Decode(&orgs); err == nil {
+				for _, org := range orgs {
+					exists := false
+					for _, existing := range namespaces {
+						if existing.Name == org.Login {
+							exists = true
+							break
 						}
-						if !exists {
-							namespaces = append(namespaces, types.Namespace{
-								Name:      org.Login,
-								AvatarURL: org.AvatarURL,
-								Type:      "Organization",
-							})
-						}
+					}
+					if !exists {
+						namespaces = append(namespaces, types.Namespace{
+							Name:      org.Login,
+							AvatarURL: org.AvatarURL,
+							Type:      "Organization",
+						})
 					}
 				}
 			}
+			orgsUrlStr = extractNextPageURL(orgsResp.Header.Get("Link"))
+		} else {
+			orgsUrlStr = ""
 		}
+		orgsResp.Body.Close()
 	}
 
 	return namespaces, nil
