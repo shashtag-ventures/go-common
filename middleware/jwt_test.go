@@ -62,9 +62,18 @@ func TestJWTAuthMiddleware(t *testing.T) {
 	})
 
 	t.Run("Expired Token", func(t *testing.T) {
-		// We'll rely on jwt.ParseToken to handle expiration, 
-		// but since we can't easily create an expired token with CreateToken, 
-		// we just test it implicitly via ParseToken.
-		// For a full test, we'd need to manually construct an expired token.
+		userID := "123"
+		role := "admin"
+		// Create a token that expired 1 hour ago
+		token, _ := jwt.CreateToken(userID, role, secret, -time.Hour)
+
+		req := httptest.NewRequest(http.MethodGet, "/", nil)
+		req.AddCookie(&http.Cookie{Name: "jwt_token", Value: token})
+		rr := httptest.NewRecorder()
+
+		middleware.JWTAuthMiddleware(secret)(nextHandler).ServeHTTP(rr, req)
+
+		assert.Equal(t, http.StatusUnauthorized, rr.Code)
+		assert.Contains(t, rr.Body.String(), "invalid or expired token")
 	})
 }
