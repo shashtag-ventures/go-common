@@ -31,7 +31,7 @@ func TestGitHubClient_ListRepositories(t *testing.T) {
 	}))
 	defer server.Close()
 
-	client := NewGitHubClient()
+	client := NewGitHubClient("", "")
 	client.BaseURL = server.URL // Point to mock server
 
 	repos, err := client.ListRepositories(context.Background(), "test-token")
@@ -73,7 +73,7 @@ func TestGitHubClient_ListNamespaces(t *testing.T) {
 	}))
 	defer server.Close()
 
-	client := NewGitHubClient()
+	client := NewGitHubClient("", "")
 	client.BaseURL = server.URL
 
 	namespaces, err := client.ListNamespaces(context.Background(), "test-token")
@@ -92,7 +92,7 @@ func TestGitHubClient_Errors(t *testing.T) {
 		}))
 		defer server.Close()
 
-		client := NewGitHubClient()
+		client := NewGitHubClient("", "")
 		client.BaseURL = server.URL
 
 		_, err := client.ListRepositories(context.Background(), "bad-token")
@@ -106,7 +106,7 @@ func TestGitHubClient_Errors(t *testing.T) {
 		}))
 		defer server.Close()
 
-		client := NewGitHubClient()
+		client := NewGitHubClient("", "")
 		client.BaseURL = server.URL
 
 		_, err := client.ListRepositories(context.Background(), "token")
