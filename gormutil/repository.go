@@ -110,22 +110,22 @@ func (r *Repository[T]) FindAll(ctx context.Context) ([]*T, error) {
 	return entities, nil
 }
 
-// FindPaginated finds entities with pagination (limit and offset) and returns the total count.
-func (r *Repository[T]) FindPaginated(ctx context.Context, query string, limit, offset int, args ...any) ([]*T, int64, error) {
+// FindPaginated finds entities with pagination (limit and offset) using a provided GORM query.
+// It returns the results, the total count of records matching the query (ignoring limit/offset), and an error if any.
+func (r *Repository[T]) FindPaginated(ctx context.Context, query *gorm.DB, limit, offset int) ([]*T, int64, error) {
 	logger := middleware.GetLoggerFromContext(ctx)
 	var total int64
 	var entities []*T
 
-	db := r.db.WithContext(ctx).Model(new(T))
-	if query != "" {
-		db = db.Where(query, args...)
-	}
-
-	if err := db.Count(&total).Error; err != nil {
-		logger.Error("Failed to count entities in DB", "query", query, "args", args, "error", err)
+	// Get total count (ignoring limit and offset)
+	// We use Session(&gorm.Session{}) to ensure we don't modify the original query object for the count call
+	if err := query.Session(&gorm.Session{}).Count(&total).Error; err != nil {
+		logger.Error("Failed to count entities in DB", "error", err)
 		return nil, 0, fmt.Errorf("failed to count entities: %w", err)
 	}
 
+	// Apply pagination
+	db := query
 	if limit > 0 {
 		db = db.Limit(limit)
 	}
@@ -134,7 +134,7 @@ func (r *Repository[T]) FindPaginated(ctx context.Context, query string, limit, 
 	}
 
 	if err := db.Find(&entities).Error; err != nil {
-		logger.Error("Failed to find paginated entities in DB", "query", query, "args", args, "error", err)
+		logger.Error("Failed to find paginated entities in DB", "error", err)
 		return nil, 0, fmt.Errorf("failed to find paginated entities: %w", err)
 	}
 
