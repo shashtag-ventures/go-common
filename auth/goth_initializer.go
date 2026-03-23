@@ -9,7 +9,35 @@ import (
 	"github.com/markbates/goth/providers/gitlab"
 	"github.com/markbates/goth/providers/google"
 	"github.com/markbates/goth/providers/microsoftonline"
+	"net/http"
 )
+
+// GothProvider defines the interface for Goth authentication methods to allow for easier testing.
+type GothProvider interface {
+	CompleteUserAuth(w http.ResponseWriter, r *http.Request) (goth.User, error)
+	BeginAuthHandler(w http.ResponseWriter, r *http.Request)
+	Logout(w http.ResponseWriter, r *http.Request) error
+	GetSession(r *http.Request, name string) (*sessions.Session, error)
+}
+
+// RealGothProvider is the production implementation of GothProvider that calls the goth/gothic functions.
+type RealGothProvider struct{}
+
+func (p *RealGothProvider) CompleteUserAuth(w http.ResponseWriter, r *http.Request) (goth.User, error) {
+	return gothic.CompleteUserAuth(w, r)
+}
+
+func (p *RealGothProvider) BeginAuthHandler(w http.ResponseWriter, r *http.Request) {
+	gothic.BeginAuthHandler(w, r)
+}
+
+func (p *RealGothProvider) Logout(w http.ResponseWriter, r *http.Request) error {
+	return gothic.Logout(w, r)
+}
+
+func (p *RealGothProvider) GetSession(r *http.Request, name string) (*sessions.Session, error) {
+	return gothic.Store.Get(r, name)
+}
 
 // GothConfig holds the configuration for the Goth initializer.
 type GothConfig struct {
@@ -44,14 +72,19 @@ type GothInitializer struct {
 }
 
 // NewGothInitializer creates a new instance of GothInitializer.
-func NewGothInitializer(cfg GothConfig) *GothInitializer {
-	return &GothInitializer{
+func NewGothInitializer(cfg GothConfig) *gothInitializer {
+	return &gothInitializer{
 		cfg: cfg,
 	}
 }
 
+// gothInitializer is the internal implementation of OAuthProviderInitializer.
+type gothInitializer struct {
+	cfg GothConfig
+}
+
 // Init initializes Goth with configured OAuth providers and session store.
-func (g *GothInitializer) Init() error {
+func (g *gothInitializer) Init() error {
 	// Use Gorilla Sessions for storing Goth sessions.
 	store := sessions.NewCookieStore([]byte(g.cfg.SessionSecret))
 	store.Options = &sessions.Options{
