@@ -61,3 +61,44 @@ func GetCookieDomain(frontendURL string) string {
 	}
 	return ""
 }
+
+// ValidateGitURL strictly validates a git repository URL for common security risks.
+// It checks for malformed URLs, disallowed schemes (must be http/https),
+// missing hosts, embedded credentials, fragments, and shell metacharacters.
+func ValidateGitURL(repoURL string) error {
+	if repoURL == "" {
+		return fmt.Errorf("repo_url is required")
+	}
+
+	parsedURL, err := url.Parse(repoURL)
+	if err != nil {
+		return fmt.Errorf("invalid repo_url: malformed URL")
+	}
+
+	// Must be http or https
+	if parsedURL.Scheme != "http" && parsedURL.Scheme != "https" {
+		return fmt.Errorf("invalid repo_url: scheme must be http or https")
+	}
+
+	// Must have a valid host
+	if parsedURL.Host == "" {
+		return fmt.Errorf("invalid repo_url: missing host")
+	}
+
+	// Reject embedded credentials (e.g. https://user:pass@host)
+	if parsedURL.User != nil {
+		return fmt.Errorf("invalid repo_url: embedded credentials are not allowed")
+	}
+
+	// Reject fragments — not valid for git URLs
+	if parsedURL.Fragment != "" {
+		return fmt.Errorf("invalid repo_url: URL fragments are not allowed")
+	}
+
+	// Reject shell metacharacters in the raw URL as an extra safety net
+	if strings.ContainsAny(repoURL, "`$();|&\n\r") {
+		return fmt.Errorf("invalid repo_url: contains disallowed characters")
+	}
+
+	return nil
+}
