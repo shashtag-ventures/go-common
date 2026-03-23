@@ -404,3 +404,52 @@ func (c *GitHubClient) RefreshToken(ctx context.Context, refreshToken string) (*
 
 	return res, nil
 }
+
+func (c *GitHubClient) ListContents(ctx context.Context, token string, repoFullName string, path string) ([]types.ContentItem, error) {
+	path = strings.TrimPrefix(path, "/")
+	urlStr := fmt.Sprintf("%s/repos/%s/contents/%s", c.BaseURL, repoFullName, path)
+
+	req, err := http.NewRequestWithContext(ctx, "GET", urlStr, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("Authorization", "Bearer "+token)
+	req.Header.Set("Accept", "application/vnd.github.v3+json")
+
+	resp, err := c.HTTPClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		if resp.StatusCode == http.StatusNotFound {
+			return []types.ContentItem{}, nil
+		}
+		return nil, fmt.Errorf("github api returned status: %s", resp.Status)
+	}
+
+	var githubContents []struct {
+		Name string `json:"name"`
+		Path string `json:"path"`
+		Type string `json:"type"`
+		Size int64  `json:"size"`
+	}
+
+	if err := json.NewDecoder(resp.Body).Decode(&githubContents); err != nil {
+		return nil, err
+	}
+
+	contents := make([]types.ContentItem, len(githubContents))
+	for i, gc := range githubContents {
+		contents[i] = types.ContentItem{
+			Name: gc.Name,
+			Path: gc.Path,
+			Type: gc.Type,
+			Size: gc.Size,
+		}
+	}
+
+	return contents, nil
+}

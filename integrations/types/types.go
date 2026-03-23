@@ -16,7 +16,15 @@ type IntegrationClient interface {
 	ListRepositoriesPaginated(ctx context.Context, token string, page int, limit int) ([]Repository, error)
 	SearchRepositories(ctx context.Context, token string, query string, namespace string, page int, limit int) ([]Repository, error)
 	ListNamespaces(ctx context.Context, token string) ([]Namespace, error)
+	ListContents(ctx context.Context, token string, repoFullName string, path string) ([]ContentItem, error)
 	RefreshToken(ctx context.Context, refreshToken string) (*TokenRefreshResponse, error)
+}
+
+type ContentItem struct {
+	Name string `json:"name"`
+	Path string `json:"path"`
+	Type string `json:"type"` // "file" or "dir"
+	Size int64  `json:"size"`
 }
 
 type Repository struct {

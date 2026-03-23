@@ -18,6 +18,7 @@ type IntegrationService interface {
 	ListUserRepositories(ctx context.Context, userID uuid.UUID, provider string) ([]types.Repository, error)
 	ListUserRepositoriesPaginated(ctx context.Context, userID uuid.UUID, provider string, search string, namespace string, page int, limit int) ([]types.Repository, error)
 	ListUserNamespaces(ctx context.Context, userID uuid.UUID, provider string) ([]types.Namespace, error)
+	ListRepositoryContents(ctx context.Context, userID uuid.UUID, provider string, repoFullName string, path string) ([]types.ContentItem, error)
 }
 
 type integrationService struct {
@@ -174,4 +175,23 @@ func (s *integrationService) ListUserNamespaces(ctx context.Context, userID uuid
 	}
 
 	return client.ListNamespaces(ctx, accessToken)
+}
+
+func (s *integrationService) ListRepositoryContents(ctx context.Context, userID uuid.UUID, provider string, repoFullName string, path string) ([]types.ContentItem, error) {
+	conn, err := s.db.GetConnection(ctx, userID, provider)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get connection: %w", err)
+	}
+
+	client, ok := s.clients[provider]
+	if !ok {
+		return nil, fmt.Errorf("provider %s not supported for content listing", provider)
+	}
+
+	accessToken, err := s.ensureValidToken(ctx, conn, client)
+	if err != nil {
+		return nil, err
+	}
+
+	return client.ListContents(ctx, accessToken, repoFullName, path)
 }
