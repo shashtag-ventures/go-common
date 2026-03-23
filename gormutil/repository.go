@@ -119,7 +119,7 @@ func (r *Repository[T]) FindPaginated(ctx context.Context, query *gorm.DB, limit
 
 	// Get total count (ignoring limit and offset)
 	// We use Session(&gorm.Session{}) to ensure we don't modify the original query object for the count call
-	if err := query.Session(&gorm.Session{}).Count(&total).Error; err != nil {
+	if err := query.Session(&gorm.Session{}).Model(new(T)).Count(&total).Error; err != nil {
 		logger.Error("Failed to count entities in DB", "error", err)
 		return nil, 0, fmt.Errorf("failed to count entities: %w", err)
 	}

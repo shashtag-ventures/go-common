@@ -156,4 +156,24 @@ func TestGenericRepository(t *testing.T) {
 		err = repo.Delete(ctx, nil, &TestModel{Model: gorm.Model{ID: 9999}})
 		assert.NoError(t, err)
 	})
+	t.Run("FindPaginated", func(t *testing.T) {
+		testutil.CleanTables(db, "test_models")
+		repo.Create(ctx, nil, &TestModel{Name: "p1"})
+		repo.Create(ctx, nil, &TestModel{Name: "p2"})
+		repo.Create(ctx, nil, &TestModel{Name: "p3"})
+
+		// Test with valid query missing model
+		query := db.WithContext(ctx).Where("name LIKE ?", "p%")
+		results, total, err := repo.FindPaginated(ctx, query, 2, 0)
+		require.NoError(t, err)
+		assert.Equal(t, int64(3), total)
+		assert.Len(t, results, 2)
+
+		// Test offset
+		results, total, err = repo.FindPaginated(ctx, query, 2, 2)
+		require.NoError(t, err)
+		assert.Equal(t, int64(3), total)
+		assert.Len(t, results, 1)
+		assert.Equal(t, "p3", results[0].Name)
+	})
 }
