@@ -406,8 +406,12 @@ func (c *GitHubClient) RefreshToken(ctx context.Context, refreshToken string) (*
 }
 
 func (c *GitHubClient) ListContents(ctx context.Context, token string, repoFullName string, path string) ([]types.ContentItem, error) {
+	path = strings.TrimPrefix(path, "./")
 	path = strings.TrimPrefix(path, "/")
 	urlStr := fmt.Sprintf("%s/repos/%s/contents/%s", c.BaseURL, repoFullName, path)
+	if path == "" || path == "." {
+		urlStr = fmt.Sprintf("%s/repos/%s/contents", c.BaseURL, repoFullName)
+	}
 
 	req, err := http.NewRequestWithContext(ctx, "GET", urlStr, nil)
 	if err != nil {
