@@ -110,6 +110,37 @@ func (r *Repository[T]) FindAll(ctx context.Context) ([]*T, error) {
 	return entities, nil
 }
 
+// FindPaginated finds entities with pagination (limit and offset) and returns the total count.
+func (r *Repository[T]) FindPaginated(ctx context.Context, query string, limit, offset int, args ...any) ([]*T, int64, error) {
+	logger := middleware.GetLoggerFromContext(ctx)
+	var total int64
+	var entities []*T
+
+	db := r.db.WithContext(ctx).Model(new(T))
+	if query != "" {
+		db = db.Where(query, args...)
+	}
+
+	if err := db.Count(&total).Error; err != nil {
+		logger.Error("Failed to count entities in DB", "query", query, "args", args, "error", err)
+		return nil, 0, fmt.Errorf("failed to count entities: %w", err)
+	}
+
+	if limit > 0 {
+		db = db.Limit(limit)
+	}
+	if offset > 0 {
+		db = db.Offset(offset)
+	}
+
+	if err := db.Find(&entities).Error; err != nil {
+		logger.Error("Failed to find paginated entities in DB", "query", query, "args", args, "error", err)
+		return nil, 0, fmt.Errorf("failed to find paginated entities: %w", err)
+	}
+
+	return entities, total, nil
+}
+
 // DB returns the underlying gorm.DB instance with the provided context.
 func (r *Repository[T]) DB(ctx context.Context) *gorm.DB {
 	return r.db.WithContext(ctx)
