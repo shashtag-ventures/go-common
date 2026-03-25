@@ -92,6 +92,13 @@ func (s *integrationService) SaveInstallation(ctx context.Context, userID uuid.U
 }
 
 func (s *integrationService) ensureValidToken(ctx context.Context, conn *ExternalConnection, client types.IntegrationClient) (string, error) {
+	if conn.AccessToken == "" {
+		// If AccessToken is empty, it means we don't have an OAuth token.
+		// We return an empty string (no error) so that the caller can proceed
+		// and use the InstallationID if available.
+		return "", nil
+	}
+
 	accessToken, err := crypto.Decrypt(conn.AccessToken, s.tokenEncryptionKey)
 	if err != nil {
 		return "", fmt.Errorf("failed to decrypt access token: %w", err)

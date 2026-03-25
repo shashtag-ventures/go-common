@@ -58,16 +58,8 @@ func extractNextPageURL(linkHeader string) string {
 	return ""
 }
 
-func (c *GitHubClient) GenerateInstallationToken(ctx context.Context, installationID string) (string, error) {
-	if installationID == "" {
-		return "", fmt.Errorf("installation ID is required")
-	}
-	var iid int64
-	_, err := fmt.Sscanf(installationID, "%d", &iid)
-	if err != nil {
-		return "", fmt.Errorf("invalid installation ID: %v", err)
-	}
 
+func (c *GitHubClient) generateJWT() (string, error) {
 	if c.AppID == "" || c.PrivateKey == "" {
 		return "", fmt.Errorf("GitHub App ID or Private Key not configured")
 	}
@@ -101,9 +93,22 @@ func (c *GitHubClient) GenerateInstallationToken(ctx context.Context, installati
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
-	signedJWT, err := token.SignedString(privKey)
+	return token.SignedString(privKey)
+}
+
+func (c *GitHubClient) GenerateInstallationToken(ctx context.Context, installationID string) (string, error) {
+	if installationID == "" {
+		return "", fmt.Errorf("installation ID is required")
+	}
+	var iid int64
+	_, err := fmt.Sscanf(installationID, "%d", &iid)
 	if err != nil {
-		return "", fmt.Errorf("failed to sign JWT: %v", err)
+		return "", fmt.Errorf("invalid installation ID: %v", err)
+	}
+
+	signedJWT, err := c.generateJWT()
+	if err != nil {
+		return "", err
 	}
 
 	// Request Installation Token
@@ -403,6 +408,79 @@ func (c *GitHubClient) ListNamespaces(ctx context.Context, token string, install
 		}
 	}
 	namespaces := []types.Namespace{}
+
+	// 1. If it's an installation token, we can't fetch "current user" or "installations for user"
+	// because there is no USER context. We should just return the namespace for the installation itself.
+	if strings.HasPrefix(token, "ghs_") {
+		if installationID == "" {
+			return namespaces, nil
+		}
+		var iid int64
+		fmt.Sscanf(installationID, "%d", &iid)
+
+		// Get account info from installation ID using App JWT
+		signedJWT, err := c.generateJWT()
+		if err == nil {
+			req, err := http.NewRequestWithContext(ctx, "GET", fmt.Sprintf("%s/app/installations/%d", c.BaseURL, iid), nil)
+			if err == nil {
+				req.Header.Set("Authorization", "Bearer "+signedJWT)
+				req.Header.Set("Accept", "application/vnd.github.v3+json")
+				resp, err := c.HTTPClient.Do(req)
+				if err == nil {
+					defer resp.Body.Close()
+					if resp.StatusCode == http.StatusOK {
+						var result struct {
+							Account struct {
+								Login     string `json:"login"`
+								AvatarURL string `json:"avatar_url"`
+								Type      string `json:"type"`
+							} `json:"account"`
+						}
+						if err := json.NewDecoder(resp.Body).Decode(&result); err == nil {
+							namespaces = append(namespaces, types.Namespace{
+								Name:      result.Account.Login,
+								AvatarURL: result.Account.AvatarURL,
+								Type:      result.Account.Type,
+							})
+						}
+					}
+				}
+			}
+		}
+
+		// If we couldn't get it via JWT, try via installation token (list repos and get owner)
+		if len(namespaces) == 0 {
+			req, err := http.NewRequestWithContext(ctx, "GET", c.BaseURL+"/installation/repositories?per_page=1", nil)
+			if err == nil {
+				req.Header.Set("Authorization", "Bearer "+token)
+				req.Header.Set("Accept", "application/vnd.github.v3+json")
+				resp, err := c.HTTPClient.Do(req)
+				if err == nil {
+					defer resp.Body.Close()
+					if resp.StatusCode == http.StatusOK {
+						var wrapper struct {
+							Repositories []struct {
+								Owner struct {
+									Login     string `json:"login"`
+									AvatarURL string `json:"avatar_url"`
+									Type      string `json:"type"`
+								} `json:"owner"`
+							} `json:"repositories"`
+						}
+						if err := json.NewDecoder(resp.Body).Decode(&wrapper); err == nil && len(wrapper.Repositories) > 0 {
+							namespaces = append(namespaces, types.Namespace{
+								Name:      wrapper.Repositories[0].Owner.Login,
+								AvatarURL: wrapper.Repositories[0].Owner.AvatarURL,
+								Type:      wrapper.Repositories[0].Owner.Type,
+							})
+						}
+					}
+				}
+			}
+		}
+
+		return namespaces, nil
+	}
 
 	// 1. Fetch User (Personal Account)
 	userReq, err := http.NewRequestWithContext(ctx, "GET", c.BaseURL+"/user", nil)
