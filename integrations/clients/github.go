@@ -2,7 +2,10 @@ package clients
 
 import (
 	"context"
+	"crypto/rsa"
+	"crypto/x509"
 	"encoding/json"
+	"encoding/pem"
 	"fmt"
 	"io"
 	"net/http"
@@ -10,6 +13,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/shashtag-ventures/go-common/integrations/types"
 )
 
@@ -18,6 +22,8 @@ type GitHubClient struct {
 	BaseURL      string
 	ClientID     string
 	ClientSecret string
+	AppID        string
+	PrivateKey   string
 }
 
 func NewGitHubClient(clientID, clientSecret string) *GitHubClient {
@@ -27,6 +33,12 @@ func NewGitHubClient(clientID, clientSecret string) *GitHubClient {
 		ClientID:     clientID,
 		ClientSecret: clientSecret,
 	}
+}
+
+func (c *GitHubClient) WithAppAuth(appID, privateKey string) *GitHubClient {
+	c.AppID = appID
+	c.PrivateKey = privateKey
+	return c
 }
 
 func extractNextPageURL(linkHeader string) string {
@@ -46,11 +58,109 @@ func extractNextPageURL(linkHeader string) string {
 	return ""
 }
 
-func (c *GitHubClient) ListRepositories(ctx context.Context, token string) ([]types.Repository, error) {
+func (c *GitHubClient) GenerateInstallationToken(ctx context.Context, installationID string) (string, error) {
+	if installationID == "" {
+		return "", fmt.Errorf("installation ID is required")
+	}
+	var iid int64
+	_, err := fmt.Sscanf(installationID, "%d", &iid)
+	if err != nil {
+		return "", fmt.Errorf("invalid installation ID: %v", err)
+	}
+
+	if c.AppID == "" || c.PrivateKey == "" {
+		return "", fmt.Errorf("GitHub App ID or Private Key not configured")
+	}
+
+	// Parse RSA Private Key
+	block, _ := pem.Decode([]byte(c.PrivateKey))
+	if block == nil {
+		return "", fmt.Errorf("failed to parse PEM block from private key")
+	}
+
+	privKey, err := x509.ParsePKCS1PrivateKey(block.Bytes)
+	if err != nil {
+		// Try PKCS8 if PKCS1 fails
+		key, err := x509.ParsePKCS8PrivateKey(block.Bytes)
+		if err != nil {
+			return "", fmt.Errorf("failed to parse private key: %v", err)
+		}
+		var ok bool
+		privKey, ok = key.(*rsa.PrivateKey)
+		if !ok {
+			return "", fmt.Errorf("not an RSA private key")
+		}
+	}
+
+	// Create JWT
+	now := time.Now()
+	claims := jwt.RegisteredClaims{
+		Issuer:    c.AppID,
+		IssuedAt:  jwt.NewNumericDate(now.Add(-60 * time.Second)),
+		ExpiresAt: jwt.NewNumericDate(now.Add(10 * time.Minute)),
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
+	signedJWT, err := token.SignedString(privKey)
+	if err != nil {
+		return "", fmt.Errorf("failed to sign JWT: %v", err)
+	}
+
+	// Request Installation Token
+	urlStr := fmt.Sprintf("%s/app/installations/%d/access_tokens", c.BaseURL, iid)
+	req, err := http.NewRequestWithContext(ctx, "POST", urlStr, nil)
+	if err != nil {
+		return "", err
+	}
+
+	req.Header.Set("Authorization", "Bearer "+signedJWT)
+	req.Header.Set("Accept", "application/vnd.github.v3+json")
+
+	resp, err := c.HTTPClient.Do(req)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusCreated {
+		body, _ := io.ReadAll(resp.Body)
+		return "", fmt.Errorf("failed to get installation token (status %d): %s", resp.StatusCode, string(body))
+	}
+
+	var result struct {
+		Token string `json:"token"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		return "", err
+	}
+
+	return result.Token, nil
+}
+
+// ListRepositories lists repositories. If token is provided, it uses it as a bearer token.
+// If not, and an installation ID is known (fetched elsewhere), it would need that.
+// For now, we update ListRepositories to be clearer about its usage.
+func (c *GitHubClient) ListRepositories(ctx context.Context, token string, installationID string) ([]types.Repository, error) {
+	if installationID != "" && token == "" {
+		var err error
+		token, err = c.GenerateInstallationToken(ctx, installationID)
+		if err != nil {
+			return nil, err
+		}
+	}
 	var allRepos []types.Repository
-	// Explicitly request all visibilities and affiliations to ensure private repos are fetched
-	// See: https://docs.github.com/en/rest/repos/repos#list-repositories-for-the-authenticated-user
+	// If the token is an installation token, we might want to use a different endpoint
+	// but /user/repos also works for OAuth. For installation tokens, we technically use /installation/repositories
+	// however, if we are in a "User Context", /user/repos is correct.
+
 	urlStr := c.BaseURL + "/user/repos?sort=updated&per_page=100&visibility=all&affiliation=owner,collaborator,organization_member"
+
+	// NOTE: Installation tokens often use /installation/repositories instead of /user/repos
+	// because /user/repos requires a USER context, whereas installation tokens have an INSTALLATION context.
+	// If the token starts with 'ghs_', it's likely an installation token.
+	if strings.HasPrefix(token, "ghs_") {
+		urlStr = c.BaseURL + "/installation/repositories?per_page=100"
+	}
 
 	for urlStr != "" {
 		req, err := http.NewRequestWithContext(ctx, "GET", urlStr, nil)
@@ -71,28 +181,53 @@ func (c *GitHubClient) ListRepositories(ctx context.Context, token string) ([]ty
 			return nil, fmt.Errorf("github api returned status: %s", resp.Status)
 		}
 
-		var githubRepos []struct {
-			Name      string    `json:"name"`
-			FullName  string    `json:"full_name"`
-			HTMLURL   string    `json:"html_url"`
-			Private   bool      `json:"private"`
-			UpdatedAt time.Time `json:"updated_at"`
-		}
+        var githubRepos []struct {
+            Name      string    `json:"name"`
+            FullName  string    `json:"full_name"`
+            HTMLURL   string    `json:"html_url"`
+            Private   bool      `json:"private"`
+            UpdatedAt time.Time `json:"updated_at"`
+        }
 
-		if err := json.NewDecoder(resp.Body).Decode(&githubRepos); err != nil {
-			resp.Body.Close()
-			return nil, err
-		}
-
-		for _, gr := range githubRepos {
-			allRepos = append(allRepos, types.Repository{
-				Name:      gr.Name,
-				FullName:  gr.FullName,
-				URL:       gr.HTMLURL,
-				Private:   gr.Private,
-				UpdatedAt: gr.UpdatedAt,
-			})
-		}
+        // Installation repositories are returned in a 'repositories' field
+        if strings.HasPrefix(token, "ghs_") {
+            var wrapper struct {
+                Repositories []struct {
+                    Name      string    `json:"name"`
+                    FullName  string    `json:"full_name"`
+                    HTMLURL   string    `json:"html_url"`
+                    Private   bool      `json:"private"`
+                    UpdatedAt time.Time `json:"updated_at"`
+                } `json:"repositories"`
+            }
+            if err := json.NewDecoder(resp.Body).Decode(&wrapper); err != nil {
+                resp.Body.Close()
+                return nil, err
+            }
+            for _, gr := range wrapper.Repositories {
+                allRepos = append(allRepos, types.Repository{
+                    Name:      gr.Name,
+                    FullName:  gr.FullName,
+                    URL:       gr.HTMLURL,
+                    Private:   gr.Private,
+                    UpdatedAt: gr.UpdatedAt,
+                })
+            }
+        } else {
+            if err := json.NewDecoder(resp.Body).Decode(&githubRepos); err != nil {
+                resp.Body.Close()
+                return nil, err
+            }
+            for _, gr := range githubRepos {
+                allRepos = append(allRepos, types.Repository{
+                    Name:      gr.Name,
+                    FullName:  gr.FullName,
+                    URL:       gr.HTMLURL,
+                    Private:   gr.Private,
+                    UpdatedAt: gr.UpdatedAt,
+                })
+            }
+        }
 
 		urlStr = extractNextPageURL(resp.Header.Get("Link"))
 		resp.Body.Close()
@@ -101,7 +236,14 @@ func (c *GitHubClient) ListRepositories(ctx context.Context, token string) ([]ty
 	return allRepos, nil
 }
 
-func (c *GitHubClient) ListRepositoriesPaginated(ctx context.Context, token string, page int, limit int) ([]types.Repository, error) {
+func (c *GitHubClient) ListRepositoriesPaginated(ctx context.Context, token string, installationID string, page int, limit int) ([]types.Repository, error) {
+	if installationID != "" && token == "" {
+		var err error
+		token, err = c.GenerateInstallationToken(ctx, installationID)
+		if err != nil {
+			return nil, err
+		}
+	}
 	if page < 1 {
 		page = 1
 	}
@@ -109,8 +251,10 @@ func (c *GitHubClient) ListRepositoriesPaginated(ctx context.Context, token stri
 		limit = 100
 	}
 
-	// Explicitly request all visibilities and affiliations for paginated requests
 	urlStr := fmt.Sprintf("%s/user/repos?sort=updated&page=%d&per_page=%d&visibility=all&affiliation=owner,collaborator,organization_member", c.BaseURL, page, limit)
+	if strings.HasPrefix(token, "ghs_") {
+		urlStr = fmt.Sprintf("%s/installation/repositories?page=%d&per_page=%d", c.BaseURL, page, limit)
+	}
 
 	req, err := http.NewRequestWithContext(ctx, "GET", urlStr, nil)
 	if err != nil {
@@ -138,6 +282,32 @@ func (c *GitHubClient) ListRepositoriesPaginated(ctx context.Context, token stri
 		UpdatedAt time.Time `json:"updated_at"`
 	}
 
+	if strings.HasPrefix(token, "ghs_") {
+		var wrapper struct {
+			Repositories []struct {
+				Name      string    `json:"name"`
+				FullName  string    `json:"full_name"`
+				HTMLURL   string    `json:"html_url"`
+				Private   bool      `json:"private"`
+				UpdatedAt time.Time `json:"updated_at"`
+			} `json:"repositories"`
+		}
+		if err := json.NewDecoder(resp.Body).Decode(&wrapper); err != nil {
+			return nil, err
+		}
+		repos := make([]types.Repository, len(wrapper.Repositories))
+		for i, gr := range wrapper.Repositories {
+			repos[i] = types.Repository{
+				Name:      gr.Name,
+				FullName:  gr.FullName,
+				URL:       gr.HTMLURL,
+				Private:   gr.Private,
+				UpdatedAt: gr.UpdatedAt,
+			}
+		}
+		return repos, nil
+	}
+
 	if err := json.NewDecoder(resp.Body).Decode(&githubRepos); err != nil {
 		return nil, err
 	}
@@ -156,7 +326,14 @@ func (c *GitHubClient) ListRepositoriesPaginated(ctx context.Context, token stri
 	return repos, nil
 }
 
-func (c *GitHubClient) SearchRepositories(ctx context.Context, token string, query string, namespace string, page int, limit int) ([]types.Repository, error) {
+func (c *GitHubClient) SearchRepositories(ctx context.Context, token string, query string, namespace string, page int, limit int, installationID string) ([]types.Repository, error) {
+	if installationID != "" && token == "" {
+		var err error
+		token, err = c.GenerateInstallationToken(ctx, installationID)
+		if err != nil {
+			return nil, err
+		}
+	}
 	if page < 1 {
 		page = 1
 	}
@@ -217,7 +394,14 @@ func (c *GitHubClient) SearchRepositories(ctx context.Context, token string, que
 	return repos, nil
 }
 
-func (c *GitHubClient) ListNamespaces(ctx context.Context, token string) ([]types.Namespace, error) {
+func (c *GitHubClient) ListNamespaces(ctx context.Context, token string, installationID string) ([]types.Namespace, error) {
+	if installationID != "" && token == "" {
+		var err error
+		token, err = c.GenerateInstallationToken(ctx, installationID)
+		if err != nil {
+			return nil, err
+		}
+	}
 	namespaces := []types.Namespace{}
 
 	// 1. Fetch User (Personal Account)
@@ -408,7 +592,14 @@ func (c *GitHubClient) RefreshToken(ctx context.Context, refreshToken string) (*
 	return res, nil
 }
 
-func (c *GitHubClient) ListContents(ctx context.Context, token string, repoFullName string, path string) ([]types.ContentItem, error) {
+func (c *GitHubClient) ListContents(ctx context.Context, token string, repoFullName string, path string, installationID string) ([]types.ContentItem, error) {
+	if installationID != "" && token == "" {
+		var err error
+		token, err = c.GenerateInstallationToken(ctx, installationID)
+		if err != nil {
+			return nil, err
+		}
+	}
 	path = strings.TrimPrefix(path, "./")
 	path = strings.TrimPrefix(path, "/")
 	urlStr := fmt.Sprintf("%s/repos/%s/contents/%s", c.BaseURL, repoFullName, path)

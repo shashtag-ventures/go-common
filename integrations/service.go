@@ -12,7 +12,7 @@ import (
 )
 
 type IntegrationService interface {
-	SaveConnection(ctx context.Context, userID uuid.UUID, provider string, providerUserID string, username string, avatarURL string, accessToken string, refreshToken string, expiresAt time.Time) error
+	SaveConnection(ctx context.Context, userID uuid.UUID, provider string, providerUserID string, username string, avatarURL string, accessToken string, refreshToken string, expiresAt time.Time, installationID string) error
 	GetConnectionByProviderID(ctx context.Context, provider string, providerUserID string) (*ExternalConnection, error)
 	GetUserConnections(ctx context.Context, userID uuid.UUID) ([]*ExternalConnection, error)
 	ListUserRepositories(ctx context.Context, userID uuid.UUID, provider string) ([]types.Repository, error)
@@ -36,7 +36,7 @@ func NewIntegrationService(db IntegrationStorage, tokenEncryptionKey string, cli
 	}
 }
 
-func (s *integrationService) SaveConnection(ctx context.Context, userID uuid.UUID, provider string, providerUserID string, username string, avatarURL string, accessToken string, refreshToken string, expiresAt time.Time) error {
+func (s *integrationService) SaveConnection(ctx context.Context, userID uuid.UUID, provider string, providerUserID string, username string, avatarURL string, accessToken string, refreshToken string, expiresAt time.Time, installationID string) error {
 	logger := middleware.GetLoggerFromContext(ctx)
 
 	// Encrypt tokens before saving
@@ -62,6 +62,7 @@ func (s *integrationService) SaveConnection(ctx context.Context, userID uuid.UUI
 		ExpiresAt:      expiresAt,
 		Username:       username,
 		AvatarURL:      avatarURL,
+		InstallationID: installationID,
 	}
 
 	if err := s.db.SaveConnection(ctx, conn); err != nil {
@@ -129,7 +130,7 @@ func (s *integrationService) ListUserRepositories(ctx context.Context, userID uu
 		return nil, err
 	}
 
-	return client.ListRepositories(ctx, accessToken)
+	return client.ListRepositories(ctx, accessToken, conn.InstallationID)
 }
 
 func (s *integrationService) ListUserRepositoriesPaginated(ctx context.Context, userID uuid.UUID, provider string, search string, namespace string, page int, limit int) ([]types.Repository, error) {
@@ -152,10 +153,10 @@ func (s *integrationService) ListUserRepositoriesPaginated(ctx context.Context, 
 		if namespace == "" || namespace == "all" {
 			namespace = conn.Username
 		}
-		return client.SearchRepositories(ctx, accessToken, search, namespace, page, limit)
+		return client.SearchRepositories(ctx, accessToken, search, namespace, page, limit, conn.InstallationID)
 	}
 
-	return client.ListRepositoriesPaginated(ctx, accessToken, page, limit)
+	return client.ListRepositoriesPaginated(ctx, accessToken, conn.InstallationID, page, limit)
 }
 
 func (s *integrationService) ListUserNamespaces(ctx context.Context, userID uuid.UUID, provider string) ([]types.Namespace, error) {
@@ -174,7 +175,7 @@ func (s *integrationService) ListUserNamespaces(ctx context.Context, userID uuid
 		return nil, err
 	}
 
-	return client.ListNamespaces(ctx, accessToken)
+	return client.ListNamespaces(ctx, accessToken, conn.InstallationID)
 }
 
 func (s *integrationService) ListRepositoryContents(ctx context.Context, userID uuid.UUID, provider string, repoFullName string, path string) ([]types.ContentItem, error) {
@@ -193,5 +194,5 @@ func (s *integrationService) ListRepositoryContents(ctx context.Context, userID 
 		return nil, err
 	}
 
-	return client.ListContents(ctx, accessToken, repoFullName, path)
+	return client.ListContents(ctx, accessToken, repoFullName, path, conn.InstallationID)
 }

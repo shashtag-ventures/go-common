@@ -12,11 +12,11 @@ type TokenRefreshResponse struct {
 }
 
 type IntegrationClient interface {
-	ListRepositories(ctx context.Context, token string) ([]Repository, error)
-	ListRepositoriesPaginated(ctx context.Context, token string, page int, limit int) ([]Repository, error)
-	SearchRepositories(ctx context.Context, token string, query string, namespace string, page int, limit int) ([]Repository, error)
-	ListNamespaces(ctx context.Context, token string) ([]Namespace, error)
-	ListContents(ctx context.Context, token string, repoFullName string, path string) ([]ContentItem, error)
+	ListRepositories(ctx context.Context, token string, installationID string) ([]Repository, error)
+	ListRepositoriesPaginated(ctx context.Context, token string, installationID string, page int, limit int) ([]Repository, error)
+	SearchRepositories(ctx context.Context, token string, query string, namespace string, page int, limit int, installationID string) ([]Repository, error)
+	ListNamespaces(ctx context.Context, token string, installationID string) ([]Namespace, error)
+	ListContents(ctx context.Context, token string, repoFullName string, path string, installationID string) ([]ContentItem, error)
 	RefreshToken(ctx context.Context, refreshToken string) (*TokenRefreshResponse, error)
 }
 

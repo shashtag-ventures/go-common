@@ -36,7 +36,7 @@ func TestGitHubClient_ListRepositories(t *testing.T) {
 	client := NewGitHubClient("", "")
 	client.BaseURL = server.URL // Point to mock server
 
-	repos, err := client.ListRepositories(context.Background(), "test-token")
+	repos, err := client.ListRepositories(context.Background(), "test-token", "")
 	assert.NoError(t, err)
 	assert.Len(t, repos, 1)
 	assert.Equal(t, "repo1", repos[0].Name)
@@ -78,7 +78,7 @@ func TestGitHubClient_ListNamespaces(t *testing.T) {
 	client := NewGitHubClient("", "")
 	client.BaseURL = server.URL
 
-	namespaces, err := client.ListNamespaces(context.Background(), "test-token")
+	namespaces, err := client.ListNamespaces(context.Background(), "test-token", "")
 	assert.NoError(t, err)
 	assert.Len(t, namespaces, 2)
 	assert.Equal(t, "testuser", namespaces[0].Name)
@@ -97,7 +97,7 @@ func TestGitHubClient_Errors(t *testing.T) {
 		client := NewGitHubClient("", "")
 		client.BaseURL = server.URL
 
-		_, err := client.ListRepositories(context.Background(), "bad-token")
+		_, err := client.ListRepositories(context.Background(), "bad-token", "")
 		assert.Error(t, err)
 		assert.Contains(t, err.Error(), "returned status: 401")
 	})
@@ -111,7 +111,7 @@ func TestGitHubClient_Errors(t *testing.T) {
 		client := NewGitHubClient("", "")
 		client.BaseURL = server.URL
 
-		_, err := client.ListRepositories(context.Background(), "token")
+		_, err := client.ListRepositories(context.Background(), "token", "")
 		assert.Error(t, err)
 	})
 }

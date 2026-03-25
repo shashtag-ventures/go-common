@@ -18,4 +18,5 @@ type ExternalConnection struct {
 	ExpiresAt      time.Time `json:"expires_at"`
 	Username       string    `json:"username"` // The handle on the provider
 	AvatarURL      string    `json:"avatar_url"`
+	InstallationID string    `json:"installation_id"` // For GitHub Apps
 }
