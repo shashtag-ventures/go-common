@@ -23,7 +23,7 @@ func (r *integrationRepository) SaveConnection(ctx context.Context, conn *Extern
 	// Upsert: Create or Update on conflict of (user_id, provider)
 	return r.repo.DB(ctx).Clauses(clause.OnConflict{
 		Columns:   []clause.Column{{Name: "user_id"}, {Name: "provider"}},
-		DoUpdates: clause.AssignmentColumns([]string{"access_token", "refresh_token", "expires_at", "username", "avatar_url", "provider_user_id"}),
+		DoUpdates: clause.AssignmentColumns([]string{"access_token", "refresh_token", "expires_at", "username", "avatar_url", "provider_user_id", "installation_id"}),
 	}).Create(conn).Error
 }
 
@@ -37,4 +37,17 @@ func (r *integrationRepository) GetConnectionByProviderID(ctx context.Context, p
 
 func (r *integrationRepository) ListConnections(ctx context.Context, userID uuid.UUID) ([]*ExternalConnection, error) {
 	return r.repo.Find(ctx, "user_id = ?", userID)
+}
+
+func (r *integrationRepository) UpdateInstallationID(ctx context.Context, userID uuid.UUID, provider string, installationID string) error {
+	conn := &ExternalConnection{
+		UserID:         userID,
+		Provider:       provider,
+		InstallationID: installationID,
+	}
+	// Upsert: Create or update only the installation_id field
+	return r.repo.DB(ctx).Clauses(clause.OnConflict{
+		Columns:   []clause.Column{{Name: "user_id"}, {Name: "provider"}},
+		DoUpdates: clause.AssignmentColumns([]string{"installation_id"}),
+	}).Create(conn).Error
 }

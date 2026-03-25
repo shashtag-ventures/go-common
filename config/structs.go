@@ -2,10 +2,13 @@ package config
 
 import "log/slog"
 
-// GitHubConfig holds credentials for GitHub OAuth.
+// GitHubConfig holds credentials for GitHub OAuth and GitHub App.
 type GitHubConfig struct {
 	ClientID     string
 	ClientSecret string
+	AppID        string // GitHub App ID for installation token generation
+	PrivateKey   string // PEM private key for GitHub App JWT signing
+	AppName      string // GitHub App slug name (for installation URLs)
 }
 
 // GitLabConfig holds credentials for GitLab OAuth.

@@ -13,6 +13,7 @@ import (
 
 type IntegrationService interface {
 	SaveConnection(ctx context.Context, userID uuid.UUID, provider string, providerUserID string, username string, avatarURL string, accessToken string, refreshToken string, expiresAt time.Time, installationID string) error
+	SaveInstallation(ctx context.Context, userID uuid.UUID, provider string, installationID string) error
 	GetConnectionByProviderID(ctx context.Context, provider string, providerUserID string) (*ExternalConnection, error)
 	GetUserConnections(ctx context.Context, userID uuid.UUID) ([]*ExternalConnection, error)
 	ListUserRepositories(ctx context.Context, userID uuid.UUID, provider string) ([]types.Repository, error)
@@ -79,6 +80,15 @@ func (s *integrationService) GetConnectionByProviderID(ctx context.Context, prov
 
 func (s *integrationService) GetUserConnections(ctx context.Context, userID uuid.UUID) ([]*ExternalConnection, error) {
 	return s.db.ListConnections(ctx, userID)
+}
+
+func (s *integrationService) SaveInstallation(ctx context.Context, userID uuid.UUID, provider string, installationID string) error {
+	logger := middleware.GetLoggerFromContext(ctx)
+	if err := s.db.UpdateInstallationID(ctx, userID, provider, installationID); err != nil {
+		logger.Error("Failed to save installation", "userID", userID, "provider", provider, "installationID", installationID, "error", err)
+		return err
+	}
+	return nil
 }
 
 func (s *integrationService) ensureValidToken(ctx context.Context, conn *ExternalConnection, client types.IntegrationClient) (string, error) {
