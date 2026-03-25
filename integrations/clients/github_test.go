@@ -17,6 +17,8 @@ func TestGitHubClient_ListRepositories(t *testing.T) {
 		assert.Equal(t, "Bearer test-token", r.Header.Get("Authorization"))
 		assert.Equal(t, "application/vnd.github.v3+json", r.Header.Get("Accept"))
 		assert.Contains(t, r.URL.Path, "/user/repos")
+		assert.Equal(t, "all", r.URL.Query().Get("visibility"))
+		assert.Equal(t, "owner,collaborator,organization_member", r.URL.Query().Get("affiliation"))
 
 		// Return mock response
 		repos := []map[string]any{

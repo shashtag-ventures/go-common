@@ -48,7 +48,9 @@ func extractNextPageURL(linkHeader string) string {
 
 func (c *GitHubClient) ListRepositories(ctx context.Context, token string) ([]types.Repository, error) {
 	var allRepos []types.Repository
-	urlStr := c.BaseURL + "/user/repos?sort=updated&per_page=100"
+	// Explicitly request all visibilities and affiliations to ensure private repos are fetched
+	// See: https://docs.github.com/en/rest/repos/repos#list-repositories-for-the-authenticated-user
+	urlStr := c.BaseURL + "/user/repos?sort=updated&per_page=100&visibility=all&affiliation=owner,collaborator,organization_member"
 
 	for urlStr != "" {
 		req, err := http.NewRequestWithContext(ctx, "GET", urlStr, nil)
@@ -107,7 +109,8 @@ func (c *GitHubClient) ListRepositoriesPaginated(ctx context.Context, token stri
 		limit = 100
 	}
 
-	urlStr := fmt.Sprintf("%s/user/repos?sort=updated&page=%d&per_page=%d", c.BaseURL, page, limit)
+	// Explicitly request all visibilities and affiliations for paginated requests
+	urlStr := fmt.Sprintf("%s/user/repos?sort=updated&page=%d&per_page=%d&visibility=all&affiliation=owner,collaborator,organization_member", c.BaseURL, page, limit)
 
 	req, err := http.NewRequestWithContext(ctx, "GET", urlStr, nil)
 	if err != nil {
