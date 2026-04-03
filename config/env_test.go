@@ -119,15 +119,24 @@ func TestGetEnvAsHexBytes(t *testing.T) {
 
 func TestParse(t *testing.T) {
 	type TestConfig struct {
-		Host    string `env:"TEST_HOST"`
-		Port    int    `env:"TEST_PORT" envDefault:"8080"`
-		Enabled bool   `env:"TEST_ENABLED"`
+		Host    string   `env:"TEST_HOST"`
+		Port    int      `env:"TEST_PORT" envDefault:"8080"`
+		Enabled bool     `env:"TEST_ENABLED"`
+		Level   Level    `env:"TEST_LEVEL"`
+		Key     []byte   `env:"TEST_KEY"`
+		List    []string `env:"TEST_LIST"`
 	}
 
 	os.Setenv("TEST_HOST", "localhost")
 	os.Setenv("TEST_ENABLED", "true")
+	os.Setenv("TEST_LEVEL", "0")
+	os.Setenv("TEST_KEY", "62656566")
+	os.Setenv("TEST_LIST", " a , b ")
 	defer os.Unsetenv("TEST_HOST")
 	defer os.Unsetenv("TEST_ENABLED")
+	defer os.Unsetenv("TEST_LEVEL")
+	defer os.Unsetenv("TEST_KEY")
+	defer os.Unsetenv("TEST_LIST")
 
 	var cfg TestConfig
 	err := Parse(&cfg)
@@ -135,6 +144,9 @@ func TestParse(t *testing.T) {
 	assert.Equal(t, "localhost", cfg.Host)
 	assert.Equal(t, 8080, cfg.Port) // Default
 	assert.True(t, cfg.Enabled)
+	assert.Equal(t, slog.LevelInfo, cfg.Level.Slog())
+	assert.Equal(t, []byte{0x62, 0x65, 0x65, 0x66}, cfg.Key)
+	assert.Equal(t, []string{"a", "b"}, cfg.List)
 }
 
 func TestGetEnvAsSlice(t *testing.T) {

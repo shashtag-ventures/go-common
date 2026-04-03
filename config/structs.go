@@ -1,6 +1,9 @@
 package config
 
-import "log/slog"
+import (
+	"log/slog"
+	"strconv"
+)
 
 // GitHubConfig holds credentials for GitHub OAuth and GitHub App.
 type GitHubConfig struct {
@@ -80,9 +83,31 @@ type DatabaseConfig struct {
 	ConnMaxLifetime int    `env:"DB_CONN_MAX_LIFETIME" envDefault:"5"` // In minutes
 }
 
+// Level wraps slog.Level to provide a more robust unmarshaler that handles both numeric strings and names.
+type Level slog.Level
+
+func (l *Level) UnmarshalText(text []byte) error {
+	s := string(text)
+	if i, err := strconv.Atoi(s); err == nil {
+		*l = Level(i)
+		return nil
+	}
+	var sl slog.Level
+	if err := sl.UnmarshalText(text); err != nil {
+		return err
+	}
+	*l = Level(sl)
+	return nil
+}
+
+// Slog returns the underlying slog.Level.
+func (l Level) Slog() slog.Level {
+	return slog.Level(l)
+}
+
 // LoggerConfig defines logging settings.
 type LoggerConfig struct {
-	Level slog.Level
+	Level Level `env:"LOG_LEVEL"`
 }
 
 // RedisConfig defines Redis connection settings.

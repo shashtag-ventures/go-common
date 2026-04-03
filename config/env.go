@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
+	"reflect"
 	"strconv"
 	"strings"
 
@@ -74,7 +75,24 @@ func GetEnvAsHexBytes(name string) ([]byte, error) {
 
 // Parse fills a struct with environment variables using `env` tags.
 func Parse(v interface{}) error {
-	return env.Parse(v)
+	return env.ParseWithOptions(v, env.Options{
+		FuncMap: map[reflect.Type]env.ParserFunc{
+			reflect.TypeOf([]byte{}): func(v string) (interface{}, error) {
+				return hex.DecodeString(v)
+			},
+			reflect.TypeOf([]string{}): func(v string) (interface{}, error) {
+				parts := strings.Split(v, ",")
+				var res []string
+				for _, p := range parts {
+					trimmed := strings.TrimSpace(p)
+					if trimmed != "" {
+						res = append(res, trimmed)
+					}
+				}
+				return res, nil
+			},
+		},
+	})
 }
 
 // GetEnvAsSlice retrieves an environment variable as a slice of strings or returns an empty slice.
