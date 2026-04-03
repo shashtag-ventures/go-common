@@ -116,3 +116,37 @@ func TestGetEnvAsHexBytes(t *testing.T) {
 	
 	os.Unsetenv(key)
 }
+
+func TestParse(t *testing.T) {
+	type TestConfig struct {
+		Host    string `env:"TEST_HOST"`
+		Port    int    `env:"TEST_PORT" envDefault:"8080"`
+		Enabled bool   `env:"TEST_ENABLED"`
+	}
+
+	os.Setenv("TEST_HOST", "localhost")
+	os.Setenv("TEST_ENABLED", "true")
+	defer os.Unsetenv("TEST_HOST")
+	defer os.Unsetenv("TEST_ENABLED")
+
+	var cfg TestConfig
+	err := Parse(&cfg)
+	assert.NoError(t, err)
+	assert.Equal(t, "localhost", cfg.Host)
+	assert.Equal(t, 8080, cfg.Port) // Default
+	assert.True(t, cfg.Enabled)
+}
+
+func TestGetEnvAsSlice(t *testing.T) {
+	key := "TEST_SLICE_ENV"
+
+	// Test missing
+	os.Unsetenv(key)
+	assert.Nil(t, GetEnvAsSlice(key, ","))
+
+	// Test valid
+	os.Setenv(key, " a , b, c ")
+	defer os.Unsetenv(key)
+	got := GetEnvAsSlice(key, ",")
+	assert.Equal(t, []string{"a", "b", "c"}, got)
+}

@@ -6,7 +6,9 @@ import (
 	"log/slog"
 	"os"
 	"strconv"
+	"strings"
 
+	"github.com/caarlos0/env/v11"
 	"github.com/joho/godotenv"
 )
 
@@ -68,4 +70,26 @@ func GetEnvAsHexBytes(name string) ([]byte, error) {
 	}
 
 	return []byte(val), nil
+}
+
+// Parse fills a struct with environment variables using `env` tags.
+func Parse(v interface{}) error {
+	return env.Parse(v)
+}
+
+// GetEnvAsSlice retrieves an environment variable as a slice of strings or returns an empty slice.
+func GetEnvAsSlice(name string, sep string) []string {
+	val := os.Getenv(name)
+	if val == "" {
+		return nil
+	}
+	parts := strings.Split(val, sep)
+	var res []string
+	for _, p := range parts {
+		trimmed := strings.TrimSpace(p)
+		if trimmed != "" {
+			res = append(res, trimmed)
+		}
+	}
+	return res
 }
