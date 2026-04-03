@@ -77,12 +77,12 @@ type DatabaseConfig struct {
 	SSLMode         string `env:"DB_SSL_MODE"`
 	MaxIdleConns    int    `env:"DB_MAX_IDLE_CONNS" envDefault:"10"`
 	MaxOpenConns    int    `env:"DB_MAX_OPEN_CONNS" envDefault:"100"`
-	ConnMaxLifetime int    `env:"DB_CONN_MAX_LIFETIME_MINUTES" envDefault:"5"` // In minutes
+	ConnMaxLifetime int    `env:"DB_CONN_MAX_LIFETIME" envDefault:"5"` // In minutes
 }
 
 // LoggerConfig defines logging settings.
 type LoggerConfig struct {
-	Level slog.Level `env:"LOG_LEVEL"`
+	Level slog.Level
 }
 
 // RedisConfig defines Redis connection settings.
