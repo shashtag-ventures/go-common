@@ -60,6 +60,7 @@ func Archive(ctx context.Context, w io.Writer, diskPaths map[string]string, inMe
 			contentCopy := content // capture for closure
 			info := InMemFile{name: name, size: int64(len(content)), modTime: now}
 			files = append(files, archives.FileInfo{
+				FileInfo:      info,
 				NameInArchive: name,
 				Open: func() (fs.File, error) {
 					return &BufferFile{Reader: bytes.NewReader(contentCopy), info: info}, nil
