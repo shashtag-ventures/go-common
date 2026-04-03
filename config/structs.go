@@ -10,8 +10,9 @@ type GitHubConfig struct {
 	ClientID     string `env:"GITHUB_CLIENT_ID"`
 	ClientSecret string `env:"GITHUB_CLIENT_SECRET"`
 	AppID        string `env:"GITHUB_APP_ID"`   // GitHub App ID for installation token generation
-	PrivateKey   string `env:"GITHUB_PRIVATE_KEY"` // PEM private key (used if directly in env)
-	AppName      string `env:"GITHUB_APP_NAME"` // GitHub App slug name (for installation URLs)
+	PrivateKey    string `env:"GITHUB_PRIVATE_KEY"` // PEM private key (used if directly in env)
+	AppName       string `env:"GITHUB_APP_NAME"`    // GitHub App slug name (for installation URLs)
+	WebhookSecret string `env:"GITHUB_WEBHOOK_SECRET"`
 }
 
 // GitLabConfig holds credentials for GitLab OAuth.
@@ -36,7 +37,7 @@ type MicrosoftConfig struct {
 type RateLimitConfig struct {
 	Enabled bool `env:"RATE_LIMIT_ENABLED" envDefault:"true"`
 	Limit   int  `env:"RATE_LIMIT_LIMIT" envDefault:"100"`
-	Window  int  `env:"RATE_LIMIT_WINDOW" envDefault:"60"` // Window in seconds
+	Window  int  `env:"RATE_LIMIT_WINDOW_SECONDS" envDefault:"60"` // Window in seconds
 }
 
 // CorsConfig defines settings for Cross-Origin Resource Sharing.
@@ -80,7 +81,7 @@ type DatabaseConfig struct {
 	SSLMode         string `env:"DB_SSL_MODE"`
 	MaxIdleConns    int    `env:"DB_MAX_IDLE_CONNS" envDefault:"10"`
 	MaxOpenConns    int    `env:"DB_MAX_OPEN_CONNS" envDefault:"100"`
-	ConnMaxLifetime int    `env:"DB_CONN_MAX_LIFETIME_MINUTES" envDefault:"5"` // In minutes
+	ConnMaxLifetime int    `env:"DB_CONN_MAX_LIFETIME" envDefault:"5"` // In minutes
 }
 
 // Level wraps slog.Level to provide a more robust unmarshaler that handles both numeric strings and names.
