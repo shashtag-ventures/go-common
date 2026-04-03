@@ -36,14 +36,14 @@ type MicrosoftConfig struct {
 type RateLimitConfig struct {
 	Enabled bool `env:"RATE_LIMIT_ENABLED" envDefault:"true"`
 	Limit   int  `env:"RATE_LIMIT_LIMIT" envDefault:"100"`
-	Window  int  `env:"RATE_LIMIT_WINDOW_SECONDS" envDefault:"60"` // Window in seconds
+	Window  int  `env:"RATE_LIMIT_WINDOW" envDefault:"60"` // Window in seconds
 }
 
 // CorsConfig defines settings for Cross-Origin Resource Sharing.
 type CorsConfig struct {
-	AllowedOrigins string `env:"CORS_ALLOWED_ORIGINS"`
-	AllowedMethods string `env:"CORS_ALLOWED_METHODS"`
-	AllowedHeaders string `env:"CORS_ALLOWED_HEADERS"`
+	AllowedOrigins []string `env:"CORS_ALLOWED_ORIGINS"`
+	AllowedMethods []string `env:"CORS_ALLOWED_METHODS"`
+	AllowedHeaders []string `env:"CORS_ALLOWED_HEADERS"`
 }
 
 // GoogleConfig holds credentials for Google OAuth.
@@ -80,7 +80,7 @@ type DatabaseConfig struct {
 	SSLMode         string `env:"DB_SSL_MODE"`
 	MaxIdleConns    int    `env:"DB_MAX_IDLE_CONNS" envDefault:"10"`
 	MaxOpenConns    int    `env:"DB_MAX_OPEN_CONNS" envDefault:"100"`
-	ConnMaxLifetime int    `env:"DB_CONN_MAX_LIFETIME" envDefault:"5"` // In minutes
+	ConnMaxLifetime int    `env:"DB_CONN_MAX_LIFETIME_MINUTES" envDefault:"5"` // In minutes
 }
 
 // Level wraps slog.Level to provide a more robust unmarshaler that handles both numeric strings and names.
