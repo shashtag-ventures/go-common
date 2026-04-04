@@ -3,6 +3,7 @@ package middleware
 import (
 	"crypto/sha256"
 	"net/http"
+	"net/url"
 
 	"github.com/gorilla/csrf"
 )
@@ -13,7 +14,7 @@ type CSRFConfig struct {
 	Secret         string   // Secret key (will be hashed to 32 bytes)
 	Secure         bool     // Use true for production (HTTPS)
 	Domain         string   // Cookie domain
-	TrustedOrigins []string // Origins allowed to send state-changing requests (e.g., frontend proxy domains)
+	TrustedOrigins []string // Origins allowed to send state-changing requests (e.g., "https://www.example.com")
 }
 
 // CSRFMiddleware wraps gorilla/csrf to provide CSRF protection.
@@ -39,7 +40,18 @@ func CSRFMiddleware(cfg CSRFConfig) func(http.Handler) http.Handler {
 	}
 
 	if len(cfg.TrustedOrigins) > 0 {
-		opts = append(opts, csrf.TrustedOrigins(cfg.TrustedOrigins))
+		// gorilla/csrf compares TrustedOrigins against referer.Host (bare hostname),
+		// so we must strip the scheme from full URLs like "https://www.example.com".
+		hosts := make([]string, 0, len(cfg.TrustedOrigins))
+		for _, origin := range cfg.TrustedOrigins {
+			if parsed, err := url.Parse(origin); err == nil && parsed.Host != "" {
+				hosts = append(hosts, parsed.Host)
+			} else {
+				// Already a bare host or unparseable — pass through as-is.
+				hosts = append(hosts, origin)
+			}
+		}
+		opts = append(opts, csrf.TrustedOrigins(hosts))
 	}
 
 	return csrf.Protect(key[:], opts...)
