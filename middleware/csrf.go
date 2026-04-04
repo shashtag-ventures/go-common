@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"crypto/sha256"
 	"net/http"
 
 	"github.com/gorilla/csrf"
@@ -9,7 +10,7 @@ import (
 // CSRFConfig holds the configuration for the CSRF middleware.
 type CSRFConfig struct {
 	Enabled bool
-	Secret  string // 32-byte secret key
+	Secret  string // Secret key (will be hashed to 32 bytes)
 	Secure  bool   // Use true for production (HTTPS)
 	Domain  string // Cookie domain
 }
@@ -22,8 +23,12 @@ func CSRFMiddleware(cfg CSRFConfig) func(http.Handler) http.Handler {
 		}
 	}
 
+	// gorilla/csrf requires exactly 32 bytes. We hash the user-provided secret
+	// to ensure it's always the correct length regardless of the env variable value.
+	key := sha256.Sum256([]byte(cfg.Secret))
+
 	return csrf.Protect(
-		[]byte(cfg.Secret),
+		key[:],
 		csrf.Secure(cfg.Secure),
 		csrf.HttpOnly(true),
 		csrf.SameSite(csrf.SameSiteLaxMode),

@@ -10,7 +10,7 @@ import (
 )
 
 func TestCSRFMiddleware(t *testing.T) {
-	secret := "32-byte-long-secret-key-for-csrf" // Exactly 32 bytes
+	secret := "short-secret" // Less than 32 bytes, hashing should handle it
 	cfg := middleware.CSRFConfig{
 		Enabled: true,
 		Secret:  secret,
