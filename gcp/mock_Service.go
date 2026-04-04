@@ -135,9 +135,9 @@ func (_m *MockService) ListServices(ctx context.Context) ([]string, error) {
 	return r0, r1
 }
 
-// TriggerBuild provides a mock function with given fields: ctx, karadaProjectID, gcsSourceURI, imageName, onStart
-func (_m *MockService) TriggerBuild(ctx context.Context, karadaProjectID string, gcsSourceURI string, imageName string, onStart func(string, string)) (string, string, string, error) {
-	ret := _m.Called(ctx, karadaProjectID, gcsSourceURI, imageName, onStart)
+// TriggerBuild provides a mock function with given fields: ctx, targetProjectID, gcsSourceURI, imageName, onStart
+func (_m *MockService) TriggerBuild(ctx context.Context, targetProjectID string, gcsSourceURI string, imageName string, onStart func(string, string)) (string, string, string, error) {
+	ret := _m.Called(ctx, targetProjectID, gcsSourceURI, imageName, onStart)
 
 	if len(ret) == 0 {
 		panic("no return value specified for TriggerBuild")
@@ -148,28 +148,28 @@ func (_m *MockService) TriggerBuild(ctx context.Context, karadaProjectID string,
 	var r2 string
 	var r3 error
 	if rf, ok := ret.Get(0).(func(context.Context, string, string, string, func(string, string)) (string, string, string, error)); ok {
-		return rf(ctx, karadaProjectID, gcsSourceURI, imageName, onStart)
+		return rf(ctx, targetProjectID, gcsSourceURI, imageName, onStart)
 	}
 	if rf, ok := ret.Get(0).(func(context.Context, string, string, string, func(string, string)) string); ok {
-		r0 = rf(ctx, karadaProjectID, gcsSourceURI, imageName, onStart)
+		r0 = rf(ctx, targetProjectID, gcsSourceURI, imageName, onStart)
 	} else {
 		r0 = ret.Get(0).(string)
 	}
 
 	if rf, ok := ret.Get(1).(func(context.Context, string, string, string, func(string, string)) string); ok {
-		r1 = rf(ctx, karadaProjectID, gcsSourceURI, imageName, onStart)
+		r1 = rf(ctx, targetProjectID, gcsSourceURI, imageName, onStart)
 	} else {
 		r1 = ret.Get(1).(string)
 	}
 
 	if rf, ok := ret.Get(2).(func(context.Context, string, string, string, func(string, string)) string); ok {
-		r2 = rf(ctx, karadaProjectID, gcsSourceURI, imageName, onStart)
+		r2 = rf(ctx, targetProjectID, gcsSourceURI, imageName, onStart)
 	} else {
 		r2 = ret.Get(2).(string)
 	}
 
 	if rf, ok := ret.Get(3).(func(context.Context, string, string, string, func(string, string)) error); ok {
-		r3 = rf(ctx, karadaProjectID, gcsSourceURI, imageName, onStart)
+		r3 = rf(ctx, targetProjectID, gcsSourceURI, imageName, onStart)
 	} else {
 		r3 = ret.Error(3)
 	}

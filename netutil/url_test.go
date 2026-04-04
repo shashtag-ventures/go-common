@@ -98,13 +98,13 @@ func TestGetCookieDomain(t *testing.T) {
 		},
 		{
 			name:        "Production Domain",
-			frontendURL: "https://karada.ai",
-			want:        ".karada.ai",
+			frontendURL: "https://example.com",
+			want:        ".example.com",
 		},
 		{
 			name:        "Production Domain with www",
-			frontendURL: "https://www.karada.ai",
-			want:        ".www.karada.ai",
+			frontendURL: "https://www.example.com",
+			want:        ".www.example.com",
 		},
 		{
 			name:        "Subdomain",

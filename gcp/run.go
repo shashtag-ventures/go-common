@@ -11,7 +11,7 @@ import (
 )
 
 // DeployService handles the creation or update of a Cloud Run service with Session Affinity and CPU Boost.
-func (s *gcpService) DeployService(ctx context.Context, karadaProjectID string, imageName string, serviceName string) (string, error) {
+func (s *gcpService) DeployService(ctx context.Context, targetProjectID string, imageName string, serviceName string) (string, error) {
 	// Apply a timeout to prevent hanging the deployment process
 	ctx, cancel := context.WithTimeout(ctx, 3*time.Minute)
 	defer cancel()
@@ -171,7 +171,7 @@ func (s *gcpService) DeleteService(ctx context.Context, serviceName string) erro
 
 	// Let's construct the full ID if it doesn't look like one, just to be safe,
 	// OR assume caller passes full ID if they got it from ListServices.
-	// But user might pass just "karada-xyz".
+	// But user might pass just "target-xyz".
 	// Let's rely on ListServices returning full names and we use those.
 
 	req := &runpb.DeleteServiceRequest{

@@ -16,7 +16,7 @@ type Service interface {
 	// TriggerBuild triggers a Cloud Build to build the container image
 	// Returns the Build ID and the Image URI
 	// Returns: buildID, logURL, imageURI, error
-	TriggerBuild(ctx context.Context, karadaProjectID string, gcsSourceURI string, imageName string, onStart func(buildID, logURL string)) (string, string, string, error)
+	TriggerBuild(ctx context.Context, targetProjectID string, gcsSourceURI string, imageName string, onStart func(buildID, logURL string)) (string, string, string, error)
 
 	// DeployService deploys the container image to Cloud Run
 	// Returns the Service URL

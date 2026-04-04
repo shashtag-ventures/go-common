@@ -12,7 +12,7 @@ import (
 	"google.golang.org/api/iterator"
 )
 
-func (s *gcpService) TriggerBuild(ctx context.Context, karadaProjectID string, gcsSourceURI string, imageName string, onStart func(buildID, logURL string)) (string, string, string, error) {
+func (s *gcpService) TriggerBuild(ctx context.Context, targetProjectID string, gcsSourceURI string, imageName string, onStart func(buildID, logURL string)) (string, string, string, error) {
 	// Apply a timeout to prevent the goroutine from hanging indefinitely
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Minute)
 	defer cancel()

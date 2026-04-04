@@ -8,8 +8,8 @@ import (
 	"github.com/google/uuid"
 )
 
-func (s *gcpService) UploadSource(ctx context.Context, karadaProjectID string, zipContent []byte) (string, error) {
-	filename := fmt.Sprintf("source/%s/%s-%d.zip", karadaProjectID, uuid.New().String(), time.Now().Unix())
+func (s *gcpService) UploadSource(ctx context.Context, targetProjectID string, zipContent []byte) (string, error) {
+	filename := fmt.Sprintf("source/%s/%s-%d.zip", targetProjectID, uuid.New().String(), time.Now().Unix())
 
 	bucket := s.storageClient.Bucket(s.bucketName)
 	obj := bucket.Object(filename)
