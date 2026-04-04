@@ -42,11 +42,17 @@ func InitTracer(serviceName string) func() {
 		log.Println("Initialized OpenTelemetry with stdout base exporter")
 	}
 
-	// Create a resource that describes this application.
-	res := resource.NewWithAttributes(
-		semconv.SchemaURL,
-		semconv.ServiceName(serviceName),
+	// Create a resource that describes this application, merging with OTEL_RESOURCE_ATTRIBUTES from env.
+	res, resErr := resource.New(
+		context.Background(),
+		resource.WithSchemaURL(semconv.SchemaURL),
+		resource.WithAttributes(semconv.ServiceName(serviceName)),
+		resource.WithFromEnv(),
 	)
+	if resErr != nil {
+		log.Printf("failed to configure otel resource: %v", resErr)
+		res = resource.Default()
+	}
 
 	// Create a new TracerProvider with the exporter and resource.
 	provider := trace.NewTracerProvider(
