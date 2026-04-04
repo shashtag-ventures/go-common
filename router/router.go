@@ -13,6 +13,7 @@ import (
 type Config struct {
 	ApiVersion      string
 	Cors            middleware.CorsConfig
+	CSRF            middleware.CSRFConfig
 	RateLimit       middleware.RateLimitConfig
 	OtelServiceName string
 }
@@ -45,6 +46,7 @@ func (r *Router) buildHandler() http.Handler {
 	// Logic: Last applied is FIRST executed.
 
 	// 5. Security & Redirects (Inner-most system layers)
+	handler = middleware.CSRFMiddleware(r.config.CSRF)(handler)
 	handler = middleware.RateLimitMiddleware(r.config.RateLimit)(handler)
 	handler = middleware.TrailingSlashMiddleware(handler)
 	handler = middleware.CorsMiddleware(r.config.Cors, handler)
