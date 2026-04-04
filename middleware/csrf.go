@@ -9,10 +9,11 @@ import (
 
 // CSRFConfig holds the configuration for the CSRF middleware.
 type CSRFConfig struct {
-	Enabled bool
-	Secret  string // Secret key (will be hashed to 32 bytes)
-	Secure  bool   // Use true for production (HTTPS)
-	Domain  string // Cookie domain
+	Enabled        bool
+	Secret         string   // Secret key (will be hashed to 32 bytes)
+	Secure         bool     // Use true for production (HTTPS)
+	Domain         string   // Cookie domain
+	TrustedOrigins []string // Origins allowed to send state-changing requests (e.g., frontend proxy domains)
 }
 
 // CSRFMiddleware wraps gorilla/csrf to provide CSRF protection.
@@ -27,8 +28,7 @@ func CSRFMiddleware(cfg CSRFConfig) func(http.Handler) http.Handler {
 	// to ensure it's always the correct length regardless of the env variable value.
 	key := sha256.Sum256([]byte(cfg.Secret))
 
-	return csrf.Protect(
-		key[:],
+	opts := []csrf.Option{
 		csrf.Secure(cfg.Secure),
 		csrf.HttpOnly(true),
 		csrf.SameSite(csrf.SameSiteLaxMode),
@@ -36,7 +36,13 @@ func CSRFMiddleware(cfg CSRFConfig) func(http.Handler) http.Handler {
 		csrf.Domain(cfg.Domain),
 		csrf.RequestHeader("X-CSRF-Token"),
 		csrf.CookieName("csrf_token"),
-	)
+	}
+
+	if len(cfg.TrustedOrigins) > 0 {
+		opts = append(opts, csrf.TrustedOrigins(cfg.TrustedOrigins))
+	}
+
+	return csrf.Protect(key[:], opts...)
 }
 
 // GetCSRFToken returns the CSRF token for the current request.
