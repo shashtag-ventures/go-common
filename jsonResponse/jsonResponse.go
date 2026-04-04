@@ -60,6 +60,10 @@ func SendErrorResponse(w http.ResponseWriter, err error, statusCode int) {
 				errMSGS = append(errMSGS, e.Field()+" is required")
 			case "email":
 				errMSGS = append(errMSGS, e.Field()+" should be a valid email address")
+			case "slug":
+				errMSGS = append(errMSGS, e.Field()+" must be a valid slug (lowercase alphanumeric and hyphens)")
+			case "git-url":
+				errMSGS = append(errMSGS, e.Field()+" must be a valid git repository URL (http/https)")
 			default:
 				errMSGS = append(errMSGS, e.Field()+" is invalid")
 			}
