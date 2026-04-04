@@ -40,6 +40,7 @@ type RetryRoundTripper struct {
 	Base       http.RoundTripper
 	MaxRetries int
 	Logger     *slog.Logger
+	Backoff    func(attempt int) time.Duration
 }
 
 // RoundTrip executes a single HTTP transaction with exponential backoff retries on transient errors.
@@ -51,6 +52,10 @@ func (rt *RetryRoundTripper) RoundTrip(req *http.Request) (*http.Response, error
 		if i > 0 {
 			// Exponential backoff
 			waitTime := time.Duration(i*800) * time.Millisecond
+			if rt.Backoff != nil {
+				waitTime = rt.Backoff(i)
+			}
+
 			if rt.Logger != nil {
 				rt.Logger.Info("Retrying HTTP request due to transient error", 
 					"attempt", i, 
