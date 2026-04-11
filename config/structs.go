@@ -11,6 +11,7 @@ type GitHubConfig struct {
 	ClientSecret string `env:"GITHUB_CLIENT_SECRET"`
 	AppID        string `env:"GITHUB_APP_ID"`   // GitHub App ID for installation token generation
 	PrivateKey    string `env:"GITHUB_PRIVATE_KEY"` // PEM private key (used if directly in env)
+	PrivateKeyPath string `env:"GITHUB_PRIVATE_KEY_PATH"` // Path to PEM private key file
 	AppName       string `env:"GITHUB_APP_NAME"`    // GitHub App slug name (for installation URLs)
 	WebhookSecret string `env:"GITHUB_WEBHOOK_SECRET"`
 }
