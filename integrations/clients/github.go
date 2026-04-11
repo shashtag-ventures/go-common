@@ -196,7 +196,7 @@ func (c *GitHubClient) ListRepositories(ctx context.Context, token string, insta
 
 	urlStr := c.BaseURL + "/user/repos?sort=updated&per_page=100&visibility=all&affiliation=owner,collaborator,organization_member"
 	if isInstall {
-		urlStr = c.BaseURL + "/installation/repositories?per_page=100"
+		urlStr = c.BaseURL + "/installation/repositories?sort=updated&direction=desc&per_page=100"
 	}
 
 	for urlStr != "" {
@@ -261,7 +261,7 @@ func (c *GitHubClient) ListRepositoriesPaginated(ctx context.Context, token stri
 
 	urlStr := fmt.Sprintf("%s/user/repos?sort=updated&page=%d&per_page=%d&visibility=all&affiliation=owner,collaborator,organization_member", c.BaseURL, page, limit)
 	if isInstall {
-		urlStr = fmt.Sprintf("%s/installation/repositories?page=%d&per_page=%d", c.BaseURL, page, limit)
+		urlStr = fmt.Sprintf("%s/installation/repositories?sort=updated&direction=desc&page=%d&per_page=%d", c.BaseURL, page, limit)
 	}
 
 	req, err := http.NewRequestWithContext(ctx, "GET", urlStr, nil)
