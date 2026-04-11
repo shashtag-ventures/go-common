@@ -92,10 +92,10 @@ func isInstallationContext(installationID string) bool {
 }
 
 // ensureToken generates an installation token on-demand if we're in an
-// installation context and no OAuth token was provided. This keeps
-// installation tokens ephemeral (never stored in the DB).
+// installation context. Installation endpoints strictly require an
+// installation token and will reject OAuth tokens with 401 Unauthorized.
 func (c *GitHubClient) ensureToken(ctx context.Context, token string, installationID string) (string, error) {
-	if isInstallationContext(installationID) && token == "" {
+	if isInstallationContext(installationID) {
 		return c.GenerateInstallationToken(ctx, installationID)
 	}
 	return token, nil
