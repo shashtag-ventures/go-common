@@ -20,10 +20,14 @@ func NewIntegrationRepository(db *gorm.DB) IntegrationStorage {
 }
 
 func (r *integrationRepository) SaveConnection(ctx context.Context, conn *ExternalConnection) error {
-	// Upsert: Create or Update on conflict of (user_id, provider)
+	// Upsert: Create or Update on conflict of (user_id, provider).
+	// Note: installation_id is intentionally excluded from DoUpdates — it is managed
+	// exclusively by UpdateInstallationID (GitHub App setup flow). Including it here
+	// would cause OAuth callbacks (which don't carry installation_id) to wipe
+	// any previously saved value with an empty string.
 	return r.repo.DB(ctx).Clauses(clause.OnConflict{
 		Columns:   []clause.Column{{Name: "user_id"}, {Name: "provider"}},
-		DoUpdates: clause.AssignmentColumns([]string{"access_token", "refresh_token", "expires_at", "username", "avatar_url", "provider_user_id", "installation_id"}),
+		DoUpdates: clause.AssignmentColumns([]string{"access_token", "refresh_token", "expires_at", "username", "avatar_url", "provider_user_id"}),
 	}).Create(conn).Error
 }
 

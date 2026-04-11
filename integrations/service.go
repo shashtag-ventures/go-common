@@ -14,6 +14,7 @@ import (
 type IntegrationService interface {
 	SaveConnection(ctx context.Context, userID uuid.UUID, provider string, providerUserID string, username string, avatarURL string, accessToken string, refreshToken string, expiresAt time.Time, installationID string) error
 	SaveInstallation(ctx context.Context, userID uuid.UUID, provider string, installationID string) error
+	GetConnection(ctx context.Context, userID uuid.UUID, provider string) (*ExternalConnection, error)
 	GetConnectionByProviderID(ctx context.Context, provider string, providerUserID string) (*ExternalConnection, error)
 	GetUserConnections(ctx context.Context, userID uuid.UUID) ([]*ExternalConnection, error)
 	ListUserRepositories(ctx context.Context, userID uuid.UUID, provider string) ([]types.Repository, error)
@@ -73,6 +74,10 @@ func (s *integrationService) SaveConnection(ctx context.Context, userID uuid.UUI
 	}
 
 	return nil
+}
+
+func (s *integrationService) GetConnection(ctx context.Context, userID uuid.UUID, provider string) (*ExternalConnection, error) {
+	return s.db.GetConnection(ctx, userID, provider)
 }
 
 func (s *integrationService) GetConnectionByProviderID(ctx context.Context, provider string, providerUserID string) (*ExternalConnection, error) {
