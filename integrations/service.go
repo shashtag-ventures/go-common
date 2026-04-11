@@ -20,6 +20,7 @@ type IntegrationService interface {
 	ListUserRepositoriesPaginated(ctx context.Context, userID uuid.UUID, provider string, search string, namespace string, page int, limit int) ([]types.Repository, error)
 	ListUserNamespaces(ctx context.Context, userID uuid.UUID, provider string) ([]types.Namespace, error)
 	ListRepositoryContents(ctx context.Context, userID uuid.UUID, provider string, repoFullName string, path string) ([]types.ContentItem, error)
+	DeleteConnection(ctx context.Context, userID uuid.UUID, provider string) error
 }
 
 type integrationService struct {
@@ -212,4 +213,14 @@ func (s *integrationService) ListRepositoryContents(ctx context.Context, userID 
 	}
 
 	return client.ListContents(ctx, accessToken, repoFullName, path, conn.InstallationID)
+}
+
+func (s *integrationService) DeleteConnection(ctx context.Context, userID uuid.UUID, provider string) error {
+	logger := middleware.GetLoggerFromContext(ctx)
+	if err := s.db.DeleteConnection(ctx, userID, provider); err != nil {
+		logger.Error("Failed to delete integration connection", "userID", userID, "provider", provider, "error", err)
+		return err
+	}
+	logger.Info("Integration connection deleted", "userID", userID, "provider", provider)
+	return nil
 }

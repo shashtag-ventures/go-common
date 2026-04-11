@@ -51,3 +51,7 @@ func (r *integrationRepository) UpdateInstallationID(ctx context.Context, userID
 		DoUpdates: clause.AssignmentColumns([]string{"installation_id"}),
 	}).Create(conn).Error
 }
+
+func (r *integrationRepository) DeleteConnection(ctx context.Context, userID uuid.UUID, provider string) error {
+	return r.repo.DB(ctx).Where("user_id = ? AND provider = ?", userID, provider).Delete(&ExternalConnection{}).Error
+}

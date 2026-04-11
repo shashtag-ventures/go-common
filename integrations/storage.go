@@ -13,4 +13,5 @@ type IntegrationStorage interface {
 	GetConnectionByProviderID(ctx context.Context, provider string, providerUserID string) (*ExternalConnection, error)
 	ListConnections(ctx context.Context, userID uuid.UUID) ([]*ExternalConnection, error)
 	UpdateInstallationID(ctx context.Context, userID uuid.UUID, provider string, installationID string) error
+	DeleteConnection(ctx context.Context, userID uuid.UUID, provider string) error
 }
