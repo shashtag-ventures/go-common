@@ -13,6 +13,7 @@ type GitHubConfig struct {
 	PrivateKey    string `env:"GITHUB_PRIVATE_KEY"` // PEM private key (used if directly in env)
 	AppName       string `env:"GITHUB_APP_NAME"`    // GitHub App slug name (for installation URLs)
 	WebhookSecret string `env:"GITHUB_WEBHOOK_SECRET"`
+	APIURL        string `env:"GITHUB_API_URL" envDefault:"https://api.github.com"`
 }
 
 // GitLabConfig holds credentials for GitLab OAuth.
