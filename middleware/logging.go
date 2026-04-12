@@ -8,8 +8,6 @@ import (
 	"regexp"
 	"strings"
 	"time"
-
-	"go.opentelemetry.io/otel/trace"
 )
 
 type responseWriter struct {
@@ -99,10 +97,7 @@ func RequestLogger() func(http.Handler) http.Handler {
 			}
 
 			requestID, _ := ctx.Value(RequestIDKey).(string)
-			var traceID string
-			if span := trace.SpanFromContext(ctx); span.SpanContext().IsValid() {
-				traceID = span.SpanContext().TraceID().String()
-			}
+			traceID := GetTraceID(ctx)
 
 			attrs := []any{
 				slog.Group("http",

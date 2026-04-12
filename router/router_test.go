@@ -22,7 +22,6 @@ func TestNewRouter(t *testing.T) {
 		RateLimit: middleware.RateLimitConfig{
 			Enabled: false, // Disable for this test
 		},
-		OtelServiceName: "test-service",
 	}
 
 	// 2. Create the router

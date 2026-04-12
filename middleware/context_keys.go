@@ -16,6 +16,32 @@ const (
 	LogStateKey      CtxKey = "logState"
 )
 
+// TraceIDExtractor is a function type that extracts a trace ID from a context.
+// This allows decoupling the logger from specific tracing implementations like OpenTelemetry.
+type TraceIDExtractor func(context.Context) string
+
+var (
+	traceIDExtractor TraceIDExtractor
+	extractorMu     sync.RWMutex
+)
+
+// RegisterTraceIDExtractor sets the global function used to extract trace IDs.
+func RegisterTraceIDExtractor(fn TraceIDExtractor) {
+	extractorMu.Lock()
+	defer extractorMu.Unlock()
+	traceIDExtractor = fn
+}
+
+// GetTraceID extracts the trace ID using the registered extractor.
+func GetTraceID(ctx context.Context) string {
+	extractorMu.RLock()
+	defer extractorMu.RUnlock()
+	if traceIDExtractor != nil {
+		return traceIDExtractor(ctx)
+	}
+	return ""
+}
+
 // LogState holds mutable metadata gathered during the request lifecycle.
 type LogState struct {
 	mu          sync.RWMutex

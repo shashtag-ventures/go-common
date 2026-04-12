@@ -6,7 +6,6 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/shashtag-ventures/go-common/middleware"
-	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 )
 
 // Config holds the configuration for the router.
@@ -15,7 +14,6 @@ type Config struct {
 	Cors            middleware.CorsConfig
 	CSRF            middleware.CSRFConfig
 	RateLimit       middleware.RateLimitConfig
-	OtelServiceName string
 }
 
 // Router is a wrapper around http.ServeMux that supports middleware via .Use()
@@ -51,9 +49,8 @@ func (r *Router) buildHandler() http.Handler {
 	handler = middleware.TrailingSlashMiddleware(handler)
 	handler = middleware.CorsMiddleware(r.config.Cors, handler)
 
-	// 4. Observability (Capture metrics and traces for the secured request)
+	// 4. Observability (Capture metrics for the secured request)
 	handler = middleware.MetricsMiddleware(handler)
-	handler = otelhttp.NewHandler(handler, r.config.OtelServiceName)
 
 	// 3. Panic Recovery (Protect monitoring layers from handler crashes)
 	handler = middleware.Recovery()(handler)
