@@ -1,4 +1,4 @@
-package integrations
+package plugins
 
 import (
 	"context"
@@ -6,12 +6,12 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/shashtag-ventures/go-common/crypto"
-	"github.com/shashtag-ventures/go-common/integrations/types"
+	"github.com/shashtag-ventures/go-common/plugins/types"
 	"github.com/shashtag-ventures/go-common/middleware"
 	"time"
 )
 
-type IntegrationService interface {
+type PluginService interface {
 	SaveConnection(ctx context.Context, userID uuid.UUID, provider string, providerUserID string, username string, avatarURL string, accessToken string, refreshToken string, expiresAt time.Time, installationID string) error
 	SaveInstallation(ctx context.Context, userID uuid.UUID, provider string, installationID string) error
 	GetConnection(ctx context.Context, userID uuid.UUID, provider string) (*ExternalConnection, error)
@@ -24,22 +24,22 @@ type IntegrationService interface {
 	DeleteConnection(ctx context.Context, userID uuid.UUID, provider string) error
 }
 
-type integrationService struct {
-	db                 IntegrationStorage
+type pluginService struct {
+	db                 PluginStorage
 	tokenEncryptionKey string
-	clients            map[string]types.IntegrationClient
+	clients            map[string]types.PluginClient
 }
 
-// NewIntegrationService creates a new instance of IntegrationService.
-func NewIntegrationService(db IntegrationStorage, tokenEncryptionKey string, clients map[string]types.IntegrationClient) IntegrationService {
-	return &integrationService{
+// NewPluginService creates a new instance of PluginService.
+func NewPluginService(db PluginStorage, tokenEncryptionKey string, clients map[string]types.PluginClient) PluginService {
+	return &pluginService{
 		db:                 db,
 		tokenEncryptionKey: tokenEncryptionKey,
 		clients:            clients,
 	}
 }
 
-func (s *integrationService) SaveConnection(ctx context.Context, userID uuid.UUID, provider string, providerUserID string, username string, avatarURL string, accessToken string, refreshToken string, expiresAt time.Time, installationID string) error {
+func (s *pluginService) SaveConnection(ctx context.Context, userID uuid.UUID, provider string, providerUserID string, username string, avatarURL string, accessToken string, refreshToken string, expiresAt time.Time, installationID string) error {
 	logger := middleware.GetLoggerFromContext(ctx)
 
 	// Encrypt tokens before saving
@@ -69,26 +69,26 @@ func (s *integrationService) SaveConnection(ctx context.Context, userID uuid.UUI
 	}
 
 	if err := s.db.SaveConnection(ctx, conn); err != nil {
-		logger.Error("Failed to save integration connection", "userID", userID, "provider", provider, "error", err)
+		logger.Error("Failed to save plugin connection", "userID", userID, "provider", provider, "error", err)
 		return err
 	}
 
 	return nil
 }
 
-func (s *integrationService) GetConnection(ctx context.Context, userID uuid.UUID, provider string) (*ExternalConnection, error) {
+func (s *pluginService) GetConnection(ctx context.Context, userID uuid.UUID, provider string) (*ExternalConnection, error) {
 	return s.db.GetConnection(ctx, userID, provider)
 }
 
-func (s *integrationService) GetConnectionByProviderID(ctx context.Context, provider string, providerUserID string) (*ExternalConnection, error) {
+func (s *pluginService) GetConnectionByProviderID(ctx context.Context, provider string, providerUserID string) (*ExternalConnection, error) {
 	return s.db.GetConnectionByProviderID(ctx, provider, providerUserID)
 }
 
-func (s *integrationService) GetUserConnections(ctx context.Context, userID uuid.UUID) ([]*ExternalConnection, error) {
+func (s *pluginService) GetUserConnections(ctx context.Context, userID uuid.UUID) ([]*ExternalConnection, error) {
 	return s.db.ListConnections(ctx, userID)
 }
 
-func (s *integrationService) SaveInstallation(ctx context.Context, userID uuid.UUID, provider string, installationID string) error {
+func (s *pluginService) SaveInstallation(ctx context.Context, userID uuid.UUID, provider string, installationID string) error {
 	logger := middleware.GetLoggerFromContext(ctx)
 	if err := s.db.UpdateInstallationID(ctx, userID, provider, installationID); err != nil {
 		logger.Error("Failed to save installation", "userID", userID, "provider", provider, "installationID", installationID, "error", err)
@@ -97,7 +97,7 @@ func (s *integrationService) SaveInstallation(ctx context.Context, userID uuid.U
 	return nil
 }
 
-func (s *integrationService) ensureValidToken(ctx context.Context, conn *ExternalConnection, client types.IntegrationClient) (string, error) {
+func (s *pluginService) ensureValidToken(ctx context.Context, conn *ExternalConnection, client types.PluginClient) (string, error) {
 	if conn.AccessToken == "" {
 		// If AccessToken is empty, it means we don't have an OAuth token.
 		// We return an empty string (no error) so that the caller can proceed
@@ -137,7 +137,7 @@ func (s *integrationService) ensureValidToken(ctx context.Context, conn *Externa
 	return accessToken, nil
 }
 
-func (s *integrationService) ListUserRepositories(ctx context.Context, userID uuid.UUID, provider string) ([]types.Repository, error) {
+func (s *pluginService) ListUserRepositories(ctx context.Context, userID uuid.UUID, provider string) ([]types.Repository, error) {
 	conn, err := s.db.GetConnection(ctx, userID, provider)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get connection: %w", err)
@@ -156,7 +156,7 @@ func (s *integrationService) ListUserRepositories(ctx context.Context, userID uu
 	return client.ListRepositories(ctx, accessToken, conn.InstallationID)
 }
 
-func (s *integrationService) ListUserRepositoriesPaginated(ctx context.Context, userID uuid.UUID, provider string, search string, namespace string, page int, limit int) ([]types.Repository, error) {
+func (s *pluginService) ListUserRepositoriesPaginated(ctx context.Context, userID uuid.UUID, provider string, search string, namespace string, page int, limit int) ([]types.Repository, error) {
 	conn, err := s.db.GetConnection(ctx, userID, provider)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get connection: %w", err)
@@ -182,7 +182,7 @@ func (s *integrationService) ListUserRepositoriesPaginated(ctx context.Context, 
 	return client.ListRepositoriesPaginated(ctx, accessToken, conn.InstallationID, page, limit)
 }
 
-func (s *integrationService) ListUserNamespaces(ctx context.Context, userID uuid.UUID, provider string) ([]types.Namespace, error) {
+func (s *pluginService) ListUserNamespaces(ctx context.Context, userID uuid.UUID, provider string) ([]types.Namespace, error) {
 	conn, err := s.db.GetConnection(ctx, userID, provider)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get connection: %w", err)
@@ -201,7 +201,7 @@ func (s *integrationService) ListUserNamespaces(ctx context.Context, userID uuid
 	return client.ListNamespaces(ctx, accessToken, conn.InstallationID)
 }
 
-func (s *integrationService) ListRepositoryContents(ctx context.Context, userID uuid.UUID, provider string, repoFullName string, path string) ([]types.ContentItem, error) {
+func (s *pluginService) ListRepositoryContents(ctx context.Context, userID uuid.UUID, provider string, repoFullName string, path string) ([]types.ContentItem, error) {
 	conn, err := s.db.GetConnection(ctx, userID, provider)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get connection: %w", err)
@@ -220,12 +220,12 @@ func (s *integrationService) ListRepositoryContents(ctx context.Context, userID 
 	return client.ListContents(ctx, accessToken, repoFullName, path, conn.InstallationID)
 }
 
-func (s *integrationService) DeleteConnection(ctx context.Context, userID uuid.UUID, provider string) error {
+func (s *pluginService) DeleteConnection(ctx context.Context, userID uuid.UUID, provider string) error {
 	logger := middleware.GetLoggerFromContext(ctx)
 	if err := s.db.DeleteConnection(ctx, userID, provider); err != nil {
-		logger.Error("Failed to delete integration connection", "userID", userID, "provider", provider, "error", err)
+		logger.Error("Failed to delete plugin connection", "userID", userID, "provider", provider, "error", err)
 		return err
 	}
-	logger.Info("Integration connection deleted", "userID", userID, "provider", provider)
+	logger.Info("Plugin connection deleted", "userID", userID, "provider", provider)
 	return nil
 }

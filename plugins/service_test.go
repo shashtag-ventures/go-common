@@ -1,4 +1,4 @@
-package integrations
+package plugins
 
 import (
 	"context"
@@ -8,14 +8,14 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/shashtag-ventures/go-common/crypto"
-	"github.com/shashtag-ventures/go-common/integrations/clients"
-	"github.com/shashtag-ventures/go-common/integrations/types"
+	"github.com/shashtag-ventures/go-common/plugins/clients"
+	"github.com/shashtag-ventures/go-common/plugins/types"
 	"github.com/shashtag-ventures/go-common/testutil"
 	"github.com/stretchr/testify/assert"
 	"time"
 )
 
-func TestIntegrationService(t *testing.T) {
+func TestPluginService(t *testing.T) {
 	ctx := context.Background()
 	db, teardown := testutil.SetupTestDatabase(ctx)
 	defer teardown()
@@ -25,13 +25,13 @@ func TestIntegrationService(t *testing.T) {
 	assert.NoError(t, err)
 
 	encryptionKey := "12345678901234567890123456789012" // 32 bytes
-	storage := NewIntegrationRepository(db)
+	storage := NewPluginRepository(db)
 	
 	ghClient := clients.NewGitHubClient("dummyID", "dummySecret")
-	clientsMap := map[string]types.IntegrationClient{
+	clientsMap := map[string]types.PluginClient{
 		"github": ghClient,
 	}
-	service := NewIntegrationService(storage, encryptionKey, clientsMap)
+	service := NewPluginService(storage, encryptionKey, clientsMap)
 
 	userID := uuid.New()
 	provider := "github"
@@ -68,7 +68,7 @@ func TestIntegrationService(t *testing.T) {
 		}))
 		defer server.Close()
 
-		impl := service.(*integrationService)
+		impl := service.(*pluginService)
 		ghClient := impl.clients[provider].(*clients.GitHubClient)
 		ghClient.BaseURL = server.URL
 
@@ -99,7 +99,7 @@ func TestIntegrationService(t *testing.T) {
 		}))
 		defer server.Close()
 
-		impl := service.(*integrationService)
+		impl := service.(*pluginService)
 		ghClient := impl.clients[provider].(*clients.GitHubClient)
 		ghClient.BaseURL = server.URL
 

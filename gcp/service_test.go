@@ -10,7 +10,7 @@ import (
 // In Go, mocking external structs from cloud.google.com/go libraries is often discouraged
 // directly due to their use of un-exported fields and struct-based return types.
 // A better pattern is to wrap the specific external functions in an interface if we want pure unit tests,
-// or use integration tests.
+// or use plugin tests.
 //
 // For now, let's write tests for the Service interface by creating a simpler mock
 // of the `gcp.Service` itself to ensure consumers of gcpService can be tested,

@@ -1,32 +1,32 @@
-package integrations_test
+package plugins_test
 
 import (
 	"context"
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/shashtag-ventures/go-common/integrations"
+	"github.com/shashtag-ventures/go-common/plugins"
 	"github.com/shashtag-ventures/go-common/testutil"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
-func TestIntegrationRepository(t *testing.T) {
+func TestPluginRepository(t *testing.T) {
 	ctx := context.Background()
 	db, teardown := testutil.SetupTestDatabase(ctx)
 	defer teardown()
 
 	// Migrate the model
-	err := db.AutoMigrate(&integrations.ExternalConnection{})
+	err := db.AutoMigrate(&plugins.ExternalConnection{})
 	require.NoError(t, err)
 
-	repo := integrations.NewIntegrationRepository(db)
+	repo := plugins.NewPluginRepository(db)
 	userID := uuid.New()
 
 	t.Run("Save and Get Connection", func(t *testing.T) {
 		testutil.CleanTables(db, "external_connections")
 
-		conn := &integrations.ExternalConnection{
+		conn := &plugins.ExternalConnection{
 			UserID:         userID,
 			Provider:       "github",
 			ProviderUserID: "github-123",
@@ -46,7 +46,7 @@ func TestIntegrationRepository(t *testing.T) {
 	t.Run("Upsert Connection", func(t *testing.T) {
 		testutil.CleanTables(db, "external_connections")
 
-		conn1 := &integrations.ExternalConnection{
+		conn1 := &plugins.ExternalConnection{
 			UserID:   userID,
 			Provider: "google",
 			Username: "user1",
@@ -54,7 +54,7 @@ func TestIntegrationRepository(t *testing.T) {
 		err := repo.SaveConnection(ctx, conn1)
 		assert.NoError(t, err)
 
-		conn2 := &integrations.ExternalConnection{
+		conn2 := &plugins.ExternalConnection{
 			UserID:   userID,
 			Provider: "google",
 			Username: "user2-updated",
@@ -70,11 +70,11 @@ func TestIntegrationRepository(t *testing.T) {
 	t.Run("List Connections", func(t *testing.T) {
 		testutil.CleanTables(db, "external_connections")
 
-		repo.SaveConnection(ctx, &integrations.ExternalConnection{
+		repo.SaveConnection(ctx, &plugins.ExternalConnection{
 			UserID:   userID,
 			Provider: "github",
 		})
-		repo.SaveConnection(ctx, &integrations.ExternalConnection{
+		repo.SaveConnection(ctx, &plugins.ExternalConnection{
 			UserID:   userID,
 			Provider: "google",
 		})

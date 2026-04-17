@@ -1,4 +1,4 @@
-package integrations
+package plugins
 
 import (
 	"context"
@@ -9,17 +9,17 @@ import (
 	"gorm.io/gorm/clause"
 )
 
-type integrationRepository struct {
+type pluginRepository struct {
 	repo *gormutil.Repository[ExternalConnection]
 }
 
-func NewIntegrationRepository(db *gorm.DB) IntegrationStorage {
-	return &integrationRepository{
+func NewPluginRepository(db *gorm.DB) PluginStorage {
+	return &pluginRepository{
 		repo: gormutil.NewRepository[ExternalConnection](db),
 	}
 }
 
-func (r *integrationRepository) SaveConnection(ctx context.Context, conn *ExternalConnection) error {
+func (r *pluginRepository) SaveConnection(ctx context.Context, conn *ExternalConnection) error {
 	// Upsert: Create or Update on conflict of (user_id, provider).
 	// Note: installation_id is intentionally excluded from DoUpdates — it is managed
 	// exclusively by UpdateInstallationID (GitHub App setup flow). Including it here
@@ -31,19 +31,19 @@ func (r *integrationRepository) SaveConnection(ctx context.Context, conn *Extern
 	}).Create(conn).Error
 }
 
-func (r *integrationRepository) GetConnection(ctx context.Context, userID uuid.UUID, provider string) (*ExternalConnection, error) {
+func (r *pluginRepository) GetConnection(ctx context.Context, userID uuid.UUID, provider string) (*ExternalConnection, error) {
 	return r.repo.FindOneBy(ctx, "user_id = ? AND provider = ?", userID, provider)
 }
 
-func (r *integrationRepository) GetConnectionByProviderID(ctx context.Context, provider string, providerUserID string) (*ExternalConnection, error) {
+func (r *pluginRepository) GetConnectionByProviderID(ctx context.Context, provider string, providerUserID string) (*ExternalConnection, error) {
 	return r.repo.FindOneBy(ctx, "provider = ? AND provider_user_id = ?", provider, providerUserID)
 }
 
-func (r *integrationRepository) ListConnections(ctx context.Context, userID uuid.UUID) ([]*ExternalConnection, error) {
+func (r *pluginRepository) ListConnections(ctx context.Context, userID uuid.UUID) ([]*ExternalConnection, error) {
 	return r.repo.Find(ctx, "user_id = ?", userID)
 }
 
-func (r *integrationRepository) UpdateInstallationID(ctx context.Context, userID uuid.UUID, provider string, installationID string) error {
+func (r *pluginRepository) UpdateInstallationID(ctx context.Context, userID uuid.UUID, provider string, installationID string) error {
 	conn := &ExternalConnection{
 		UserID:         userID,
 		Provider:       provider,
@@ -56,6 +56,6 @@ func (r *integrationRepository) UpdateInstallationID(ctx context.Context, userID
 	}).Create(conn).Error
 }
 
-func (r *integrationRepository) DeleteConnection(ctx context.Context, userID uuid.UUID, provider string) error {
+func (r *pluginRepository) DeleteConnection(ctx context.Context, userID uuid.UUID, provider string) error {
 	return r.repo.DB(ctx).Where("user_id = ? AND provider = ?", userID, provider).Delete(&ExternalConnection{}).Error
 }
