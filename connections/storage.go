@@ -1,4 +1,4 @@
-package plugins
+package connections
 
 import (
 	"context"
@@ -6,8 +6,8 @@ import (
 	"github.com/google/uuid"
 )
 
-// PluginStorage defines the interface for storing external connections.
-type PluginStorage interface {
+// ConnectionStorage defines the interface for storing external connections.
+type ConnectionStorage interface {
 	SaveConnection(ctx context.Context, conn *ExternalConnection) error
 	GetConnection(ctx context.Context, userID uuid.UUID, provider string) (*ExternalConnection, error)
 	GetConnectionByProviderID(ctx context.Context, provider string, providerUserID string) (*ExternalConnection, error)

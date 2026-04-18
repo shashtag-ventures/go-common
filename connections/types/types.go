@@ -11,7 +11,7 @@ type TokenRefreshResponse struct {
 	ExpiresAt    time.Time `json:"-"`
 }
 
-type PluginClient interface {
+type ProviderClient interface {
 	ListRepositories(ctx context.Context, token string, installationID string) ([]Repository, error)
 	ListRepositoriesPaginated(ctx context.Context, token string, installationID string, page int, limit int) ([]Repository, error)
 	SearchRepositories(ctx context.Context, token string, query string, namespace string, page int, limit int, installationID string) ([]Repository, error)

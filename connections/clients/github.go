@@ -14,7 +14,7 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/shashtag-ventures/go-common/plugins/types"
+	"github.com/shashtag-ventures/go-common/connections/types"
 )
 
 // githubRepo is the common response shape for a GitHub repository from the API.

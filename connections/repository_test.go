@@ -1,11 +1,11 @@
-package plugins_test
+package connections_test
 
 import (
 	"context"
 	"testing"
 
 	"github.com/google/uuid"
-	"github.com/shashtag-ventures/go-common/plugins"
+	"github.com/shashtag-ventures/go-common/connections"
 	"github.com/shashtag-ventures/go-common/testutil"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -17,16 +17,16 @@ func TestPluginRepository(t *testing.T) {
 	defer teardown()
 
 	// Migrate the model
-	err := db.AutoMigrate(&plugins.ExternalConnection{})
+	err := db.AutoMigrate(&connections.ExternalConnection{})
 	require.NoError(t, err)
 
-	repo := plugins.NewPluginRepository(db)
+	repo := connections.NewConnectionRepository(db)
 	userID := uuid.New()
 
 	t.Run("Save and Get Connection", func(t *testing.T) {
 		testutil.CleanTables(db, "external_connections")
 
-		conn := &plugins.ExternalConnection{
+		conn := &connections.ExternalConnection{
 			UserID:         userID,
 			Provider:       "github",
 			ProviderUserID: "github-123",
@@ -46,7 +46,7 @@ func TestPluginRepository(t *testing.T) {
 	t.Run("Upsert Connection", func(t *testing.T) {
 		testutil.CleanTables(db, "external_connections")
 
-		conn1 := &plugins.ExternalConnection{
+		conn1 := &connections.ExternalConnection{
 			UserID:   userID,
 			Provider: "google",
 			Username: "user1",
@@ -54,7 +54,7 @@ func TestPluginRepository(t *testing.T) {
 		err := repo.SaveConnection(ctx, conn1)
 		assert.NoError(t, err)
 
-		conn2 := &plugins.ExternalConnection{
+		conn2 := &connections.ExternalConnection{
 			UserID:   userID,
 			Provider: "google",
 			Username: "user2-updated",
@@ -70,11 +70,11 @@ func TestPluginRepository(t *testing.T) {
 	t.Run("List Connections", func(t *testing.T) {
 		testutil.CleanTables(db, "external_connections")
 
-		repo.SaveConnection(ctx, &plugins.ExternalConnection{
+		repo.SaveConnection(ctx, &connections.ExternalConnection{
 			UserID:   userID,
 			Provider: "github",
 		})
-		repo.SaveConnection(ctx, &plugins.ExternalConnection{
+		repo.SaveConnection(ctx, &connections.ExternalConnection{
 			UserID:   userID,
 			Provider: "google",
 		})
