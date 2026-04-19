@@ -153,7 +153,9 @@ func (s *connectionService) ListUserRepositories(ctx context.Context, userID uui
 		return nil, err
 	}
 
-	return client.ListRepositories(ctx, accessToken, conn.InstallationID)
+	// Use OAuth token path (empty installationID) so the user can see repos
+	// across ALL orgs where the GitHub App is installed, not just one.
+	return client.ListRepositories(ctx, accessToken, "")
 }
 
 func (s *connectionService) ListUserRepositoriesPaginated(ctx context.Context, userID uuid.UUID, provider string, search string, namespace string, page int, limit int) ([]types.Repository, error) {
@@ -176,10 +178,10 @@ func (s *connectionService) ListUserRepositoriesPaginated(ctx context.Context, u
 		if namespace == "" || namespace == "all" {
 			namespace = conn.Username
 		}
-		return client.SearchRepositories(ctx, accessToken, search, namespace, page, limit, conn.InstallationID)
+		return client.SearchRepositories(ctx, accessToken, search, namespace, page, limit, "")
 	}
 
-	return client.ListRepositoriesPaginated(ctx, accessToken, conn.InstallationID, page, limit)
+	return client.ListRepositoriesPaginated(ctx, accessToken, "", page, limit)
 }
 
 func (s *connectionService) ListUserNamespaces(ctx context.Context, userID uuid.UUID, provider string) ([]types.Namespace, error) {
@@ -198,7 +200,9 @@ func (s *connectionService) ListUserNamespaces(ctx context.Context, userID uuid.
 		return nil, err
 	}
 
-	return client.ListNamespaces(ctx, accessToken, conn.InstallationID)
+	// Use OAuth token path (empty installationID) so the user sees ALL orgs
+	// where the GitHub App is installed, not just the single stored installation.
+	return client.ListNamespaces(ctx, accessToken, "")
 }
 
 func (s *connectionService) ListRepositoryContents(ctx context.Context, userID uuid.UUID, provider string, repoFullName string, path string) ([]types.ContentItem, error) {
