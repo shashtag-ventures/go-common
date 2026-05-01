@@ -116,15 +116,26 @@ func (s *connectionService) ensureValidToken(ctx context.Context, conn *External
 			refreshResp, err := client.RefreshToken(ctx, decryptedRefresh)
 			if err == nil && refreshResp != nil {
 				accessToken = refreshResp.AccessToken
-				
-				conn.AccessToken, _ = crypto.Encrypt(refreshResp.AccessToken, s.tokenEncryptionKey)
+
+				encryptedAccess, err := crypto.Encrypt(refreshResp.AccessToken, s.tokenEncryptionKey)
+				if err != nil {
+					middleware.GetLoggerFromContext(ctx).Error("Failed to encrypt refreshed access token", "error", err)
+					return accessToken, nil
+				}
+				conn.AccessToken = encryptedAccess
+
 				if refreshResp.RefreshToken != "" {
-					conn.RefreshToken, _ = crypto.Encrypt(refreshResp.RefreshToken, s.tokenEncryptionKey)
+					encryptedRefresh, err := crypto.Encrypt(refreshResp.RefreshToken, s.tokenEncryptionKey)
+					if err != nil {
+						middleware.GetLoggerFromContext(ctx).Error("Failed to encrypt refreshed refresh token", "error", err)
+						return accessToken, nil
+					}
+					conn.RefreshToken = encryptedRefresh
 				}
 				if !refreshResp.ExpiresAt.IsZero() {
 					conn.ExpiresAt = refreshResp.ExpiresAt
 				}
-				
+
 				if err := s.db.SaveConnection(ctx, conn); err != nil {
 					middleware.GetLoggerFromContext(ctx).Error("Failed to save refreshed token", "error", err)
 				}
