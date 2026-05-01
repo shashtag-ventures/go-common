@@ -9,7 +9,7 @@
       "source_file": "jsonResponse/jsonResponse_extra_test.go",
       "source_location": "L1",
       "id": "jsonresponse_extra_test",
-      "community": 0
+      "community": 2
     },
     {
       "label": "TestSendAutoErrorResponse()",
@@ -17,7 +17,7 @@
       "source_file": "jsonResponse/jsonResponse_extra_test.go",
       "source_location": "L13",
       "id": "jsonresponse_extra_test_testsendautoerrorresponse",
-      "community": 0
+      "community": 2
     },
     {
       "label": "jsonResponse.go",
@@ -25,7 +25,7 @@
       "source_file": "jsonResponse/jsonResponse.go",
       "source_location": "L1",
       "id": "jsonresponse",
-      "community": 0
+      "community": 1
     },
     {
       "label": "ErrorResponse",
@@ -33,7 +33,7 @@
       "source_file": "jsonResponse/jsonResponse.go",
       "source_location": "L15",
       "id": "jsonresponse_errorresponse",
-      "community": 0
+      "community": 1
     },
     {
       "label": "JsonResponse()",
@@ -41,7 +41,7 @@
       "source_file": "jsonResponse/jsonResponse.go",
       "source_location": "L32",
       "id": "jsonresponse_jsonresponse",
-      "community": 0
+      "community": 1
     },
     {
       "label": "SendErrorResponse()",
@@ -49,7 +49,7 @@
       "source_file": "jsonResponse/jsonResponse.go",
       "source_location": "L40",
       "id": "jsonresponse_senderrorresponse",
-      "community": 0
+      "community": 1
     },
     {
       "label": "SendAutoErrorResponse()",
@@ -57,7 +57,7 @@
       "source_file": "jsonResponse/jsonResponse.go",
       "source_location": "L96",
       "id": "jsonresponse_sendautoerrorresponse",
-      "community": 0
+      "community": 1
     },
     {
       "label": "JsonError()",
@@ -65,7 +65,7 @@
       "source_file": "jsonResponse/jsonResponse.go",
       "source_location": "L116",
       "id": "jsonresponse_jsonerror",
-      "community": 0
+      "community": 1
     },
     {
       "label": "jsonResponse_test.go",
@@ -73,7 +73,7 @@
       "source_file": "jsonResponse/jsonResponse_test.go",
       "source_location": "L1",
       "id": "jsonresponse_test",
-      "community": 1
+      "community": 4
     },
     {
       "label": "mockFieldError",
@@ -81,7 +81,7 @@
       "source_file": "jsonResponse/jsonResponse_test.go",
       "source_location": "L20",
       "id": "jsonresponse_mockfielderror",
-      "community": 1
+      "community": 4
     },
     {
       "label": ".Tag()",
@@ -89,7 +89,7 @@
       "source_file": "jsonResponse/jsonResponse_test.go",
       "source_location": "L25",
       "id": "jsonresponse_mockfielderror_tag",
-      "community": 1
+      "community": 4
     },
     {
       "label": ".ActualTag()",
@@ -97,7 +97,7 @@
       "source_file": "jsonResponse/jsonResponse_test.go",
       "source_location": "L26",
       "id": "jsonresponse_mockfielderror_actualtag",
-      "community": 1
+      "community": 4
     },
     {
       "label": ".Namespace()",
@@ -105,7 +105,7 @@
       "source_file": "jsonResponse/jsonResponse_test.go",
       "source_location": "L27",
       "id": "jsonresponse_mockfielderror_namespace",
-      "community": 1
+      "community": 4
     },
     {
       "label": ".StructNamespace()",
@@ -113,7 +113,7 @@
       "source_file": "jsonResponse/jsonResponse_test.go",
       "source_location": "L28",
       "id": "jsonresponse_mockfielderror_structnamespace",
-      "community": 1
+      "community": 4
     },
     {
       "label": ".Field()",
@@ -121,7 +121,7 @@
       "source_file": "jsonResponse/jsonResponse_test.go",
       "source_location": "L29",
       "id": "jsonresponse_mockfielderror_field",
-      "community": 1
+      "community": 4
     },
     {
       "label": ".StructField()",
@@ -129,7 +129,7 @@
       "source_file": "jsonResponse/jsonResponse_test.go",
       "source_location": "L30",
       "id": "jsonresponse_mockfielderror_structfield",
-      "community": 1
+      "community": 4
     },
     {
       "label": ".Value()",
@@ -137,7 +137,7 @@
       "source_file": "jsonResponse/jsonResponse_test.go",
       "source_location": "L31",
       "id": "jsonresponse_mockfielderror_value",
-      "community": 1
+      "community": 4
     },
     {
       "label": ".Param()",
@@ -145,7 +145,7 @@
       "source_file": "jsonResponse/jsonResponse_test.go",
       "source_location": "L32",
       "id": "jsonresponse_mockfielderror_param",
-      "community": 1
+      "community": 4
     },
     {
       "label": ".Kind()",
@@ -153,7 +153,7 @@
       "source_file": "jsonResponse/jsonResponse_test.go",
       "source_location": "L33",
       "id": "jsonresponse_mockfielderror_kind",
-      "community": 1
+      "community": 4
     },
     {
       "label": ".Type()",
@@ -161,7 +161,7 @@
       "source_file": "jsonResponse/jsonResponse_test.go",
       "source_location": "L34",
       "id": "jsonresponse_mockfielderror_type",
-      "community": 1
+      "community": 4
     },
     {
       "label": ".Error()",
@@ -169,7 +169,7 @@
       "source_file": "jsonResponse/jsonResponse_test.go",
       "source_location": "L35",
       "id": "jsonresponse_mockfielderror_error",
-      "community": 1
+      "community": 4
     },
     {
       "label": ".Translate()",
@@ -177,7 +177,7 @@
       "source_file": "jsonResponse/jsonResponse_test.go",
       "source_location": "L38",
       "id": "jsonresponse_mockfielderror_translate",
-      "community": 1
+      "community": 4
     },
     {
       "label": "TestJsonResponse()",
@@ -185,7 +185,7 @@
       "source_file": "jsonResponse/jsonResponse_test.go",
       "source_location": "L40",
       "id": "jsonresponse_test_testjsonresponse",
-      "community": 1
+      "community": 4
     },
     {
       "label": "TestSendErrorResponse()",
@@ -193,7 +193,7 @@
       "source_file": "jsonResponse/jsonResponse_test.go",
       "source_location": "L78",
       "id": "jsonresponse_test_testsenderrorresponse",
-      "community": 1
+      "community": 4
     },
     {
       "label": "TestJsonError()",
@@ -201,7 +201,7 @@
       "source_file": "jsonResponse/jsonResponse_test.go",
       "source_location": "L272",
       "id": "jsonresponse_test_testjsonerror",
-      "community": 1
+      "community": 4
     },
     {
       "label": "pagination.go",
@@ -209,7 +209,7 @@
       "source_file": "dto/pagination.go",
       "source_location": "L1",
       "id": "pagination",
-      "community": 36
+      "community": 39
     },
     {
       "label": "PaginationParams",
@@ -217,7 +217,7 @@
       "source_file": "dto/pagination.go",
       "source_location": "L4",
       "id": "dto_paginationparams",
-      "community": 36
+      "community": 39
     },
     {
       "label": "PaginatedResponse",
@@ -225,7 +225,7 @@
       "source_file": "dto/pagination.go",
       "source_location": "L10",
       "id": "dto_paginatedresponse",
-      "community": 36
+      "community": 39
     },
     {
       "label": "jwt_test.go",
@@ -233,7 +233,7 @@
       "source_file": "middleware/jwt_test.go",
       "source_location": "L1",
       "id": "jwt_test",
-      "community": 0
+      "community": 1
     },
     {
       "label": "TestCreateToken()",
@@ -241,7 +241,7 @@
       "source_file": "jwt/jwt_test.go",
       "source_location": "L18",
       "id": "jwt_test_testcreatetoken",
-      "community": 0
+      "community": 1
     },
     {
       "label": "TestParseToken()",
@@ -249,7 +249,7 @@
       "source_file": "jwt/jwt_test.go",
       "source_location": "L37",
       "id": "jwt_test_testparsetoken",
-      "community": 0
+      "community": 1
     },
     {
       "label": "jwt.go",
@@ -257,7 +257,7 @@
       "source_file": "middleware/jwt.go",
       "source_location": "L1",
       "id": "jwt",
-      "community": 0
+      "community": 1
     },
     {
       "label": "Claims",
@@ -265,7 +265,7 @@
       "source_file": "jwt/jwt.go",
       "source_location": "L11",
       "id": "jwt_claims",
-      "community": 0
+      "community": 1
     },
     {
       "label": "CreateToken()",
@@ -273,7 +273,7 @@
       "source_file": "jwt/jwt.go",
       "source_location": "L18",
       "id": "jwt_createtoken",
-      "community": 0
+      "community": 1
     },
     {
       "label": "ParseToken()",
@@ -281,7 +281,7 @@
       "source_file": "jwt/jwt.go",
       "source_location": "L32",
       "id": "jwt_parsetoken",
-      "community": 0
+      "community": 1
     },
     {
       "label": "csrf.go",
@@ -289,7 +289,7 @@
       "source_file": "middleware/csrf.go",
       "source_location": "L1",
       "id": "csrf",
-      "community": 19
+      "community": 21
     },
     {
       "label": "CSRFConfig",
@@ -297,7 +297,7 @@
       "source_file": "middleware/csrf.go",
       "source_location": "L12",
       "id": "middleware_csrfconfig",
-      "community": 19
+      "community": 21
     },
     {
       "label": "CSRFMiddleware()",
@@ -305,7 +305,7 @@
       "source_file": "middleware/csrf.go",
       "source_location": "L21",
       "id": "csrf_csrfmiddleware",
-      "community": 19
+      "community": 21
     },
     {
       "label": "GetCSRFToken()",
@@ -313,7 +313,7 @@
       "source_file": "middleware/csrf.go",
       "source_location": "L62",
       "id": "csrf_getcsrftoken",
-      "community": 19
+      "community": 21
     },
     {
       "label": "cors.go",
@@ -321,7 +321,7 @@
       "source_file": "middleware/cors.go",
       "source_location": "L1",
       "id": "cors",
-      "community": 37
+      "community": 40
     },
     {
       "label": "CorsConfig",
@@ -329,7 +329,7 @@
       "source_file": "middleware/cors.go",
       "source_location": "L10",
       "id": "middleware_corsconfig",
-      "community": 37
+      "community": 40
     },
     {
       "label": "CorsMiddleware()",
@@ -337,7 +337,7 @@
       "source_file": "middleware/cors.go",
       "source_location": "L18",
       "id": "cors_corsmiddleware",
-      "community": 37
+      "community": 40
     },
     {
       "label": "middleware_extra_test.go",
@@ -345,7 +345,7 @@
       "source_file": "middleware/middleware_extra_test.go",
       "source_location": "L1",
       "id": "middleware_extra_test",
-      "community": 38
+      "community": 41
     },
     {
       "label": "TestETagMiddleware()",
@@ -353,7 +353,7 @@
       "source_file": "middleware/middleware_extra_test.go",
       "source_location": "L11",
       "id": "middleware_extra_test_testetagmiddleware",
-      "community": 38
+      "community": 41
     },
     {
       "label": "TestCookieHelpers()",
@@ -361,7 +361,7 @@
       "source_file": "middleware/middleware_extra_test.go",
       "source_location": "L48",
       "id": "middleware_extra_test_testcookiehelpers",
-      "community": 38
+      "community": 41
     },
     {
       "label": "recovery.go",
@@ -369,7 +369,7 @@
       "source_file": "middleware/recovery.go",
       "source_location": "L1",
       "id": "recovery",
-      "community": 45
+      "community": 46
     },
     {
       "label": "Recovery()",
@@ -377,7 +377,7 @@
       "source_file": "middleware/recovery.go",
       "source_location": "L11",
       "id": "recovery_recovery",
-      "community": 45
+      "community": 46
     },
     {
       "label": "metrics.go",
@@ -385,7 +385,7 @@
       "source_file": "middleware/metrics.go",
       "source_location": "L1",
       "id": "metrics",
-      "community": 26
+      "community": 29
     },
     {
       "label": "MetricsMiddleware()",
@@ -393,7 +393,7 @@
       "source_file": "middleware/metrics.go",
       "source_location": "L43",
       "id": "metrics_metricsmiddleware",
-      "community": 26
+      "community": 29
     },
     {
       "label": "loggingResponseWriter",
@@ -401,7 +401,7 @@
       "source_file": "middleware/metrics.go",
       "source_location": "L64",
       "id": "middleware_loggingresponsewriter",
-      "community": 26
+      "community": 29
     },
     {
       "label": ".WriteHeader()",
@@ -409,7 +409,7 @@
       "source_file": "middleware/metrics.go",
       "source_location": "L71",
       "id": "middleware_loggingresponsewriter_writeheader",
-      "community": 26
+      "community": 29
     },
     {
       "label": ".Write()",
@@ -417,7 +417,7 @@
       "source_file": "middleware/metrics.go",
       "source_location": "L77",
       "id": "middleware_loggingresponsewriter_write",
-      "community": 26
+      "community": 29
     },
     {
       "label": "cookies.go",
@@ -425,7 +425,7 @@
       "source_file": "middleware/cookies.go",
       "source_location": "L1",
       "id": "cookies",
-      "community": 39
+      "community": 42
     },
     {
       "label": "SetAuthCookies()",
@@ -433,7 +433,7 @@
       "source_file": "middleware/cookies.go",
       "source_location": "L16",
       "id": "cookies_setauthcookies",
-      "community": 39
+      "community": 42
     },
     {
       "label": "ClearAuthCookies()",
@@ -441,7 +441,7 @@
       "source_file": "middleware/cookies.go",
       "source_location": "L43",
       "id": "cookies_clearauthcookies",
-      "community": 39
+      "community": 42
     },
     {
       "label": "logging.go",
@@ -449,7 +449,7 @@
       "source_file": "middleware/logging.go",
       "source_location": "L1",
       "id": "logging",
-      "community": 10
+      "community": 14
     },
     {
       "label": "responseWriter",
@@ -457,7 +457,7 @@
       "source_file": "middleware/logging.go",
       "source_location": "L13",
       "id": "middleware_responsewriter",
-      "community": 10
+      "community": 14
     },
     {
       "label": ".WriteHeader()",
@@ -465,7 +465,7 @@
       "source_file": "middleware/logging.go",
       "source_location": "L20",
       "id": "middleware_responsewriter_writeheader",
-      "community": 10
+      "community": 14
     },
     {
       "label": ".Write()",
@@ -473,7 +473,7 @@
       "source_file": "middleware/logging.go",
       "source_location": "L25",
       "id": "middleware_responsewriter_write",
-      "community": 10
+      "community": 14
     },
     {
       "label": "getRealIP()",
@@ -481,7 +481,7 @@
       "source_file": "middleware/logging.go",
       "source_location": "L34",
       "id": "logging_getrealip",
-      "community": 10
+      "community": 14
     },
     {
       "label": "scrubPayload()",
@@ -489,7 +489,7 @@
       "source_file": "middleware/logging.go",
       "source_location": "L49",
       "id": "logging_scrubpayload",
-      "community": 10
+      "community": 14
     },
     {
       "label": "RequestLogger()",
@@ -497,7 +497,7 @@
       "source_file": "middleware/logging.go",
       "source_location": "L58",
       "id": "logging_requestlogger",
-      "community": 10
+      "community": 14
     },
     {
       "label": "request_id_test.go",
@@ -505,7 +505,7 @@
       "source_file": "middleware/request_id_test.go",
       "source_location": "L1",
       "id": "request_id_test",
-      "community": 46
+      "community": 47
     },
     {
       "label": "TestRequestIDMiddleware()",
@@ -513,7 +513,7 @@
       "source_file": "middleware/request_id_test.go",
       "source_location": "L12",
       "id": "request_id_test_testrequestidmiddleware",
-      "community": 46
+      "community": 47
     },
     {
       "label": "middleware_test.go",
@@ -521,7 +521,7 @@
       "source_file": "middleware/middleware_test.go",
       "source_location": "L1",
       "id": "middleware_test",
-      "community": 17
+      "community": 22
     },
     {
       "label": "TestCorsMiddleware()",
@@ -529,7 +529,7 @@
       "source_file": "middleware/middleware_test.go",
       "source_location": "L16",
       "id": "middleware_test_testcorsmiddleware",
-      "community": 17
+      "community": 22
     },
     {
       "label": "TestRecovery()",
@@ -537,7 +537,7 @@
       "source_file": "middleware/middleware_test.go",
       "source_location": "L49",
       "id": "middleware_test_testrecovery",
-      "community": 17
+      "community": 22
     },
     {
       "label": "TestRateLimitMiddleware()",
@@ -545,7 +545,7 @@
       "source_file": "middleware/middleware_test.go",
       "source_location": "L76",
       "id": "middleware_test_testratelimitmiddleware",
-      "community": 17
+      "community": 22
     },
     {
       "label": "TestRequestLogger()",
@@ -553,7 +553,7 @@
       "source_file": "middleware/middleware_test.go",
       "source_location": "L124",
       "id": "middleware_test_testrequestlogger",
-      "community": 17
+      "community": 22
     },
     {
       "label": "TestMetricsMiddleware()",
@@ -561,7 +561,7 @@
       "source_file": "middleware/middleware_test.go",
       "source_location": "L180",
       "id": "middleware_test_testmetricsmiddleware",
-      "community": 17
+      "community": 22
     },
     {
       "label": "TestLogState_EnrichLogger()",
@@ -569,7 +569,7 @@
       "source_file": "middleware/middleware_test.go",
       "source_location": "L196",
       "id": "middleware_test_testlogstate_enrichlogger",
-      "community": 17
+      "community": 22
     },
     {
       "label": "TestAddBreadcrumb()",
@@ -577,7 +577,7 @@
       "source_file": "middleware/middleware_test.go",
       "source_location": "L207",
       "id": "middleware_test_testaddbreadcrumb",
-      "community": 17
+      "community": 22
     },
     {
       "label": "etag.go",
@@ -585,7 +585,7 @@
       "source_file": "middleware/etag.go",
       "source_location": "L1",
       "id": "etag",
-      "community": 27
+      "community": 30
     },
     {
       "label": "responseBuffer",
@@ -593,7 +593,7 @@
       "source_file": "middleware/etag.go",
       "source_location": "L11",
       "id": "middleware_responsebuffer",
-      "community": 27
+      "community": 30
     },
     {
       "label": ".Write()",
@@ -601,7 +601,7 @@
       "source_file": "middleware/etag.go",
       "source_location": "L17",
       "id": "middleware_responsebuffer_write",
-      "community": 27
+      "community": 30
     },
     {
       "label": ".WriteHeader()",
@@ -609,7 +609,7 @@
       "source_file": "middleware/etag.go",
       "source_location": "L21",
       "id": "middleware_responsebuffer_writeheader",
-      "community": 27
+      "community": 30
     },
     {
       "label": "ETag()",
@@ -617,7 +617,7 @@
       "source_file": "middleware/etag.go",
       "source_location": "L27",
       "id": "etag_etag",
-      "community": 27
+      "community": 30
     },
     {
       "label": "authz_test.go",
@@ -625,7 +625,7 @@
       "source_file": "middleware/authz_test.go",
       "source_location": "L1",
       "id": "authz_test",
-      "community": 40
+      "community": 43
     },
     {
       "label": "TestAuthorizeRole()",
@@ -633,7 +633,7 @@
       "source_file": "middleware/authz_test.go",
       "source_location": "L13",
       "id": "authz_test_testauthorizerole",
-      "community": 40
+      "community": 43
     },
     {
       "label": "TestGetUserFromContext()",
@@ -641,7 +641,7 @@
       "source_file": "middleware/authz_test.go",
       "source_location": "L79",
       "id": "authz_test_testgetuserfromcontext",
-      "community": 40
+      "community": 43
     },
     {
       "label": "logging_test.go",
@@ -649,7 +649,7 @@
       "source_file": "middleware/logging_test.go",
       "source_location": "L1",
       "id": "logging_test",
-      "community": 47
+      "community": 48
     },
     {
       "label": "TestScrubPayload()",
@@ -657,7 +657,7 @@
       "source_file": "middleware/logging_test.go",
       "source_location": "L9",
       "id": "logging_test_testscrubpayload",
-      "community": 47
+      "community": 48
     },
     {
       "label": "rate_limit.go",
@@ -665,7 +665,7 @@
       "source_file": "middleware/rate_limit.go",
       "source_location": "L1",
       "id": "rate_limit",
-      "community": 25
+      "community": 1
     },
     {
       "label": "RateLimitStore",
@@ -673,7 +673,7 @@
       "source_file": "middleware/rate_limit.go",
       "source_location": "L17",
       "id": "middleware_ratelimitstore",
-      "community": 25
+      "community": 1
     },
     {
       "label": "RateLimitConfig",
@@ -681,7 +681,7 @@
       "source_file": "middleware/rate_limit.go",
       "source_location": "L25",
       "id": "middleware_ratelimitconfig",
-      "community": 25
+      "community": 1
     },
     {
       "label": "RateLimitMiddleware()",
@@ -689,7 +689,7 @@
       "source_file": "middleware/rate_limit.go",
       "source_location": "L36",
       "id": "rate_limit_ratelimitmiddleware",
-      "community": 25
+      "community": 1
     },
     {
       "label": "RateLimitMiddlewareWithContext()",
@@ -697,7 +697,7 @@
       "source_file": "middleware/rate_limit.go",
       "source_location": "L89",
       "id": "rate_limit_ratelimitmiddlewarewithcontext",
-      "community": 25
+      "community": 1
     },
     {
       "label": "CustomRateLimitMiddleware()",
@@ -705,7 +705,7 @@
       "source_file": "middleware/rate_limit.go",
       "source_location": "L94",
       "id": "rate_limit_customratelimitmiddleware",
-      "community": 25
+      "community": 1
     },
     {
       "label": "TestJWTAuthMiddleware()",
@@ -713,7 +713,7 @@
       "source_file": "middleware/jwt_test.go",
       "source_location": "L14",
       "id": "jwt_test_testjwtauthmiddleware",
-      "community": 0
+      "community": 1
     },
     {
       "label": "context_keys.go",
@@ -721,7 +721,7 @@
       "source_file": "middleware/context_keys.go",
       "source_location": "L1",
       "id": "context_keys",
-      "community": 3
+      "community": 8
     },
     {
       "label": "CtxKey",
@@ -729,7 +729,7 @@
       "source_file": "middleware/context_keys.go",
       "source_location": "L10",
       "id": "middleware_ctxkey",
-      "community": 3
+      "community": 8
     },
     {
       "label": "TraceIDExtractor",
@@ -737,7 +737,7 @@
       "source_file": "middleware/context_keys.go",
       "source_location": "L21",
       "id": "middleware_traceidextractor",
-      "community": 3
+      "community": 8
     },
     {
       "label": "RegisterTraceIDExtractor()",
@@ -745,7 +745,7 @@
       "source_file": "middleware/context_keys.go",
       "source_location": "L29",
       "id": "context_keys_registertraceidextractor",
-      "community": 3
+      "community": 8
     },
     {
       "label": "GetTraceID()",
@@ -753,7 +753,7 @@
       "source_file": "middleware/context_keys.go",
       "source_location": "L36",
       "id": "context_keys_gettraceid",
-      "community": 3
+      "community": 8
     },
     {
       "label": "LogState",
@@ -761,7 +761,7 @@
       "source_file": "middleware/context_keys.go",
       "source_location": "L46",
       "id": "middleware_logstate",
-      "community": 3
+      "community": 8
     },
     {
       "label": ".Set()",
@@ -769,7 +769,7 @@
       "source_file": "middleware/context_keys.go",
       "source_location": "L53",
       "id": "middleware_logstate_set",
-      "community": 3
+      "community": 8
     },
     {
       "label": ".AddBreadcrumb()",
@@ -777,7 +777,7 @@
       "source_file": "middleware/context_keys.go",
       "source_location": "L62",
       "id": "middleware_logstate_addbreadcrumb",
-      "community": 3
+      "community": 8
     },
     {
       "label": ".SetUser()",
@@ -785,7 +785,7 @@
       "source_file": "middleware/context_keys.go",
       "source_location": "L68",
       "id": "middleware_logstate_setuser",
-      "community": 3
+      "community": 8
     },
     {
       "label": "GetLoggerFromContext()",
@@ -793,7 +793,7 @@
       "source_file": "middleware/context_keys.go",
       "source_location": "L75",
       "id": "context_keys_getloggerfromcontext",
-      "community": 3
+      "community": 8
     },
     {
       "label": "EnrichLogger()",
@@ -801,7 +801,7 @@
       "source_file": "middleware/context_keys.go",
       "source_location": "L83",
       "id": "context_keys_enrichlogger",
-      "community": 3
+      "community": 8
     },
     {
       "label": "AddBreadcrumb()",
@@ -809,7 +809,7 @@
       "source_file": "middleware/context_keys.go",
       "source_location": "L97",
       "id": "context_keys_addbreadcrumb",
-      "community": 3
+      "community": 8
     },
     {
       "label": "GetRequestIDFromContext()",
@@ -817,7 +817,7 @@
       "source_file": "middleware/context_keys.go",
       "source_location": "L103",
       "id": "context_keys_getrequestidfromcontext",
-      "community": 3
+      "community": 8
     },
     {
       "label": "trailing_slash_test.go",
@@ -825,7 +825,7 @@
       "source_file": "middleware/trailing_slash_test.go",
       "source_location": "L1",
       "id": "trailing_slash_test",
-      "community": 48
+      "community": 49
     },
     {
       "label": "TestTrailingSlashMiddleware()",
@@ -833,7 +833,7 @@
       "source_file": "middleware/trailing_slash_test.go",
       "source_location": "L12",
       "id": "trailing_slash_test_testtrailingslashmiddleware",
-      "community": 48
+      "community": 49
     },
     {
       "label": "authz_helpers.go",
@@ -841,7 +841,7 @@
       "source_file": "middleware/authz_helpers.go",
       "source_location": "L1",
       "id": "authz_helpers",
-      "community": 0
+      "community": 2
     },
     {
       "label": "GetAuthenticatedUser()",
@@ -849,7 +849,7 @@
       "source_file": "middleware/authz_helpers.go",
       "source_location": "L12",
       "id": "authz_helpers_getauthenticateduser",
-      "community": 0
+      "community": 2
     },
     {
       "label": "GetAuthenticatedUserID()",
@@ -857,7 +857,7 @@
       "source_file": "middleware/authz_helpers.go",
       "source_location": "L21",
       "id": "authz_helpers_getauthenticateduserid",
-      "community": 0
+      "community": 2
     },
     {
       "label": "csrf_test.go",
@@ -865,7 +865,7 @@
       "source_file": "middleware/csrf_test.go",
       "source_location": "L1",
       "id": "csrf_test",
-      "community": 49
+      "community": 50
     },
     {
       "label": "TestCSRFMiddleware()",
@@ -873,7 +873,7 @@
       "source_file": "middleware/csrf_test.go",
       "source_location": "L12",
       "id": "csrf_test_testcsrfmiddleware",
-      "community": 49
+      "community": 50
     },
     {
       "label": "request_id.go",
@@ -881,7 +881,7 @@
       "source_file": "middleware/request_id.go",
       "source_location": "L1",
       "id": "request_id",
-      "community": 50
+      "community": 51
     },
     {
       "label": "RequestIDMiddleware()",
@@ -889,7 +889,7 @@
       "source_file": "middleware/request_id.go",
       "source_location": "L11",
       "id": "request_id_requestidmiddleware",
-      "community": 50
+      "community": 51
     },
     {
       "label": "JWTAuthMiddleware()",
@@ -897,7 +897,7 @@
       "source_file": "middleware/jwt.go",
       "source_location": "L14",
       "id": "jwt_jwtauthmiddleware",
-      "community": 0
+      "community": 1
     },
     {
       "label": "trailing_slash.go",
@@ -905,7 +905,7 @@
       "source_file": "middleware/trailing_slash.go",
       "source_location": "L1",
       "id": "trailing_slash",
-      "community": 51
+      "community": 52
     },
     {
       "label": "TrailingSlashMiddleware()",
@@ -913,7 +913,7 @@
       "source_file": "middleware/trailing_slash.go",
       "source_location": "L9",
       "id": "trailing_slash_trailingslashmiddleware",
-      "community": 51
+      "community": 52
     },
     {
       "label": "authz.go",
@@ -921,7 +921,7 @@
       "source_file": "middleware/authz.go",
       "source_location": "L1",
       "id": "authz",
-      "community": 0
+      "community": 1
     },
     {
       "label": "AuthorizeRole()",
@@ -929,7 +929,7 @@
       "source_file": "middleware/authz.go",
       "source_location": "L12",
       "id": "authz_authorizerole",
-      "community": 0
+      "community": 1
     },
     {
       "label": "AuthenticatedUser",
@@ -937,7 +937,7 @@
       "source_file": "middleware/authz.go",
       "source_location": "L43",
       "id": "middleware_authenticateduser",
-      "community": 0
+      "community": 1
     },
     {
       "label": "GetUserFromContext()",
@@ -945,7 +945,31 @@
       "source_file": "middleware/authz.go",
       "source_location": "L50",
       "id": "authz_getuserfromcontext",
-      "community": 0
+      "community": 1
+    },
+    {
+      "label": "otel.go",
+      "file_type": "code",
+      "source_file": "middleware/otel/otel.go",
+      "source_location": "L1",
+      "id": "otel",
+      "community": 6
+    },
+    {
+      "label": "init()",
+      "file_type": "code",
+      "source_file": "middleware/otel/otel.go",
+      "source_location": "L12",
+      "id": "otel_init",
+      "community": 6
+    },
+    {
+      "label": "Middleware()",
+      "file_type": "code",
+      "source_file": "middleware/otel/otel.go",
+      "source_location": "L24",
+      "id": "otel_middleware",
+      "community": 6
     },
     {
       "label": "postgres.go",
@@ -953,7 +977,7 @@
       "source_file": "database/postgres/postgres.go",
       "source_location": "L1",
       "id": "postgres",
-      "community": 4
+      "community": 6
     },
     {
       "label": "DBConfig",
@@ -961,7 +985,7 @@
       "source_file": "database/postgres/postgres.go",
       "source_location": "L15",
       "id": "postgres_dbconfig",
-      "community": 4
+      "community": 6
     },
     {
       "label": "New()",
@@ -969,7 +993,7 @@
       "source_file": "database/postgres/postgres.go",
       "source_location": "L29",
       "id": "postgres_new",
-      "community": 4
+      "community": 6
     },
     {
       "label": "postgres_test.go",
@@ -977,7 +1001,7 @@
       "source_file": "database/postgres/postgres_test.go",
       "source_location": "L1",
       "id": "postgres_test",
-      "community": 4
+      "community": 6
     },
     {
       "label": "TestNewDatabase()",
@@ -985,7 +1009,7 @@
       "source_file": "database/postgres/postgres_test.go",
       "source_location": "L16",
       "id": "postgres_test_testnewdatabase",
-      "community": 4
+      "community": 6
     },
     {
       "label": "discord.go",
@@ -993,7 +1017,7 @@
       "source_file": "notify/discord.go",
       "source_location": "L1",
       "id": "discord",
-      "community": 28
+      "community": 31
     },
     {
       "label": "DiscordEmbedField",
@@ -1001,7 +1025,7 @@
       "source_file": "notify/discord.go",
       "source_location": "L12",
       "id": "notify_discordembedfield",
-      "community": 28
+      "community": 31
     },
     {
       "label": "DiscordEmbed",
@@ -1009,7 +1033,7 @@
       "source_file": "notify/discord.go",
       "source_location": "L19",
       "id": "notify_discordembed",
-      "community": 28
+      "community": 31
     },
     {
       "label": "DiscordWebhook",
@@ -1017,7 +1041,7 @@
       "source_file": "notify/discord.go",
       "source_location": "L28",
       "id": "notify_discordwebhook",
-      "community": 28
+      "community": 31
     },
     {
       "label": ".SendEmbed()",
@@ -1025,7 +1049,7 @@
       "source_file": "notify/discord.go",
       "source_location": "L34",
       "id": "notify_discordwebhook_sendembed",
-      "community": 28
+      "community": 31
     },
     {
       "label": "transport.go",
@@ -1033,7 +1057,7 @@
       "source_file": "httputil/transport.go",
       "source_location": "L1",
       "id": "transport",
-      "community": 21
+      "community": 25
     },
     {
       "label": "ResponseWriterWrapper",
@@ -1041,7 +1065,7 @@
       "source_file": "httputil/transport.go",
       "source_location": "L11",
       "id": "httputil_responsewriterwrapper",
-      "community": 21
+      "community": 25
     },
     {
       "label": ".WriteHeader()",
@@ -1049,7 +1073,7 @@
       "source_file": "httputil/transport.go",
       "source_location": "L18",
       "id": "httputil_responsewriterwrapper_writeheader",
-      "community": 21
+      "community": 25
     },
     {
       "label": ".Write()",
@@ -1057,7 +1081,7 @@
       "source_file": "httputil/transport.go",
       "source_location": "L24",
       "id": "httputil_responsewriterwrapper_write",
-      "community": 21
+      "community": 25
     },
     {
       "label": ".Flush()",
@@ -1065,7 +1089,7 @@
       "source_file": "httputil/transport.go",
       "source_location": "L32",
       "id": "httputil_responsewriterwrapper_flush",
-      "community": 21
+      "community": 25
     },
     {
       "label": "RetryRoundTripper",
@@ -1073,7 +1097,7 @@
       "source_file": "httputil/transport.go",
       "source_location": "L39",
       "id": "httputil_retryroundtripper",
-      "community": 21
+      "community": 25
     },
     {
       "label": ".RoundTrip()",
@@ -1081,7 +1105,7 @@
       "source_file": "httputil/transport.go",
       "source_location": "L47",
       "id": "httputil_retryroundtripper_roundtrip",
-      "community": 21
+      "community": 25
     },
     {
       "label": "transport_test.go",
@@ -1089,7 +1113,7 @@
       "source_file": "httputil/transport_test.go",
       "source_location": "L1",
       "id": "transport_test",
-      "community": 31
+      "community": 2
     },
     {
       "label": "mockRoundTripper",
@@ -1097,7 +1121,7 @@
       "source_file": "httputil/transport_test.go",
       "source_location": "L15",
       "id": "httputil_mockroundtripper",
-      "community": 31
+      "community": 2
     },
     {
       "label": ".RoundTrip()",
@@ -1105,7 +1129,7 @@
       "source_file": "httputil/transport_test.go",
       "source_location": "L21",
       "id": "httputil_mockroundtripper_roundtrip",
-      "community": 31
+      "community": 2
     },
     {
       "label": "TestRetryRoundTripper()",
@@ -1113,7 +1137,7 @@
       "source_file": "httputil/transport_test.go",
       "source_location": "L41",
       "id": "transport_test_testretryroundtripper",
-      "community": 31
+      "community": 2
     },
     {
       "label": "tracing_test.go",
@@ -1121,7 +1145,7 @@
       "source_file": "tracing/tracing_test.go",
       "source_location": "L1",
       "id": "tracing_test",
-      "community": 4
+      "community": 6
     },
     {
       "label": "TestInitTracer()",
@@ -1129,7 +1153,7 @@
       "source_file": "tracing/tracing_test.go",
       "source_location": "L10",
       "id": "tracing_test_testinittracer",
-      "community": 4
+      "community": 6
     },
     {
       "label": "tracing.go",
@@ -1137,7 +1161,7 @@
       "source_file": "tracing/tracing.go",
       "source_location": "L1",
       "id": "tracing",
-      "community": 4
+      "community": 6
     },
     {
       "label": "InitTracer()",
@@ -1145,7 +1169,7 @@
       "source_file": "tracing/tracing.go",
       "source_location": "L22",
       "id": "tracing_inittracer",
-      "community": 4
+      "community": 6
     },
     {
       "label": "crypto.go",
@@ -1153,7 +1177,7 @@
       "source_file": "crypto/crypto.go",
       "source_location": "L1",
       "id": "crypto",
-      "community": 29
+      "community": 7
     },
     {
       "label": "Encrypt()",
@@ -1161,7 +1185,7 @@
       "source_file": "crypto/crypto.go",
       "source_location": "L13",
       "id": "crypto_encrypt",
-      "community": 29
+      "community": 7
     },
     {
       "label": "Decrypt()",
@@ -1169,7 +1193,7 @@
       "source_file": "crypto/crypto.go",
       "source_location": "L34",
       "id": "crypto_decrypt",
-      "community": 29
+      "community": 7
     },
     {
       "label": "crypto_test.go",
@@ -1177,7 +1201,7 @@
       "source_file": "crypto/crypto_test.go",
       "source_location": "L1",
       "id": "crypto_test",
-      "community": 29
+      "community": 7
     },
     {
       "label": "TestEncryptDecrypt()",
@@ -1185,7 +1209,7 @@
       "source_file": "crypto/crypto_test.go",
       "source_location": "L12",
       "id": "crypto_test_testencryptdecrypt",
-      "community": 29
+      "community": 7
     },
     {
       "label": "logger.go",
@@ -1193,7 +1217,7 @@
       "source_file": "logging/logger.go",
       "source_location": "L1",
       "id": "logger",
-      "community": 12
+      "community": 16
     },
     {
       "label": "GormLogger",
@@ -1201,7 +1225,7 @@
       "source_file": "gormutil/logger.go",
       "source_location": "L14",
       "id": "gormutil_gormlogger",
-      "community": 12
+      "community": 16
     },
     {
       "label": ".LogMode()",
@@ -1209,7 +1233,7 @@
       "source_file": "gormutil/logger.go",
       "source_location": "L18",
       "id": "gormutil_gormlogger_logmode",
-      "community": 12
+      "community": 16
     },
     {
       "label": ".Info()",
@@ -1217,7 +1241,7 @@
       "source_file": "gormutil/logger.go",
       "source_location": "L22",
       "id": "gormutil_gormlogger_info",
-      "community": 12
+      "community": 16
     },
     {
       "label": ".Warn()",
@@ -1225,7 +1249,7 @@
       "source_file": "gormutil/logger.go",
       "source_location": "L26",
       "id": "gormutil_gormlogger_warn",
-      "community": 12
+      "community": 16
     },
     {
       "label": ".Error()",
@@ -1233,7 +1257,7 @@
       "source_file": "gormutil/logger.go",
       "source_location": "L30",
       "id": "gormutil_gormlogger_error",
-      "community": 12
+      "community": 16
     },
     {
       "label": ".Trace()",
@@ -1241,15 +1265,15 @@
       "source_file": "gormutil/logger.go",
       "source_location": "L34",
       "id": "gormutil_gormlogger_trace",
-      "community": 12
+      "community": 16
     },
     {
       "label": "repository_test.go",
       "file_type": "code",
-      "source_file": "gormutil/repository_test.go",
+      "source_file": "connections/repository_test.go",
       "source_location": "L1",
       "id": "repository_test",
-      "community": 41
+      "community": 32
     },
     {
       "label": "TestModel",
@@ -1257,7 +1281,7 @@
       "source_file": "gormutil/repository_test.go",
       "source_location": "L14",
       "id": "gormutil_testmodel",
-      "community": 41
+      "community": 32
     },
     {
       "label": "TestGenericRepository()",
@@ -1265,15 +1289,15 @@
       "source_file": "gormutil/repository_test.go",
       "source_location": "L19",
       "id": "repository_test_testgenericrepository",
-      "community": 41
+      "community": 32
     },
     {
       "label": "model.go",
       "file_type": "code",
-      "source_file": "gormutil/model.go",
+      "source_file": "connections/model.go",
       "source_location": "L1",
       "id": "model",
-      "community": 42
+      "community": 33
     },
     {
       "label": "BaseModel",
@@ -1281,7 +1305,7 @@
       "source_file": "gormutil/model.go",
       "source_location": "L11",
       "id": "gormutil_basemodel",
-      "community": 42
+      "community": 33
     },
     {
       "label": ".BeforeCreate()",
@@ -1289,7 +1313,7 @@
       "source_file": "gormutil/model.go",
       "source_location": "L19",
       "id": "gormutil_basemodel_beforecreate",
-      "community": 42
+      "community": 33
     },
     {
       "label": "tx.go",
@@ -1297,7 +1321,7 @@
       "source_file": "gormutil/tx.go",
       "source_location": "L1",
       "id": "tx",
-      "community": 32
+      "community": 34
     },
     {
       "label": "txKey",
@@ -1305,7 +1329,7 @@
       "source_file": "gormutil/tx.go",
       "source_location": "L9",
       "id": "gormutil_txkey",
-      "community": 32
+      "community": 34
     },
     {
       "label": "WithTransaction()",
@@ -1313,7 +1337,7 @@
       "source_file": "gormutil/tx.go",
       "source_location": "L12",
       "id": "tx_withtransaction",
-      "community": 32
+      "community": 34
     },
     {
       "label": "GetTransaction()",
@@ -1321,15 +1345,15 @@
       "source_file": "gormutil/tx.go",
       "source_location": "L17",
       "id": "tx_gettransaction",
-      "community": 32
+      "community": 34
     },
     {
       "label": "repository.go",
       "file_type": "code",
-      "source_file": "gormutil/repository.go",
+      "source_file": "connections/repository.go",
       "source_location": "L1",
       "id": "repository",
-      "community": 0
+      "community": 11
     },
     {
       "label": "Repository",
@@ -1337,7 +1361,7 @@
       "source_file": "gormutil/repository.go",
       "source_location": "L13",
       "id": "gormutil_repository",
-      "community": 0
+      "community": 11
     },
     {
       "label": "NewRepository()",
@@ -1345,7 +1369,7 @@
       "source_file": "gormutil/repository.go",
       "source_location": "L18",
       "id": "repository_newrepository",
-      "community": 0
+      "community": 11
     },
     {
       "label": "Repository[T]",
@@ -1353,7 +1377,7 @@
       "source_file": "gormutil/repository.go",
       "source_location": "L24",
       "id": "gormutil_repository_t",
-      "community": 8
+      "community": 12
     },
     {
       "label": ".Create()",
@@ -1361,7 +1385,7 @@
       "source_file": "gormutil/repository.go",
       "source_location": "L24",
       "id": "gormutil_repository_t_create",
-      "community": 8
+      "community": 12
     },
     {
       "label": ".FindByID()",
@@ -1369,7 +1393,7 @@
       "source_file": "gormutil/repository.go",
       "source_location": "L36",
       "id": "gormutil_repository_t_findbyid",
-      "community": 8
+      "community": 12
     },
     {
       "label": ".Update()",
@@ -1377,7 +1401,7 @@
       "source_file": "gormutil/repository.go",
       "source_location": "L50",
       "id": "gormutil_repository_t_update",
-      "community": 8
+      "community": 12
     },
     {
       "label": ".Delete()",
@@ -1385,7 +1409,7 @@
       "source_file": "gormutil/repository.go",
       "source_location": "L63",
       "id": "gormutil_repository_t_delete",
-      "community": 8
+      "community": 12
     },
     {
       "label": ".FindOneBy()",
@@ -1393,7 +1417,7 @@
       "source_file": "gormutil/repository.go",
       "source_location": "L75",
       "id": "gormutil_repository_t_findoneby",
-      "community": 8
+      "community": 12
     },
     {
       "label": ".Find()",
@@ -1401,7 +1425,7 @@
       "source_file": "gormutil/repository.go",
       "source_location": "L88",
       "id": "gormutil_repository_t_find",
-      "community": 8
+      "community": 12
     },
     {
       "label": ".FindAll()",
@@ -1409,7 +1433,7 @@
       "source_file": "gormutil/repository.go",
       "source_location": "L101",
       "id": "gormutil_repository_t_findall",
-      "community": 8
+      "community": 12
     },
     {
       "label": ".FindPaginated()",
@@ -1417,7 +1441,7 @@
       "source_file": "gormutil/repository.go",
       "source_location": "L115",
       "id": "gormutil_repository_t_findpaginated",
-      "community": 8
+      "community": 12
     },
     {
       "label": ".DB()",
@@ -1425,7 +1449,7 @@
       "source_file": "gormutil/repository.go",
       "source_location": "L145",
       "id": "gormutil_repository_t_db",
-      "community": 8
+      "community": 12
     },
     {
       "label": ".getDB()",
@@ -1433,7 +1457,7 @@
       "source_file": "gormutil/repository.go",
       "source_location": "L150",
       "id": "gormutil_repository_t_getdb",
-      "community": 8
+      "community": 12
     },
     {
       "label": "logger_test.go",
@@ -1441,7 +1465,7 @@
       "source_file": "logging/logger_test.go",
       "source_location": "L1",
       "id": "logger_test",
-      "community": 10
+      "community": 14
     },
     {
       "label": "TestGormLogger()",
@@ -1449,7 +1473,7 @@
       "source_file": "gormutil/logger_test.go",
       "source_location": "L17",
       "id": "logger_test_testgormlogger",
-      "community": 10
+      "community": 14
     },
     {
       "label": "zip.go",
@@ -1457,7 +1481,7 @@
       "source_file": "archive/zip.go",
       "source_location": "L1",
       "id": "zip",
-      "community": 5
+      "community": 9
     },
     {
       "label": "InMemFile",
@@ -1465,7 +1489,7 @@
       "source_file": "archive/zip.go",
       "source_location": "L15",
       "id": "archive_inmemfile",
-      "community": 5
+      "community": 9
     },
     {
       "label": ".Name()",
@@ -1473,7 +1497,7 @@
       "source_file": "archive/zip.go",
       "source_location": "L21",
       "id": "archive_inmemfile_name",
-      "community": 5
+      "community": 9
     },
     {
       "label": ".Size()",
@@ -1481,7 +1505,7 @@
       "source_file": "archive/zip.go",
       "source_location": "L22",
       "id": "archive_inmemfile_size",
-      "community": 5
+      "community": 9
     },
     {
       "label": ".Mode()",
@@ -1489,7 +1513,7 @@
       "source_file": "archive/zip.go",
       "source_location": "L23",
       "id": "archive_inmemfile_mode",
-      "community": 5
+      "community": 9
     },
     {
       "label": ".ModTime()",
@@ -1497,7 +1521,7 @@
       "source_file": "archive/zip.go",
       "source_location": "L24",
       "id": "archive_inmemfile_modtime",
-      "community": 5
+      "community": 9
     },
     {
       "label": ".IsDir()",
@@ -1505,7 +1529,7 @@
       "source_file": "archive/zip.go",
       "source_location": "L25",
       "id": "archive_inmemfile_isdir",
-      "community": 5
+      "community": 9
     },
     {
       "label": ".Sys()",
@@ -1513,7 +1537,7 @@
       "source_file": "archive/zip.go",
       "source_location": "L26",
       "id": "archive_inmemfile_sys",
-      "community": 5
+      "community": 9
     },
     {
       "label": "BufferFile",
@@ -1521,7 +1545,7 @@
       "source_file": "archive/zip.go",
       "source_location": "L29",
       "id": "archive_bufferfile",
-      "community": 5
+      "community": 9
     },
     {
       "label": ".Stat()",
@@ -1529,7 +1553,7 @@
       "source_file": "archive/zip.go",
       "source_location": "L34",
       "id": "archive_bufferfile_stat",
-      "community": 5
+      "community": 9
     },
     {
       "label": ".Close()",
@@ -1537,7 +1561,7 @@
       "source_file": "archive/zip.go",
       "source_location": "L35",
       "id": "archive_bufferfile_close",
-      "community": 5
+      "community": 9
     },
     {
       "label": "Archive()",
@@ -1545,7 +1569,7 @@
       "source_file": "archive/zip.go",
       "source_location": "L40",
       "id": "zip_archive",
-      "community": 5
+      "community": 9
     },
     {
       "label": "env.go",
@@ -1553,7 +1577,7 @@
       "source_file": "config/env.go",
       "source_location": "L1",
       "id": "env",
-      "community": 13
+      "community": 17
     },
     {
       "label": "Load()",
@@ -1561,7 +1585,7 @@
       "source_file": "config/env.go",
       "source_location": "L17",
       "id": "env_load",
-      "community": 13
+      "community": 17
     },
     {
       "label": "GetRequiredEnv()",
@@ -1569,7 +1593,7 @@
       "source_file": "config/env.go",
       "source_location": "L22",
       "id": "env_getrequiredenv",
-      "community": 13
+      "community": 17
     },
     {
       "label": "GetEnvAsInt()",
@@ -1577,7 +1601,7 @@
       "source_file": "config/env.go",
       "source_location": "L31",
       "id": "env_getenvasint",
-      "community": 13
+      "community": 17
     },
     {
       "label": "GetEnvAsBool()",
@@ -1585,7 +1609,7 @@
       "source_file": "config/env.go",
       "source_location": "L40",
       "id": "env_getenvasbool",
-      "community": 13
+      "community": 17
     },
     {
       "label": "GetEnvAsSlogLevel()",
@@ -1593,7 +1617,7 @@
       "source_file": "config/env.go",
       "source_location": "L49",
       "id": "env_getenvassloglevel",
-      "community": 13
+      "community": 17
     },
     {
       "label": "GetEnvAsHexBytes()",
@@ -1601,7 +1625,7 @@
       "source_file": "config/env.go",
       "source_location": "L59",
       "id": "env_getenvashexbytes",
-      "community": 13
+      "community": 17
     },
     {
       "label": "Parse()",
@@ -1609,7 +1633,7 @@
       "source_file": "config/env.go",
       "source_location": "L77",
       "id": "env_parse",
-      "community": 13
+      "community": 17
     },
     {
       "label": "GetEnvAsSlice()",
@@ -1617,7 +1641,7 @@
       "source_file": "config/env.go",
       "source_location": "L99",
       "id": "env_getenvasslice",
-      "community": 13
+      "community": 17
     },
     {
       "label": "env_test.go",
@@ -1625,7 +1649,7 @@
       "source_file": "config/env_test.go",
       "source_location": "L1",
       "id": "env_test",
-      "community": 18
+      "community": 23
     },
     {
       "label": "TestGetRequiredEnv()",
@@ -1633,7 +1657,7 @@
       "source_file": "config/env_test.go",
       "source_location": "L12",
       "id": "env_test_testgetrequiredenv",
-      "community": 18
+      "community": 23
     },
     {
       "label": "TestGetEnvAsInt()",
@@ -1641,7 +1665,7 @@
       "source_file": "config/env_test.go",
       "source_location": "L29",
       "id": "env_test_testgetenvasint",
-      "community": 18
+      "community": 23
     },
     {
       "label": "TestGetEnvAsBool()",
@@ -1649,7 +1673,7 @@
       "source_file": "config/env_test.go",
       "source_location": "L46",
       "id": "env_test_testgetenvasbool",
-      "community": 18
+      "community": 23
     },
     {
       "label": "TestGetEnvAsSlogLevel()",
@@ -1657,7 +1681,7 @@
       "source_file": "config/env_test.go",
       "source_location": "L66",
       "id": "env_test_testgetenvassloglevel",
-      "community": 18
+      "community": 23
     },
     {
       "label": "TestGetEnvAsHexBytes()",
@@ -1665,7 +1689,7 @@
       "source_file": "config/env_test.go",
       "source_location": "L83",
       "id": "env_test_testgetenvashexbytes",
-      "community": 18
+      "community": 23
     },
     {
       "label": "TestParse()",
@@ -1673,7 +1697,7 @@
       "source_file": "config/env_test.go",
       "source_location": "L120",
       "id": "env_test_testparse",
-      "community": 18
+      "community": 23
     },
     {
       "label": "TestGetEnvAsSlice()",
@@ -1681,7 +1705,7 @@
       "source_file": "config/env_test.go",
       "source_location": "L152",
       "id": "env_test_testgetenvasslice",
-      "community": 18
+      "community": 23
     },
     {
       "label": "structs.go",
@@ -1689,7 +1713,7 @@
       "source_file": "config/structs.go",
       "source_location": "L1",
       "id": "structs",
-      "community": 2
+      "community": 5
     },
     {
       "label": "GitHubConfig",
@@ -1697,7 +1721,7 @@
       "source_file": "config/structs.go",
       "source_location": "L9",
       "id": "config_githubconfig",
-      "community": 2
+      "community": 5
     },
     {
       "label": "GitLabConfig",
@@ -1705,7 +1729,7 @@
       "source_file": "config/structs.go",
       "source_location": "L20",
       "id": "config_gitlabconfig",
-      "community": 2
+      "community": 5
     },
     {
       "label": "BitbucketConfig",
@@ -1713,7 +1737,7 @@
       "source_file": "config/structs.go",
       "source_location": "L26",
       "id": "config_bitbucketconfig",
-      "community": 2
+      "community": 5
     },
     {
       "label": "MicrosoftConfig",
@@ -1721,7 +1745,7 @@
       "source_file": "config/structs.go",
       "source_location": "L32",
       "id": "config_microsoftconfig",
-      "community": 2
+      "community": 5
     },
     {
       "label": "RateLimitConfig",
@@ -1729,7 +1753,7 @@
       "source_file": "config/structs.go",
       "source_location": "L38",
       "id": "config_ratelimitconfig",
-      "community": 2
+      "community": 5
     },
     {
       "label": "CorsConfig",
@@ -1737,7 +1761,7 @@
       "source_file": "config/structs.go",
       "source_location": "L45",
       "id": "config_corsconfig",
-      "community": 2
+      "community": 5
     },
     {
       "label": "GoogleConfig",
@@ -1745,7 +1769,7 @@
       "source_file": "config/structs.go",
       "source_location": "L52",
       "id": "config_googleconfig",
-      "community": 2
+      "community": 5
     },
     {
       "label": "JWTConfig",
@@ -1753,7 +1777,7 @@
       "source_file": "config/structs.go",
       "source_location": "L58",
       "id": "config_jwtconfig",
-      "community": 2
+      "community": 5
     },
     {
       "label": "SessionConfig",
@@ -1761,7 +1785,7 @@
       "source_file": "config/structs.go",
       "source_location": "L64",
       "id": "config_sessionconfig",
-      "community": 2
+      "community": 5
     },
     {
       "label": "ServerConfig",
@@ -1769,7 +1793,7 @@
       "source_file": "config/structs.go",
       "source_location": "L69",
       "id": "config_serverconfig",
-      "community": 2
+      "community": 5
     },
     {
       "label": "DatabaseConfig",
@@ -1777,7 +1801,7 @@
       "source_file": "config/structs.go",
       "source_location": "L76",
       "id": "config_databaseconfig",
-      "community": 2
+      "community": 5
     },
     {
       "label": "Level",
@@ -1785,7 +1809,7 @@
       "source_file": "config/structs.go",
       "source_location": "L89",
       "id": "config_level",
-      "community": 2
+      "community": 5
     },
     {
       "label": ".UnmarshalText()",
@@ -1793,7 +1817,7 @@
       "source_file": "config/structs.go",
       "source_location": "L91",
       "id": "config_level_unmarshaltext",
-      "community": 2
+      "community": 5
     },
     {
       "label": ".Slog()",
@@ -1801,7 +1825,7 @@
       "source_file": "config/structs.go",
       "source_location": "L106",
       "id": "config_level_slog",
-      "community": 2
+      "community": 5
     },
     {
       "label": "LoggerConfig",
@@ -1809,7 +1833,7 @@
       "source_file": "config/structs.go",
       "source_location": "L111",
       "id": "config_loggerconfig",
-      "community": 2
+      "community": 5
     },
     {
       "label": "RedisConfig",
@@ -1817,7 +1841,7 @@
       "source_file": "config/structs.go",
       "source_location": "L116",
       "id": "config_redisconfig",
-      "community": 2
+      "community": 5
     },
     {
       "label": "goth_initializer_test.go",
@@ -1825,7 +1849,7 @@
       "source_file": "auth/goth_initializer_test.go",
       "source_location": "L1",
       "id": "goth_initializer_test",
-      "community": 52
+      "community": 53
     },
     {
       "label": "TestGothInitializer()",
@@ -1833,7 +1857,7 @@
       "source_file": "auth/goth_initializer_test.go",
       "source_location": "L12",
       "id": "goth_initializer_test_testgothinitializer",
-      "community": 52
+      "community": 53
     },
     {
       "label": "goth_initializer.go",
@@ -1841,7 +1865,7 @@
       "source_file": "auth/goth_initializer.go",
       "source_location": "L1",
       "id": "goth_initializer",
-      "community": 6
+      "community": 10
     },
     {
       "label": "GothProvider",
@@ -1849,7 +1873,7 @@
       "source_file": "auth/goth_initializer.go",
       "source_location": "L16",
       "id": "auth_gothprovider",
-      "community": 6
+      "community": 10
     },
     {
       "label": "RealGothProvider",
@@ -1857,7 +1881,7 @@
       "source_file": "auth/goth_initializer.go",
       "source_location": "L24",
       "id": "auth_realgothprovider",
-      "community": 6
+      "community": 10
     },
     {
       "label": ".CompleteUserAuth()",
@@ -1865,7 +1889,7 @@
       "source_file": "auth/goth_initializer.go",
       "source_location": "L26",
       "id": "auth_realgothprovider_completeuserauth",
-      "community": 6
+      "community": 10
     },
     {
       "label": ".BeginAuthHandler()",
@@ -1873,7 +1897,7 @@
       "source_file": "auth/goth_initializer.go",
       "source_location": "L30",
       "id": "auth_realgothprovider_beginauthhandler",
-      "community": 6
+      "community": 10
     },
     {
       "label": ".Logout()",
@@ -1881,7 +1905,7 @@
       "source_file": "auth/goth_initializer.go",
       "source_location": "L34",
       "id": "auth_realgothprovider_logout",
-      "community": 6
+      "community": 10
     },
     {
       "label": ".GetSession()",
@@ -1889,7 +1913,7 @@
       "source_file": "auth/goth_initializer.go",
       "source_location": "L38",
       "id": "auth_realgothprovider_getsession",
-      "community": 6
+      "community": 10
     },
     {
       "label": "GothConfig",
@@ -1897,7 +1921,7 @@
       "source_file": "auth/goth_initializer.go",
       "source_location": "L43",
       "id": "auth_gothconfig",
-      "community": 6
+      "community": 10
     },
     {
       "label": "OAuthProviderInitializer",
@@ -1905,7 +1929,7 @@
       "source_file": "auth/goth_initializer.go",
       "source_location": "L65",
       "id": "auth_oauthproviderinitializer",
-      "community": 6
+      "community": 10
     },
     {
       "label": "GothInitializer",
@@ -1913,7 +1937,7 @@
       "source_file": "auth/goth_initializer.go",
       "source_location": "L70",
       "id": "auth_gothinitializer",
-      "community": 6
+      "community": 10
     },
     {
       "label": "NewGothInitializer()",
@@ -1921,7 +1945,7 @@
       "source_file": "auth/goth_initializer.go",
       "source_location": "L75",
       "id": "goth_initializer_newgothinitializer",
-      "community": 6
+      "community": 10
     },
     {
       "label": ".Init()",
@@ -1929,7 +1953,7 @@
       "source_file": "auth/goth_initializer.go",
       "source_location": "L87",
       "id": "auth_gothinitializer_init",
-      "community": 6
+      "community": 10
     },
     {
       "label": "cloner.go",
@@ -1937,39 +1961,39 @@
       "source_file": "gitutil/cloner.go",
       "source_location": "L1",
       "id": "cloner",
-      "community": 30
+      "community": 27
     },
     {
       "label": "GitCloner",
       "file_type": "code",
       "source_file": "gitutil/cloner.go",
-      "source_location": "L9",
+      "source_location": "L10",
       "id": "gitutil_gitcloner",
-      "community": 30
+      "community": 27
     },
     {
       "label": "DefaultGitCloner",
       "file_type": "code",
       "source_file": "gitutil/cloner.go",
-      "source_location": "L14",
+      "source_location": "L15",
       "id": "gitutil_defaultgitcloner",
-      "community": 30
+      "community": 27
     },
     {
       "label": "NewDefaultGitCloner()",
       "file_type": "code",
       "source_file": "gitutil/cloner.go",
-      "source_location": "L17",
+      "source_location": "L18",
       "id": "cloner_newdefaultgitcloner",
-      "community": 30
+      "community": 27
     },
     {
       "label": ".Clone()",
       "file_type": "code",
       "source_file": "gitutil/cloner.go",
-      "source_location": "L22",
+      "source_location": "L23",
       "id": "gitutil_defaultgitcloner_clone",
-      "community": 30
+      "community": 27
     },
     {
       "label": "random.go",
@@ -1977,7 +2001,7 @@
       "source_file": "strutil/random.go",
       "source_location": "L1",
       "id": "random",
-      "community": 53
+      "community": 54
     },
     {
       "label": "RandomString()",
@@ -1985,7 +2009,7 @@
       "source_file": "strutil/random.go",
       "source_location": "L15",
       "id": "random_randomstring",
-      "community": 53
+      "community": 54
     },
     {
       "label": "slug_test.go",
@@ -1993,7 +2017,7 @@
       "source_file": "strutil/slug_test.go",
       "source_location": "L1",
       "id": "slug_test",
-      "community": 54
+      "community": 55
     },
     {
       "label": "TestSlugify()",
@@ -2001,7 +2025,7 @@
       "source_file": "strutil/slug_test.go",
       "source_location": "L10",
       "id": "slug_test_testslugify",
-      "community": 54
+      "community": 55
     },
     {
       "label": "slug.go",
@@ -2009,7 +2033,7 @@
       "source_file": "strutil/slug.go",
       "source_location": "L1",
       "id": "slug",
-      "community": 43
+      "community": 44
     },
     {
       "label": "Slugify()",
@@ -2017,7 +2041,7 @@
       "source_file": "strutil/slug.go",
       "source_location": "L15",
       "id": "slug_slugify",
-      "community": 43
+      "community": 44
     },
     {
       "label": "RandomSuffix()",
@@ -2025,7 +2049,7 @@
       "source_file": "strutil/slug.go",
       "source_location": "L23",
       "id": "slug_randomsuffix",
-      "community": 43
+      "community": 44
     },
     {
       "label": "server.go",
@@ -2033,7 +2057,7 @@
       "source_file": "worker/server.go",
       "source_location": "L1",
       "id": "server",
-      "community": 9
+      "community": 13
     },
     {
       "label": "Server",
@@ -2041,7 +2065,7 @@
       "source_file": "server/server.go",
       "source_location": "L18",
       "id": "server_server",
-      "community": 9
+      "community": 13
     },
     {
       "label": "New()",
@@ -2049,7 +2073,7 @@
       "source_file": "server/server.go",
       "source_location": "L24",
       "id": "server_new",
-      "community": 9
+      "community": 13
     },
     {
       "label": ".Start()",
@@ -2057,7 +2081,7 @@
       "source_file": "server/server.go",
       "source_location": "L39",
       "id": "server_server_start",
-      "community": 9
+      "community": 13
     },
     {
       "label": "AddGracefulShutdownGoroutine()",
@@ -2065,7 +2089,7 @@
       "source_file": "server/server.go",
       "source_location": "L73",
       "id": "server_addgracefulshutdowngoroutine",
-      "community": 9
+      "community": 13
     },
     {
       "label": "DoneGracefulShutdownGoroutine()",
@@ -2073,7 +2097,7 @@
       "source_file": "server/server.go",
       "source_location": "L78",
       "id": "server_donegracefulshutdowngoroutine",
-      "community": 9
+      "community": 13
     },
     {
       "label": "server_test.go",
@@ -2081,7 +2105,7 @@
       "source_file": "server/server_test.go",
       "source_location": "L1",
       "id": "server_test",
-      "community": 55
+      "community": 56
     },
     {
       "label": "TestServer_StartAndShutdown()",
@@ -2089,15 +2113,15 @@
       "source_file": "server/server_test.go",
       "source_location": "L10",
       "id": "server_test_testserver_startandshutdown",
-      "community": 55
+      "community": 56
     },
     {
       "label": "service.go",
       "file_type": "code",
-      "source_file": "gcp/service.go",
+      "source_file": "connections/service.go",
       "source_location": "L1",
       "id": "service",
-      "community": 7
+      "community": 0
     },
     {
       "label": "Service",
@@ -2105,7 +2129,7 @@
       "source_file": "gcp/service.go",
       "source_location": "L12",
       "id": "gcp_service",
-      "community": 7
+      "community": 0
     },
     {
       "label": "gcpService",
@@ -2113,7 +2137,7 @@
       "source_file": "gcp/storage.go",
       "source_location": "L11",
       "id": "gcp_gcpservice",
-      "community": 7
+      "community": 0
     },
     {
       "label": "NewService()",
@@ -2121,7 +2145,7 @@
       "source_file": "gcp/service.go",
       "source_location": "L49",
       "id": "service_newservice",
-      "community": 7
+      "community": 0
     },
     {
       "label": ".Close()",
@@ -2129,7 +2153,7 @@
       "source_file": "gcp/service.go",
       "source_location": "L82",
       "id": "gcp_gcpservice_close",
-      "community": 7
+      "community": 0
     },
     {
       "label": "run.go",
@@ -2137,7 +2161,7 @@
       "source_file": "gcp/run.go",
       "source_location": "L1",
       "id": "run",
-      "community": 59
+      "community": 61
     },
     {
       "label": ".DeployService()",
@@ -2145,7 +2169,7 @@
       "source_file": "gcp/run.go",
       "source_location": "L14",
       "id": "gcp_gcpservice_deployservice",
-      "community": 7
+      "community": 0
     },
     {
       "label": ".ListServices()",
@@ -2153,7 +2177,7 @@
       "source_file": "gcp/run.go",
       "source_location": "L136",
       "id": "gcp_gcpservice_listservices",
-      "community": 7
+      "community": 0
     },
     {
       "label": ".DeleteService()",
@@ -2161,7 +2185,7 @@
       "source_file": "gcp/run.go",
       "source_location": "L161",
       "id": "gcp_gcpservice_deleteservice",
-      "community": 7
+      "community": 0
     },
     {
       "label": "mock_Service.go",
@@ -2169,7 +2193,7 @@
       "source_file": "gcp/mock_Service.go",
       "source_location": "L1",
       "id": "mock_service",
-      "community": 11
+      "community": 15
     },
     {
       "label": "MockService",
@@ -2177,7 +2201,7 @@
       "source_file": "gcp/mock_Service.go",
       "source_location": "L12",
       "id": "gcp_mockservice",
-      "community": 11
+      "community": 15
     },
     {
       "label": ".Close()",
@@ -2185,7 +2209,7 @@
       "source_file": "gcp/mock_Service.go",
       "source_location": "L17",
       "id": "gcp_mockservice_close",
-      "community": 11
+      "community": 15
     },
     {
       "label": ".DeleteService()",
@@ -2193,7 +2217,7 @@
       "source_file": "gcp/mock_Service.go",
       "source_location": "L35",
       "id": "gcp_mockservice_deleteservice",
-      "community": 11
+      "community": 15
     },
     {
       "label": ".DeployService()",
@@ -2201,7 +2225,7 @@
       "source_file": "gcp/mock_Service.go",
       "source_location": "L53",
       "id": "gcp_mockservice_deployservice",
-      "community": 11
+      "community": 15
     },
     {
       "label": ".GetBuildLogs()",
@@ -2209,7 +2233,7 @@
       "source_file": "gcp/mock_Service.go",
       "source_location": "L81",
       "id": "gcp_mockservice_getbuildlogs",
-      "community": 11
+      "community": 15
     },
     {
       "label": ".ListServices()",
@@ -2217,7 +2241,7 @@
       "source_file": "gcp/mock_Service.go",
       "source_location": "L109",
       "id": "gcp_mockservice_listservices",
-      "community": 11
+      "community": 15
     },
     {
       "label": ".TriggerBuild()",
@@ -2225,7 +2249,7 @@
       "source_file": "gcp/mock_Service.go",
       "source_location": "L139",
       "id": "gcp_mockservice_triggerbuild",
-      "community": 11
+      "community": 15
     },
     {
       "label": ".UploadSource()",
@@ -2233,7 +2257,7 @@
       "source_file": "gcp/mock_Service.go",
       "source_location": "L181",
       "id": "gcp_mockservice_uploadsource",
-      "community": 11
+      "community": 15
     },
     {
       "label": "NewMockService()",
@@ -2241,7 +2265,7 @@
       "source_file": "gcp/mock_Service.go",
       "source_location": "L210",
       "id": "mock_service_newmockservice",
-      "community": 11
+      "community": 15
     },
     {
       "label": "build.go",
@@ -2249,7 +2273,7 @@
       "source_file": "gcp/build.go",
       "source_location": "L1",
       "id": "build",
-      "community": 60
+      "community": 62
     },
     {
       "label": ".TriggerBuild()",
@@ -2257,7 +2281,7 @@
       "source_file": "gcp/build.go",
       "source_location": "L15",
       "id": "gcp_gcpservice_triggerbuild",
-      "community": 7
+      "community": 0
     },
     {
       "label": ".GetBuildLogs()",
@@ -2265,15 +2289,15 @@
       "source_file": "gcp/build.go",
       "source_location": "L79",
       "id": "gcp_gcpservice_getbuildlogs",
-      "community": 7
+      "community": 0
     },
     {
       "label": "service_test.go",
       "file_type": "code",
-      "source_file": "gcp/service_test.go",
+      "source_file": "connections/service_test.go",
       "source_location": "L1",
       "id": "service_test",
-      "community": 56
+      "community": 7
     },
     {
       "label": "TestGCPService_CoveragePlaceholder()",
@@ -2281,15 +2305,15 @@
       "source_file": "gcp/service_test.go",
       "source_location": "L23",
       "id": "service_test_testgcpservice_coverageplaceholder",
-      "community": 56
+      "community": 7
     },
     {
       "label": "storage.go",
       "file_type": "code",
-      "source_file": "gcp/storage.go",
+      "source_file": "connections/storage.go",
       "source_location": "L1",
       "id": "storage",
-      "community": 7
+      "community": 0
     },
     {
       "label": ".UploadSource()",
@@ -2297,6 +2321,430 @@
       "source_file": "gcp/storage.go",
       "source_location": "L11",
       "id": "gcp_gcpservice_uploadsource",
+      "community": 0
+    },
+    {
+      "label": "ConnectionService",
+      "file_type": "code",
+      "source_file": "connections/service.go",
+      "source_location": "L14",
+      "id": "connections_connectionservice",
+      "community": 0
+    },
+    {
+      "label": "NewConnectionService()",
+      "file_type": "code",
+      "source_file": "connections/service.go",
+      "source_location": "L34",
+      "id": "service_newconnectionservice",
+      "community": 0
+    },
+    {
+      "label": ".SaveConnection()",
+      "file_type": "code",
+      "source_file": "connections/service.go",
+      "source_location": "L42",
+      "id": "connections_connectionservice_saveconnection",
+      "community": 0
+    },
+    {
+      "label": ".GetConnection()",
+      "file_type": "code",
+      "source_file": "connections/service.go",
+      "source_location": "L79",
+      "id": "connections_connectionservice_getconnection",
+      "community": 0
+    },
+    {
+      "label": ".GetConnectionByProviderID()",
+      "file_type": "code",
+      "source_file": "connections/service.go",
+      "source_location": "L83",
+      "id": "connections_connectionservice_getconnectionbyproviderid",
+      "community": 0
+    },
+    {
+      "label": ".GetUserConnections()",
+      "file_type": "code",
+      "source_file": "connections/service.go",
+      "source_location": "L87",
+      "id": "connections_connectionservice_getuserconnections",
+      "community": 0
+    },
+    {
+      "label": ".SaveInstallation()",
+      "file_type": "code",
+      "source_file": "connections/service.go",
+      "source_location": "L91",
+      "id": "connections_connectionservice_saveinstallation",
+      "community": 0
+    },
+    {
+      "label": ".ensureValidToken()",
+      "file_type": "code",
+      "source_file": "connections/service.go",
+      "source_location": "L100",
+      "id": "connections_connectionservice_ensurevalidtoken",
+      "community": 0
+    },
+    {
+      "label": ".ListUserRepositories()",
+      "file_type": "code",
+      "source_file": "connections/service.go",
+      "source_location": "L140",
+      "id": "connections_connectionservice_listuserrepositories",
+      "community": 0
+    },
+    {
+      "label": ".ListUserRepositoriesPaginated()",
+      "file_type": "code",
+      "source_file": "connections/service.go",
+      "source_location": "L161",
+      "id": "connections_connectionservice_listuserrepositoriespaginated",
+      "community": 0
+    },
+    {
+      "label": ".ListUserNamespaces()",
+      "file_type": "code",
+      "source_file": "connections/service.go",
+      "source_location": "L187",
+      "id": "connections_connectionservice_listusernamespaces",
+      "community": 0
+    },
+    {
+      "label": ".ListRepositoryContents()",
+      "file_type": "code",
+      "source_file": "connections/service.go",
+      "source_location": "L208",
+      "id": "connections_connectionservice_listrepositorycontents",
+      "community": 0
+    },
+    {
+      "label": ".DeleteConnection()",
+      "file_type": "code",
+      "source_file": "connections/service.go",
+      "source_location": "L227",
+      "id": "connections_connectionservice_deleteconnection",
+      "community": 0
+    },
+    {
+      "label": "TestConnectionService()",
+      "file_type": "code",
+      "source_file": "connections/service_test.go",
+      "source_location": "L18",
+      "id": "service_test_testconnectionservice",
+      "community": 7
+    },
+    {
+      "label": "ConnectionStorage",
+      "file_type": "code",
+      "source_file": "connections/storage.go",
+      "source_location": "L10",
+      "id": "connections_connectionstorage",
+      "community": 0
+    },
+    {
+      "label": "TestPluginRepository()",
+      "file_type": "code",
+      "source_file": "connections/repository_test.go",
+      "source_location": "L14",
+      "id": "repository_test_testpluginrepository",
+      "community": 32
+    },
+    {
+      "label": "ExternalConnection",
+      "file_type": "code",
+      "source_file": "connections/model.go",
+      "source_location": "L11",
+      "id": "connections_externalconnection",
+      "community": 33
+    },
+    {
+      "label": "connectionRepository",
+      "file_type": "code",
+      "source_file": "connections/repository.go",
+      "source_location": "L12",
+      "id": "connections_connectionrepository",
+      "community": 11
+    },
+    {
+      "label": "NewConnectionRepository()",
+      "file_type": "code",
+      "source_file": "connections/repository.go",
+      "source_location": "L16",
+      "id": "repository_newconnectionrepository",
+      "community": 11
+    },
+    {
+      "label": ".SaveConnection()",
+      "file_type": "code",
+      "source_file": "connections/repository.go",
+      "source_location": "L22",
+      "id": "connections_connectionrepository_saveconnection",
+      "community": 11
+    },
+    {
+      "label": ".GetConnection()",
+      "file_type": "code",
+      "source_file": "connections/repository.go",
+      "source_location": "L34",
+      "id": "connections_connectionrepository_getconnection",
+      "community": 11
+    },
+    {
+      "label": ".GetConnectionByProviderID()",
+      "file_type": "code",
+      "source_file": "connections/repository.go",
+      "source_location": "L38",
+      "id": "connections_connectionrepository_getconnectionbyproviderid",
+      "community": 11
+    },
+    {
+      "label": ".ListConnections()",
+      "file_type": "code",
+      "source_file": "connections/repository.go",
+      "source_location": "L42",
+      "id": "connections_connectionrepository_listconnections",
+      "community": 11
+    },
+    {
+      "label": ".UpdateInstallationID()",
+      "file_type": "code",
+      "source_file": "connections/repository.go",
+      "source_location": "L46",
+      "id": "connections_connectionrepository_updateinstallationid",
+      "community": 11
+    },
+    {
+      "label": ".DeleteConnection()",
+      "file_type": "code",
+      "source_file": "connections/repository.go",
+      "source_location": "L59",
+      "id": "connections_connectionrepository_deleteconnection",
+      "community": 11
+    },
+    {
+      "label": "github_test.go",
+      "file_type": "code",
+      "source_file": "connections/clients/github_test.go",
+      "source_location": "L1",
+      "id": "github_test",
+      "community": 35
+    },
+    {
+      "label": "TestGitHubClient_ListRepositories()",
+      "file_type": "code",
+      "source_file": "connections/clients/github_test.go",
+      "source_location": "L13",
+      "id": "github_test_testgithubclient_listrepositories",
+      "community": 35
+    },
+    {
+      "label": "TestGitHubClient_ListNamespaces()",
+      "file_type": "code",
+      "source_file": "connections/clients/github_test.go",
+      "source_location": "L46",
+      "id": "github_test_testgithubclient_listnamespaces",
+      "community": 35
+    },
+    {
+      "label": "TestGitHubClient_Errors()",
+      "file_type": "code",
+      "source_file": "connections/clients/github_test.go",
+      "source_location": "L90",
+      "id": "github_test_testgithubclient_errors",
+      "community": 35
+    },
+    {
+      "label": "github.go",
+      "file_type": "code",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L1",
+      "id": "github",
+      "community": 3
+    },
+    {
+      "label": "githubRepo",
+      "file_type": "code",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L21",
+      "id": "clients_githubrepo",
+      "community": 3
+    },
+    {
+      "label": "githubRepoWrapper",
+      "file_type": "code",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L30",
+      "id": "clients_githubrepowrapper",
+      "community": 3
+    },
+    {
+      "label": ".toRepository()",
+      "file_type": "code",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L35",
+      "id": "clients_githubrepo_torepository",
+      "community": 3
+    },
+    {
+      "label": "GitHubClient",
+      "file_type": "code",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L45",
+      "id": "clients_githubclient",
+      "community": 3
+    },
+    {
+      "label": "NewGitHubClient()",
+      "file_type": "code",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L54",
+      "id": "github_newgithubclient",
+      "community": 3
+    },
+    {
+      "label": ".WithAppAuth()",
+      "file_type": "code",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L63",
+      "id": "clients_githubclient_withappauth",
+      "community": 3
+    },
+    {
+      "label": "extractNextPageURL()",
+      "file_type": "code",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L69",
+      "id": "github_extractnextpageurl",
+      "community": 3
+    },
+    {
+      "label": "isInstallationContext()",
+      "file_type": "code",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L90",
+      "id": "github_isinstallationcontext",
+      "community": 3
+    },
+    {
+      "label": ".ensureToken()",
+      "file_type": "code",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L97",
+      "id": "clients_githubclient_ensuretoken",
+      "community": 3
+    },
+    {
+      "label": ".generateJWT()",
+      "file_type": "code",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L104",
+      "id": "clients_githubclient_generatejwt",
+      "community": 3
+    },
+    {
+      "label": ".GenerateInstallationToken()",
+      "file_type": "code",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L141",
+      "id": "clients_githubclient_generateinstallationtoken",
+      "community": 3
+    },
+    {
+      "label": ".ListRepositories()",
+      "file_type": "code",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L188",
+      "id": "clients_githubclient_listrepositories",
+      "community": 3
+    },
+    {
+      "label": ".ListRepositoriesPaginated()",
+      "file_type": "code",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L248",
+      "id": "clients_githubclient_listrepositoriespaginated",
+      "community": 3
+    },
+    {
+      "label": ".SearchRepositories()",
+      "file_type": "code",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L310",
+      "id": "clients_githubclient_searchrepositories",
+      "community": 3
+    },
+    {
+      "label": ".ListNamespaces()",
+      "file_type": "code",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L363",
+      "id": "clients_githubclient_listnamespaces",
+      "community": 3
+    },
+    {
+      "label": ".RefreshToken()",
+      "file_type": "code",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L572",
+      "id": "clients_githubclient_refreshtoken",
+      "community": 3
+    },
+    {
+      "label": ".ListContents()",
+      "file_type": "code",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L628",
+      "id": "clients_githubclient_listcontents",
+      "community": 3
+    },
+    {
+      "label": "types.go",
+      "file_type": "code",
+      "source_file": "connections/types/types.go",
+      "source_location": "L1",
+      "id": "types",
+      "community": 7
+    },
+    {
+      "label": "TokenRefreshResponse",
+      "file_type": "code",
+      "source_file": "connections/types/types.go",
+      "source_location": "L8",
+      "id": "types_tokenrefreshresponse",
+      "community": 7
+    },
+    {
+      "label": "ProviderClient",
+      "file_type": "code",
+      "source_file": "connections/types/types.go",
+      "source_location": "L14",
+      "id": "types_providerclient",
+      "community": 7
+    },
+    {
+      "label": "ContentItem",
+      "file_type": "code",
+      "source_file": "connections/types/types.go",
+      "source_location": "L23",
+      "id": "types_contentitem",
+      "community": 7
+    },
+    {
+      "label": "Repository",
+      "file_type": "code",
+      "source_file": "connections/types/types.go",
+      "source_location": "L30",
+      "id": "types_repository",
+      "community": 7
+    },
+    {
+      "label": "Namespace",
+      "file_type": "code",
+      "source_file": "connections/types/types.go",
+      "source_location": "L38",
+      "id": "types_namespace",
       "community": 7
     },
     {
@@ -2305,7 +2753,7 @@
       "source_file": "request/binder_test.go",
       "source_location": "L1",
       "id": "binder_test",
-      "community": 33
+      "community": 36
     },
     {
       "label": "TestUser",
@@ -2313,7 +2761,7 @@
       "source_file": "request/binder_test.go",
       "source_location": "L14",
       "id": "request_testuser",
-      "community": 33
+      "community": 36
     },
     {
       "label": "TestDecodeAndValidate()",
@@ -2321,7 +2769,7 @@
       "source_file": "request/binder_test.go",
       "source_location": "L22",
       "id": "binder_test_testdecodeandvalidate",
-      "community": 33
+      "community": 36
     },
     {
       "label": "TestBinder_New()",
@@ -2329,7 +2777,7 @@
       "source_file": "request/binder_test.go",
       "source_location": "L121",
       "id": "binder_test_testbinder_new",
-      "community": 33
+      "community": 36
     },
     {
       "label": "binder.go",
@@ -2337,7 +2785,7 @@
       "source_file": "request/binder.go",
       "source_location": "L1",
       "id": "binder",
-      "community": 22
+      "community": 26
     },
     {
       "label": "Binder",
@@ -2345,7 +2793,7 @@
       "source_file": "request/binder.go",
       "source_location": "L16",
       "id": "request_binder",
-      "community": 22
+      "community": 26
     },
     {
       "label": "New()",
@@ -2353,7 +2801,7 @@
       "source_file": "request/binder.go",
       "source_location": "L21",
       "id": "binder_new",
-      "community": 22
+      "community": 26
     },
     {
       "label": "DecodeAndValidate()",
@@ -2361,7 +2809,7 @@
       "source_file": "request/binder.go",
       "source_location": "L58",
       "id": "binder_decodeandvalidate",
-      "community": 22
+      "community": 26
     },
     {
       "label": ".DecodeAndValidate()",
@@ -2369,7 +2817,7 @@
       "source_file": "request/binder.go",
       "source_location": "L63",
       "id": "request_binder_decodeandvalidate",
-      "community": 22
+      "community": 26
     },
     {
       "label": ".Validate()",
@@ -2377,7 +2825,7 @@
       "source_file": "request/binder.go",
       "source_location": "L94",
       "id": "request_binder_validate",
-      "community": 22
+      "community": 26
     },
     {
       "label": ".bindForm()",
@@ -2385,7 +2833,39 @@
       "source_file": "request/binder.go",
       "source_location": "L100",
       "id": "request_binder_bindform",
-      "community": 22
+      "community": 26
+    },
+    {
+      "label": "executil_test.go",
+      "file_type": "code",
+      "source_file": "executil/executil_test.go",
+      "source_location": "L1",
+      "id": "executil_test",
+      "community": 57
+    },
+    {
+      "label": "TestCommandContext()",
+      "file_type": "code",
+      "source_file": "executil/executil_test.go",
+      "source_location": "L8",
+      "id": "executil_test_testcommandcontext",
+      "community": 57
+    },
+    {
+      "label": "executil.go",
+      "file_type": "code",
+      "source_file": "executil/executil.go",
+      "source_location": "L1",
+      "id": "executil",
+      "community": 27
+    },
+    {
+      "label": "CommandContext()",
+      "file_type": "code",
+      "source_file": "executil/executil.go",
+      "source_location": "L14",
+      "id": "executil_commandcontext",
+      "community": 27
     },
     {
       "label": "membership.go",
@@ -2393,7 +2873,7 @@
       "source_file": "authz/membership.go",
       "source_location": "L1",
       "id": "membership",
-      "community": 0
+      "community": 2
     },
     {
       "label": "MembershipStore",
@@ -2401,7 +2881,7 @@
       "source_file": "authz/membership.go",
       "source_location": "L13",
       "id": "authz_membershipstore",
-      "community": 0
+      "community": 2
     },
     {
       "label": "CheckMembership()",
@@ -2409,7 +2889,7 @@
       "source_file": "authz/membership.go",
       "source_location": "L19",
       "id": "membership_checkmembership",
-      "community": 0
+      "community": 2
     },
     {
       "label": "domain.go",
@@ -2417,7 +2897,7 @@
       "source_file": "netutil/domain.go",
       "source_location": "L1",
       "id": "domain",
-      "community": 57
+      "community": 58
     },
     {
       "label": "IsValidSubdomain()",
@@ -2425,7 +2905,7 @@
       "source_file": "netutil/domain.go",
       "source_location": "L11",
       "id": "domain_isvalidsubdomain",
-      "community": 57
+      "community": 58
     },
     {
       "label": "url.go",
@@ -2433,7 +2913,7 @@
       "source_file": "netutil/url.go",
       "source_location": "L1",
       "id": "url",
-      "community": 19
+      "community": 21
     },
     {
       "label": "IsSafeRedirectURL()",
@@ -2441,7 +2921,7 @@
       "source_file": "netutil/url.go",
       "source_location": "L12",
       "id": "url_issaferedirecturl",
-      "community": 19
+      "community": 21
     },
     {
       "label": "GetCookieDomain()",
@@ -2449,7 +2929,7 @@
       "source_file": "netutil/url.go",
       "source_location": "L45",
       "id": "url_getcookiedomain",
-      "community": 19
+      "community": 21
     },
     {
       "label": "ValidateGitURL()",
@@ -2457,7 +2937,7 @@
       "source_file": "netutil/url.go",
       "source_location": "L68",
       "id": "url_validategiturl",
-      "community": 19
+      "community": 21
     },
     {
       "label": "url_test.go",
@@ -2465,7 +2945,7 @@
       "source_file": "netutil/url_test.go",
       "source_location": "L1",
       "id": "url_test",
-      "community": 44
+      "community": 45
     },
     {
       "label": "TestIsSafeRedirectURL()",
@@ -2473,7 +2953,7 @@
       "source_file": "netutil/url_test.go",
       "source_location": "L9",
       "id": "url_test_testissaferedirecturl",
-      "community": 44
+      "community": 45
     },
     {
       "label": "TestGetCookieDomain()",
@@ -2481,7 +2961,7 @@
       "source_file": "netutil/url_test.go",
       "source_location": "L83",
       "id": "url_test_testgetcookiedomain",
-      "community": 44
+      "community": 45
     },
     {
       "label": "telemetry_test.go",
@@ -2489,7 +2969,7 @@
       "source_file": "telemetry/telemetry_test.go",
       "source_location": "L1",
       "id": "telemetry_test",
-      "community": 20
+      "community": 24
     },
     {
       "label": "TestMultiTracker()",
@@ -2497,7 +2977,7 @@
       "source_file": "telemetry/telemetry_test.go",
       "source_location": "L12",
       "id": "telemetry_test_testmultitracker",
-      "community": 20
+      "community": 24
     },
     {
       "label": "TestGA4Tracker()",
@@ -2505,7 +2985,7 @@
       "source_file": "telemetry/telemetry_test.go",
       "source_location": "L30",
       "id": "telemetry_test_testga4tracker",
-      "community": 20
+      "community": 24
     },
     {
       "label": "mockTracker",
@@ -2513,7 +2993,7 @@
       "source_file": "telemetry/telemetry_test.go",
       "source_location": "L42",
       "id": "telemetry_mocktracker",
-      "community": 20
+      "community": 24
     },
     {
       "label": ".Track()",
@@ -2521,7 +3001,7 @@
       "source_file": "telemetry/telemetry_test.go",
       "source_location": "L46",
       "id": "telemetry_mocktracker_track",
-      "community": 20
+      "community": 24
     },
     {
       "label": ".Identify()",
@@ -2529,7 +3009,7 @@
       "source_file": "telemetry/telemetry_test.go",
       "source_location": "L51",
       "id": "telemetry_mocktracker_identify",
-      "community": 20
+      "community": 24
     },
     {
       "label": ".Flush()",
@@ -2537,7 +3017,7 @@
       "source_file": "telemetry/telemetry_test.go",
       "source_location": "L55",
       "id": "telemetry_mocktracker_flush",
-      "community": 20
+      "community": 24
     },
     {
       "label": ".Close()",
@@ -2545,7 +3025,7 @@
       "source_file": "telemetry/telemetry_test.go",
       "source_location": "L59",
       "id": "telemetry_mocktracker_close",
-      "community": 20
+      "community": 24
     },
     {
       "label": "posthog.go",
@@ -2553,7 +3033,7 @@
       "source_file": "telemetry/posthog.go",
       "source_location": "L1",
       "id": "posthog",
-      "community": 23
+      "community": 28
     },
     {
       "label": "PostHogTracker",
@@ -2561,7 +3041,7 @@
       "source_file": "telemetry/posthog.go",
       "source_location": "L10",
       "id": "telemetry_posthogtracker",
-      "community": 23
+      "community": 28
     },
     {
       "label": "NewPostHogTracker()",
@@ -2569,7 +3049,7 @@
       "source_file": "telemetry/posthog.go",
       "source_location": "L15",
       "id": "posthog_newposthogtracker",
-      "community": 23
+      "community": 28
     },
     {
       "label": ".Track()",
@@ -2577,7 +3057,7 @@
       "source_file": "telemetry/posthog.go",
       "source_location": "L25",
       "id": "telemetry_posthogtracker_track",
-      "community": 23
+      "community": 28
     },
     {
       "label": ".Identify()",
@@ -2585,7 +3065,7 @@
       "source_file": "telemetry/posthog.go",
       "source_location": "L38",
       "id": "telemetry_posthogtracker_identify",
-      "community": 23
+      "community": 28
     },
     {
       "label": ".Flush()",
@@ -2593,7 +3073,7 @@
       "source_file": "telemetry/posthog.go",
       "source_location": "L50",
       "id": "telemetry_posthogtracker_flush",
-      "community": 23
+      "community": 28
     },
     {
       "label": ".Close()",
@@ -2601,7 +3081,7 @@
       "source_file": "telemetry/posthog.go",
       "source_location": "L54",
       "id": "telemetry_posthogtracker_close",
-      "community": 23
+      "community": 28
     },
     {
       "label": "telemetry.go",
@@ -2609,7 +3089,7 @@
       "source_file": "telemetry/telemetry.go",
       "source_location": "L1",
       "id": "telemetry",
-      "community": 14
+      "community": 18
     },
     {
       "label": "Event",
@@ -2617,7 +3097,7 @@
       "source_file": "telemetry/telemetry.go",
       "source_location": "L8",
       "id": "telemetry_event",
-      "community": 14
+      "community": 18
     },
     {
       "label": "Tracker",
@@ -2625,7 +3105,7 @@
       "source_file": "telemetry/telemetry.go",
       "source_location": "L15",
       "id": "telemetry_tracker",
-      "community": 14
+      "community": 18
     },
     {
       "label": "MultiTracker",
@@ -2633,7 +3113,7 @@
       "source_file": "telemetry/telemetry.go",
       "source_location": "L27",
       "id": "telemetry_multitracker",
-      "community": 14
+      "community": 18
     },
     {
       "label": "NewMultiTracker()",
@@ -2641,7 +3121,7 @@
       "source_file": "telemetry/telemetry.go",
       "source_location": "L31",
       "id": "telemetry_newmultitracker",
-      "community": 14
+      "community": 18
     },
     {
       "label": ".Track()",
@@ -2649,7 +3129,7 @@
       "source_file": "telemetry/telemetry.go",
       "source_location": "L35",
       "id": "telemetry_multitracker_track",
-      "community": 14
+      "community": 18
     },
     {
       "label": ".Identify()",
@@ -2657,7 +3137,7 @@
       "source_file": "telemetry/telemetry.go",
       "source_location": "L42",
       "id": "telemetry_multitracker_identify",
-      "community": 14
+      "community": 18
     },
     {
       "label": ".Flush()",
@@ -2665,7 +3145,7 @@
       "source_file": "telemetry/telemetry.go",
       "source_location": "L49",
       "id": "telemetry_multitracker_flush",
-      "community": 14
+      "community": 18
     },
     {
       "label": ".Close()",
@@ -2673,7 +3153,7 @@
       "source_file": "telemetry/telemetry.go",
       "source_location": "L56",
       "id": "telemetry_multitracker_close",
-      "community": 14
+      "community": 18
     },
     {
       "label": "ga4.go",
@@ -2681,7 +3161,7 @@
       "source_file": "telemetry/ga4.go",
       "source_location": "L1",
       "id": "ga4",
-      "community": 15
+      "community": 19
     },
     {
       "label": "GA4Tracker",
@@ -2689,7 +3169,7 @@
       "source_file": "telemetry/ga4.go",
       "source_location": "L17",
       "id": "telemetry_ga4tracker",
-      "community": 15
+      "community": 19
     },
     {
       "label": "NewGA4Tracker()",
@@ -2697,7 +3177,7 @@
       "source_file": "telemetry/ga4.go",
       "source_location": "L24",
       "id": "ga4_newga4tracker",
-      "community": 15
+      "community": 19
     },
     {
       "label": "ga4Payload",
@@ -2705,7 +3185,7 @@
       "source_file": "telemetry/ga4.go",
       "source_location": "L34",
       "id": "telemetry_ga4payload",
-      "community": 15
+      "community": 19
     },
     {
       "label": "ga4Event",
@@ -2713,7 +3193,7 @@
       "source_file": "telemetry/ga4.go",
       "source_location": "L39",
       "id": "telemetry_ga4event",
-      "community": 15
+      "community": 19
     },
     {
       "label": ".Track()",
@@ -2721,7 +3201,7 @@
       "source_file": "telemetry/ga4.go",
       "source_location": "L44",
       "id": "telemetry_ga4tracker_track",
-      "community": 15
+      "community": 19
     },
     {
       "label": ".Identify()",
@@ -2729,7 +3209,7 @@
       "source_file": "telemetry/ga4.go",
       "source_location": "L80",
       "id": "telemetry_ga4tracker_identify",
-      "community": 15
+      "community": 19
     },
     {
       "label": ".Flush()",
@@ -2737,7 +3217,7 @@
       "source_file": "telemetry/ga4.go",
       "source_location": "L86",
       "id": "telemetry_ga4tracker_flush",
-      "community": 15
+      "community": 19
     },
     {
       "label": ".Close()",
@@ -2745,7 +3225,7 @@
       "source_file": "telemetry/ga4.go",
       "source_location": "L90",
       "id": "telemetry_ga4tracker_close",
-      "community": 15
+      "community": 19
     },
     {
       "label": "errors_test.go",
@@ -2753,7 +3233,7 @@
       "source_file": "errors/errors_test.go",
       "source_location": "L1",
       "id": "errors_test",
-      "community": 0
+      "community": 2
     },
     {
       "label": "TestNew()",
@@ -2761,7 +3241,7 @@
       "source_file": "errors/errors_test.go",
       "source_location": "L11",
       "id": "errors_test_testnew",
-      "community": 0
+      "community": 2
     },
     {
       "label": "TestCustomErrorVariables()",
@@ -2769,7 +3249,7 @@
       "source_file": "errors/errors_test.go",
       "source_location": "L37",
       "id": "errors_test_testcustomerrorvariables",
-      "community": 0
+      "community": 2
     },
     {
       "label": "errors.go",
@@ -2777,7 +3257,7 @@
       "source_file": "errors/errors.go",
       "source_location": "L1",
       "id": "errors",
-      "community": 0
+      "community": 2
     },
     {
       "label": "New()",
@@ -2785,7 +3265,7 @@
       "source_file": "errors/errors.go",
       "source_location": "L21",
       "id": "errors_new",
-      "community": 0
+      "community": 2
     },
     {
       "label": "Server",
@@ -2793,7 +3273,7 @@
       "source_file": "worker/server.go",
       "source_location": "L10",
       "id": "worker_server",
-      "community": 9
+      "community": 13
     },
     {
       "label": "NewServer()",
@@ -2801,7 +3281,7 @@
       "source_file": "worker/server.go",
       "source_location": "L16",
       "id": "server_newserver",
-      "community": 9
+      "community": 13
     },
     {
       "label": ".RegisterHandlers()",
@@ -2809,7 +3289,7 @@
       "source_file": "worker/server.go",
       "source_location": "L40",
       "id": "worker_server_registerhandlers",
-      "community": 9
+      "community": 13
     },
     {
       "label": ".Run()",
@@ -2817,7 +3297,7 @@
       "source_file": "worker/server.go",
       "source_location": "L49",
       "id": "worker_server_run",
-      "community": 9
+      "community": 13
     },
     {
       "label": ".Shutdown()",
@@ -2825,7 +3305,7 @@
       "source_file": "worker/server.go",
       "source_location": "L55",
       "id": "worker_server_shutdown",
-      "community": 9
+      "community": 13
     },
     {
       "label": "worker.go",
@@ -2833,7 +3313,7 @@
       "source_file": "worker/worker.go",
       "source_location": "L1",
       "id": "worker",
-      "community": 24
+      "community": 2
     },
     {
       "label": "Task",
@@ -2841,7 +3321,7 @@
       "source_file": "worker/worker.go",
       "source_location": "L13",
       "id": "worker_task",
-      "community": 24
+      "community": 2
     },
     {
       "label": "SafeGo()",
@@ -2849,7 +3329,7 @@
       "source_file": "worker/worker.go",
       "source_location": "L17",
       "id": "worker_safego",
-      "community": 24
+      "community": 2
     },
     {
       "label": "RunSync()",
@@ -2857,7 +3337,7 @@
       "source_file": "worker/worker.go",
       "source_location": "L56",
       "id": "worker_runsync",
-      "community": 24
+      "community": 2
     },
     {
       "label": "worker_test.go",
@@ -2865,7 +3345,7 @@
       "source_file": "worker/worker_test.go",
       "source_location": "L1",
       "id": "worker_test",
-      "community": 24
+      "community": 2
     },
     {
       "label": "TestSafeGo()",
@@ -2873,7 +3353,7 @@
       "source_file": "worker/worker_test.go",
       "source_location": "L13",
       "id": "worker_test_testsafego",
-      "community": 24
+      "community": 2
     },
     {
       "label": "TestRunSync()",
@@ -2881,7 +3361,7 @@
       "source_file": "worker/worker_test.go",
       "source_location": "L51",
       "id": "worker_test_testrunsync",
-      "community": 24
+      "community": 2
     },
     {
       "label": "db.go",
@@ -2889,7 +3369,7 @@
       "source_file": "testutil/db.go",
       "source_location": "L1",
       "id": "db",
-      "community": 4
+      "community": 6
     },
     {
       "label": "SetupTestDatabase()",
@@ -2897,7 +3377,7 @@
       "source_file": "testutil/db.go",
       "source_location": "L17",
       "id": "db_setuptestdatabase",
-      "community": 4
+      "community": 6
     },
     {
       "label": "CleanTables()",
@@ -2905,7 +3385,7 @@
       "source_file": "testutil/db.go",
       "source_location": "L53",
       "id": "db_cleantables",
-      "community": 4
+      "community": 6
     },
     {
       "label": "db_test.go",
@@ -2913,7 +3393,7 @@
       "source_file": "testutil/db_test.go",
       "source_location": "L1",
       "id": "db_test",
-      "community": 58
+      "community": 59
     },
     {
       "label": "TestSetupTestDatabase()",
@@ -2921,7 +3401,7 @@
       "source_file": "testutil/db_test.go",
       "source_location": "L10",
       "id": "db_test_testsetuptestdatabase",
-      "community": 58
+      "community": 59
     },
     {
       "label": "helpers_test.go",
@@ -2929,7 +3409,7 @@
       "source_file": "testutil/helpers_test.go",
       "source_location": "L1",
       "id": "helpers_test",
-      "community": 34
+      "community": 37
     },
     {
       "label": "TestFindCookie()",
@@ -2937,7 +3417,7 @@
       "source_file": "testutil/helpers_test.go",
       "source_location": "L11",
       "id": "helpers_test_testfindcookie",
-      "community": 34
+      "community": 37
     },
     {
       "label": "TestCreateRequestWithJWT()",
@@ -2945,7 +3425,7 @@
       "source_file": "testutil/helpers_test.go",
       "source_location": "L26",
       "id": "helpers_test_testcreaterequestwithjwt",
-      "community": 34
+      "community": 37
     },
     {
       "label": "TestCreateTempCSV()",
@@ -2953,7 +3433,7 @@
       "source_file": "testutil/helpers_test.go",
       "source_location": "L33",
       "id": "helpers_test_testcreatetempcsv",
-      "community": 34
+      "community": 37
     },
     {
       "label": "helpers.go",
@@ -2961,7 +3441,7 @@
       "source_file": "testutil/helpers.go",
       "source_location": "L1",
       "id": "helpers",
-      "community": 35
+      "community": 38
     },
     {
       "label": "FindCookie()",
@@ -2969,7 +3449,7 @@
       "source_file": "testutil/helpers.go",
       "source_location": "L14",
       "id": "helpers_findcookie",
-      "community": 35
+      "community": 38
     },
     {
       "label": "CreateRequestWithJWT()",
@@ -2977,7 +3457,7 @@
       "source_file": "testutil/helpers.go",
       "source_location": "L24",
       "id": "helpers_createrequestwithjwt",
-      "community": 35
+      "community": 38
     },
     {
       "label": "CreateTempCSV()",
@@ -2985,7 +3465,7 @@
       "source_file": "testutil/helpers.go",
       "source_location": "L34",
       "id": "helpers_createtempcsv",
-      "community": 35
+      "community": 38
     },
     {
       "label": "Config",
@@ -2993,7 +3473,7 @@
       "source_file": "logging/logger.go",
       "source_location": "L13",
       "id": "logging_config",
-      "community": 12
+      "community": 16
     },
     {
       "label": "New()",
@@ -3001,7 +3481,7 @@
       "source_file": "logging/logger.go",
       "source_location": "L21",
       "id": "logger_new",
-      "community": 12
+      "community": 16
     },
     {
       "label": "TestNew()",
@@ -3009,7 +3489,7 @@
       "source_file": "logging/logger_test.go",
       "source_location": "L13",
       "id": "logger_test_testnew",
-      "community": 10
+      "community": 14
     },
     {
       "label": "router_test.go",
@@ -3017,7 +3497,7 @@
       "source_file": "router/router_test.go",
       "source_location": "L1",
       "id": "router_test",
-      "community": 16
+      "community": 20
     },
     {
       "label": "TestNewRouter()",
@@ -3025,7 +3505,7 @@
       "source_file": "router/router_test.go",
       "source_location": "L15",
       "id": "router_test_testnewrouter",
-      "community": 16
+      "community": 20
     },
     {
       "label": "router.go",
@@ -3033,7 +3513,7 @@
       "source_file": "router/router.go",
       "source_location": "L1",
       "id": "router",
-      "community": 16
+      "community": 20
     },
     {
       "label": "Config",
@@ -3041,7 +3521,7 @@
       "source_file": "router/router.go",
       "source_location": "L12",
       "id": "router_config",
-      "community": 16
+      "community": 20
     },
     {
       "label": "Router",
@@ -3049,7 +3529,7 @@
       "source_file": "router/router.go",
       "source_location": "L20",
       "id": "router_router",
-      "community": 16
+      "community": 20
     },
     {
       "label": ".Use()",
@@ -3057,7 +3537,7 @@
       "source_file": "router/router.go",
       "source_location": "L29",
       "id": "router_router_use",
-      "community": 16
+      "community": 20
     },
     {
       "label": ".buildHandler()",
@@ -3065,7 +3545,7 @@
       "source_file": "router/router.go",
       "source_location": "L34",
       "id": "router_router_buildhandler",
-      "community": 16
+      "community": 20
     },
     {
       "label": ".ServeHTTP()",
@@ -3073,7 +3553,7 @@
       "source_file": "router/router.go",
       "source_location": "L68",
       "id": "router_router_servehttp",
-      "community": 16
+      "community": 20
     },
     {
       "label": "New()",
@@ -3081,7 +3561,31 @@
       "source_file": "router/router.go",
       "source_location": "L78",
       "id": "router_new",
-      "community": 16
+      "community": 20
+    },
+    {
+      "label": "Go Common README",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "readme_go_common",
+      "community": 60
+    },
+    {
+      "label": "Graph Report",
+      "file_type": "document",
+      "source_file": "graphify-out/GRAPH_REPORT.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "graph_report",
+      "community": 60
     }
   ],
   "links": [
@@ -4526,6 +5030,42 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "middleware/otel/otel.go",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_src": "otel",
+      "_tgt": "otel_init",
+      "source": "otel",
+      "target": "otel_init",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "middleware/otel/otel.go",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_src": "otel",
+      "_tgt": "otel_middleware",
+      "source": "otel",
+      "target": "otel_middleware",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "tracing/tracing.go",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_src": "tracing",
+      "_tgt": "otel",
+      "source": "otel",
+      "target": "tracing",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "imports_from",
       "confidence": "EXTRACTED",
       "source_file": "database/postgres/postgres.go",
@@ -4874,6 +5414,30 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_src": "service",
+      "_tgt": "crypto",
+      "source": "crypto",
+      "target": "service",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service_test.go",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_src": "service_test",
+      "_tgt": "crypto",
+      "source": "crypto",
+      "target": "service_test",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "crypto/crypto_test.go",
@@ -5056,6 +5620,18 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "connections/repository_test.go",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_src": "repository_test",
+      "_tgt": "repository_test_testpluginrepository",
+      "source": "repository_test",
+      "target": "repository_test_testpluginrepository",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "gormutil/model.go",
       "source_location": "L11",
       "weight": 1.0,
@@ -5063,6 +5639,18 @@
       "_tgt": "gormutil_basemodel",
       "source": "model",
       "target": "gormutil_basemodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/model.go",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_src": "model",
+      "_tgt": "connections_externalconnection",
+      "source": "model",
+      "target": "connections_externalconnection",
       "confidence_score": 1.0
     },
     {
@@ -5147,6 +5735,30 @@
       "_tgt": "repository_newrepository",
       "source": "repository",
       "target": "repository_newrepository",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/repository.go",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_src": "repository",
+      "_tgt": "connections_connectionrepository",
+      "source": "repository",
+      "target": "connections_connectionrepository",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/repository.go",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_src": "repository",
+      "_tgt": "repository_newconnectionrepository",
+      "source": "repository",
+      "target": "repository_newconnectionrepository",
       "confidence_score": 1.0
     },
     {
@@ -5894,6 +6506,18 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "auth/goth_initializer.go",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_src": "goth_initializer",
+      "_tgt": "github",
+      "source": "goth_initializer",
+      "target": "github",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "auth/goth_initializer.go",
@@ -6026,10 +6650,22 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "gitutil/cloner.go",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_src": "cloner",
+      "_tgt": "executil",
+      "source": "cloner",
+      "target": "executil",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "gitutil/cloner.go",
-      "source_location": "L9",
+      "source_location": "L10",
       "weight": 1.0,
       "_src": "cloner",
       "_tgt": "gitutil_gitcloner",
@@ -6041,7 +6677,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "gitutil/cloner.go",
-      "source_location": "L14",
+      "source_location": "L15",
       "weight": 1.0,
       "_src": "cloner",
       "_tgt": "gitutil_defaultgitcloner",
@@ -6053,7 +6689,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "gitutil/cloner.go",
-      "source_location": "L17",
+      "source_location": "L18",
       "weight": 1.0,
       "_src": "cloner",
       "_tgt": "cloner_newdefaultgitcloner",
@@ -6065,7 +6701,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "gitutil/cloner.go",
-      "source_location": "L22",
+      "source_location": "L23",
       "weight": 1.0,
       "_src": "gitutil_defaultgitcloner",
       "_tgt": "gitutil_defaultgitcloner_clone",
@@ -6290,6 +6926,42 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_src": "service",
+      "_tgt": "types",
+      "source": "service",
+      "target": "types",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_src": "service",
+      "_tgt": "connections_connectionservice",
+      "source": "service",
+      "target": "connections_connectionservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_src": "service",
+      "_tgt": "service_newconnectionservice",
+      "source": "service",
+      "target": "service_newconnectionservice",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "gcp/service.go",
@@ -6494,6 +7166,882 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service_test.go",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_src": "service_test",
+      "_tgt": "types",
+      "source": "service_test",
+      "target": "types",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service_test.go",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_src": "service_test",
+      "_tgt": "service_test_testconnectionservice",
+      "source": "service_test",
+      "target": "service_test_testconnectionservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/storage.go",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_src": "storage",
+      "_tgt": "connections_connectionstorage",
+      "source": "storage",
+      "target": "connections_connectionstorage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L42",
+      "weight": 1.0,
+      "_src": "connections_connectionservice",
+      "_tgt": "connections_connectionservice_saveconnection",
+      "source": "connections_connectionservice",
+      "target": "connections_connectionservice_saveconnection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L79",
+      "weight": 1.0,
+      "_src": "connections_connectionservice",
+      "_tgt": "connections_connectionservice_getconnection",
+      "source": "connections_connectionservice",
+      "target": "connections_connectionservice_getconnection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L83",
+      "weight": 1.0,
+      "_src": "connections_connectionservice",
+      "_tgt": "connections_connectionservice_getconnectionbyproviderid",
+      "source": "connections_connectionservice",
+      "target": "connections_connectionservice_getconnectionbyproviderid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L87",
+      "weight": 1.0,
+      "_src": "connections_connectionservice",
+      "_tgt": "connections_connectionservice_getuserconnections",
+      "source": "connections_connectionservice",
+      "target": "connections_connectionservice_getuserconnections",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L91",
+      "weight": 1.0,
+      "_src": "connections_connectionservice",
+      "_tgt": "connections_connectionservice_saveinstallation",
+      "source": "connections_connectionservice",
+      "target": "connections_connectionservice_saveinstallation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L100",
+      "weight": 1.0,
+      "_src": "connections_connectionservice",
+      "_tgt": "connections_connectionservice_ensurevalidtoken",
+      "source": "connections_connectionservice",
+      "target": "connections_connectionservice_ensurevalidtoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L140",
+      "weight": 1.0,
+      "_src": "connections_connectionservice",
+      "_tgt": "connections_connectionservice_listuserrepositories",
+      "source": "connections_connectionservice",
+      "target": "connections_connectionservice_listuserrepositories",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L161",
+      "weight": 1.0,
+      "_src": "connections_connectionservice",
+      "_tgt": "connections_connectionservice_listuserrepositoriespaginated",
+      "source": "connections_connectionservice",
+      "target": "connections_connectionservice_listuserrepositoriespaginated",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L187",
+      "weight": 1.0,
+      "_src": "connections_connectionservice",
+      "_tgt": "connections_connectionservice_listusernamespaces",
+      "source": "connections_connectionservice",
+      "target": "connections_connectionservice_listusernamespaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L208",
+      "weight": 1.0,
+      "_src": "connections_connectionservice",
+      "_tgt": "connections_connectionservice_listrepositorycontents",
+      "source": "connections_connectionservice",
+      "target": "connections_connectionservice_listrepositorycontents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L227",
+      "weight": 1.0,
+      "_src": "connections_connectionservice",
+      "_tgt": "connections_connectionservice_deleteconnection",
+      "source": "connections_connectionservice",
+      "target": "connections_connectionservice_deleteconnection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L128",
+      "weight": 1.0,
+      "_src": "connections_connectionservice_ensurevalidtoken",
+      "_tgt": "connections_connectionservice_saveconnection",
+      "source": "connections_connectionservice_saveconnection",
+      "target": "connections_connectionservice_ensurevalidtoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L141",
+      "weight": 1.0,
+      "_src": "connections_connectionservice_listuserrepositories",
+      "_tgt": "connections_connectionservice_getconnection",
+      "source": "connections_connectionservice_getconnection",
+      "target": "connections_connectionservice_listuserrepositories",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L162",
+      "weight": 1.0,
+      "_src": "connections_connectionservice_listuserrepositoriespaginated",
+      "_tgt": "connections_connectionservice_getconnection",
+      "source": "connections_connectionservice_getconnection",
+      "target": "connections_connectionservice_listuserrepositoriespaginated",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L188",
+      "weight": 1.0,
+      "_src": "connections_connectionservice_listusernamespaces",
+      "_tgt": "connections_connectionservice_getconnection",
+      "source": "connections_connectionservice_getconnection",
+      "target": "connections_connectionservice_listusernamespaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L209",
+      "weight": 1.0,
+      "_src": "connections_connectionservice_listrepositorycontents",
+      "_tgt": "connections_connectionservice_getconnection",
+      "source": "connections_connectionservice_getconnection",
+      "target": "connections_connectionservice_listrepositorycontents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L151",
+      "weight": 1.0,
+      "_src": "connections_connectionservice_listuserrepositories",
+      "_tgt": "connections_connectionservice_ensurevalidtoken",
+      "source": "connections_connectionservice_ensurevalidtoken",
+      "target": "connections_connectionservice_listuserrepositories",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L172",
+      "weight": 1.0,
+      "_src": "connections_connectionservice_listuserrepositoriespaginated",
+      "_tgt": "connections_connectionservice_ensurevalidtoken",
+      "source": "connections_connectionservice_ensurevalidtoken",
+      "target": "connections_connectionservice_listuserrepositoriespaginated",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L198",
+      "weight": 1.0,
+      "_src": "connections_connectionservice_listusernamespaces",
+      "_tgt": "connections_connectionservice_ensurevalidtoken",
+      "source": "connections_connectionservice_ensurevalidtoken",
+      "target": "connections_connectionservice_listusernamespaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/service.go",
+      "source_location": "L219",
+      "weight": 1.0,
+      "_src": "connections_connectionservice_listrepositorycontents",
+      "_tgt": "connections_connectionservice_ensurevalidtoken",
+      "source": "connections_connectionservice_ensurevalidtoken",
+      "target": "connections_connectionservice_listrepositorycontents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/repository.go",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_src": "connections_connectionrepository",
+      "_tgt": "connections_connectionrepository_saveconnection",
+      "source": "connections_connectionrepository",
+      "target": "connections_connectionrepository_saveconnection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/repository.go",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_src": "connections_connectionrepository",
+      "_tgt": "connections_connectionrepository_getconnection",
+      "source": "connections_connectionrepository",
+      "target": "connections_connectionrepository_getconnection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/repository.go",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_src": "connections_connectionrepository",
+      "_tgt": "connections_connectionrepository_getconnectionbyproviderid",
+      "source": "connections_connectionrepository",
+      "target": "connections_connectionrepository_getconnectionbyproviderid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/repository.go",
+      "source_location": "L42",
+      "weight": 1.0,
+      "_src": "connections_connectionrepository",
+      "_tgt": "connections_connectionrepository_listconnections",
+      "source": "connections_connectionrepository",
+      "target": "connections_connectionrepository_listconnections",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/repository.go",
+      "source_location": "L46",
+      "weight": 1.0,
+      "_src": "connections_connectionrepository",
+      "_tgt": "connections_connectionrepository_updateinstallationid",
+      "source": "connections_connectionrepository",
+      "target": "connections_connectionrepository_updateinstallationid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/repository.go",
+      "source_location": "L59",
+      "weight": 1.0,
+      "_src": "connections_connectionrepository",
+      "_tgt": "connections_connectionrepository_deleteconnection",
+      "source": "connections_connectionrepository",
+      "target": "connections_connectionrepository_deleteconnection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github_test.go",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_src": "github_test",
+      "_tgt": "github_test_testgithubclient_listrepositories",
+      "source": "github_test",
+      "target": "github_test_testgithubclient_listrepositories",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github_test.go",
+      "source_location": "L46",
+      "weight": 1.0,
+      "_src": "github_test",
+      "_tgt": "github_test_testgithubclient_listnamespaces",
+      "source": "github_test",
+      "target": "github_test_testgithubclient_listnamespaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github_test.go",
+      "source_location": "L90",
+      "weight": 1.0,
+      "_src": "github_test",
+      "_tgt": "github_test_testgithubclient_errors",
+      "source": "github_test",
+      "target": "github_test_testgithubclient_errors",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_src": "github",
+      "_tgt": "url",
+      "source": "github",
+      "target": "url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_src": "github",
+      "_tgt": "types",
+      "source": "github",
+      "target": "types",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_src": "github",
+      "_tgt": "clients_githubrepo",
+      "source": "github",
+      "target": "clients_githubrepo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_src": "github",
+      "_tgt": "clients_githubrepowrapper",
+      "source": "github",
+      "target": "clients_githubrepowrapper",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L45",
+      "weight": 1.0,
+      "_src": "github",
+      "_tgt": "clients_githubclient",
+      "source": "github",
+      "target": "clients_githubclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L54",
+      "weight": 1.0,
+      "_src": "github",
+      "_tgt": "github_newgithubclient",
+      "source": "github",
+      "target": "github_newgithubclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L69",
+      "weight": 1.0,
+      "_src": "github",
+      "_tgt": "github_extractnextpageurl",
+      "source": "github",
+      "target": "github_extractnextpageurl",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L90",
+      "weight": 1.0,
+      "_src": "github",
+      "_tgt": "github_isinstallationcontext",
+      "source": "github",
+      "target": "github_isinstallationcontext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L35",
+      "weight": 1.0,
+      "_src": "clients_githubrepo",
+      "_tgt": "clients_githubrepo_torepository",
+      "source": "clients_githubrepo",
+      "target": "clients_githubrepo_torepository",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L228",
+      "weight": 1.0,
+      "_src": "clients_githubclient_listrepositories",
+      "_tgt": "clients_githubrepo_torepository",
+      "source": "clients_githubrepo_torepository",
+      "target": "clients_githubclient_listrepositories",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L292",
+      "weight": 1.0,
+      "_src": "clients_githubclient_listrepositoriespaginated",
+      "_tgt": "clients_githubrepo_torepository",
+      "source": "clients_githubrepo_torepository",
+      "target": "clients_githubclient_listrepositoriespaginated",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L357",
+      "weight": 1.0,
+      "_src": "clients_githubclient_searchrepositories",
+      "_tgt": "clients_githubrepo_torepository",
+      "source": "clients_githubrepo_torepository",
+      "target": "clients_githubclient_searchrepositories",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L63",
+      "weight": 1.0,
+      "_src": "clients_githubclient",
+      "_tgt": "clients_githubclient_withappauth",
+      "source": "clients_githubclient",
+      "target": "clients_githubclient_withappauth",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L97",
+      "weight": 1.0,
+      "_src": "clients_githubclient",
+      "_tgt": "clients_githubclient_ensuretoken",
+      "source": "clients_githubclient",
+      "target": "clients_githubclient_ensuretoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L104",
+      "weight": 1.0,
+      "_src": "clients_githubclient",
+      "_tgt": "clients_githubclient_generatejwt",
+      "source": "clients_githubclient",
+      "target": "clients_githubclient_generatejwt",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L141",
+      "weight": 1.0,
+      "_src": "clients_githubclient",
+      "_tgt": "clients_githubclient_generateinstallationtoken",
+      "source": "clients_githubclient",
+      "target": "clients_githubclient_generateinstallationtoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L188",
+      "weight": 1.0,
+      "_src": "clients_githubclient",
+      "_tgt": "clients_githubclient_listrepositories",
+      "source": "clients_githubclient",
+      "target": "clients_githubclient_listrepositories",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L248",
+      "weight": 1.0,
+      "_src": "clients_githubclient",
+      "_tgt": "clients_githubclient_listrepositoriespaginated",
+      "source": "clients_githubclient",
+      "target": "clients_githubclient_listrepositoriespaginated",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L310",
+      "weight": 1.0,
+      "_src": "clients_githubclient",
+      "_tgt": "clients_githubclient_searchrepositories",
+      "source": "clients_githubclient",
+      "target": "clients_githubclient_searchrepositories",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L363",
+      "weight": 1.0,
+      "_src": "clients_githubclient",
+      "_tgt": "clients_githubclient_listnamespaces",
+      "source": "clients_githubclient",
+      "target": "clients_githubclient_listnamespaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L572",
+      "weight": 1.0,
+      "_src": "clients_githubclient",
+      "_tgt": "clients_githubclient_refreshtoken",
+      "source": "clients_githubclient",
+      "target": "clients_githubclient_refreshtoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L628",
+      "weight": 1.0,
+      "_src": "clients_githubclient",
+      "_tgt": "clients_githubclient_listcontents",
+      "source": "clients_githubclient",
+      "target": "clients_githubclient_listcontents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L241",
+      "weight": 1.0,
+      "_src": "clients_githubclient_listrepositories",
+      "_tgt": "github_extractnextpageurl",
+      "source": "github_extractnextpageurl",
+      "target": "clients_githubclient_listrepositories",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L514",
+      "weight": 1.0,
+      "_src": "clients_githubclient_listnamespaces",
+      "_tgt": "github_extractnextpageurl",
+      "source": "github_extractnextpageurl",
+      "target": "clients_githubclient_listnamespaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L98",
+      "weight": 1.0,
+      "_src": "clients_githubclient_ensuretoken",
+      "_tgt": "github_isinstallationcontext",
+      "source": "github_isinstallationcontext",
+      "target": "clients_githubclient_ensuretoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L195",
+      "weight": 1.0,
+      "_src": "clients_githubclient_listrepositories",
+      "_tgt": "github_isinstallationcontext",
+      "source": "github_isinstallationcontext",
+      "target": "clients_githubclient_listrepositories",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L260",
+      "weight": 1.0,
+      "_src": "clients_githubclient_listrepositoriespaginated",
+      "_tgt": "github_isinstallationcontext",
+      "source": "github_isinstallationcontext",
+      "target": "clients_githubclient_listrepositoriespaginated",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L372",
+      "weight": 1.0,
+      "_src": "clients_githubclient_listnamespaces",
+      "_tgt": "github_isinstallationcontext",
+      "source": "github_isinstallationcontext",
+      "target": "clients_githubclient_listnamespaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L99",
+      "weight": 1.0,
+      "_src": "clients_githubclient_ensuretoken",
+      "_tgt": "clients_githubclient_generateinstallationtoken",
+      "source": "clients_githubclient_ensuretoken",
+      "target": "clients_githubclient_generateinstallationtoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L189",
+      "weight": 1.0,
+      "_src": "clients_githubclient_listrepositories",
+      "_tgt": "clients_githubclient_ensuretoken",
+      "source": "clients_githubclient_ensuretoken",
+      "target": "clients_githubclient_listrepositories",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L249",
+      "weight": 1.0,
+      "_src": "clients_githubclient_listrepositoriespaginated",
+      "_tgt": "clients_githubclient_ensuretoken",
+      "source": "clients_githubclient_ensuretoken",
+      "target": "clients_githubclient_listrepositoriespaginated",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L311",
+      "weight": 1.0,
+      "_src": "clients_githubclient_searchrepositories",
+      "_tgt": "clients_githubclient_ensuretoken",
+      "source": "clients_githubclient_ensuretoken",
+      "target": "clients_githubclient_searchrepositories",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L364",
+      "weight": 1.0,
+      "_src": "clients_githubclient_listnamespaces",
+      "_tgt": "clients_githubclient_ensuretoken",
+      "source": "clients_githubclient_ensuretoken",
+      "target": "clients_githubclient_listnamespaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L629",
+      "weight": 1.0,
+      "_src": "clients_githubclient_listcontents",
+      "_tgt": "clients_githubclient_ensuretoken",
+      "source": "clients_githubclient_ensuretoken",
+      "target": "clients_githubclient_listcontents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L151",
+      "weight": 1.0,
+      "_src": "clients_githubclient_generateinstallationtoken",
+      "_tgt": "clients_githubclient_generatejwt",
+      "source": "clients_githubclient_generatejwt",
+      "target": "clients_githubclient_generateinstallationtoken",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/clients/github.go",
+      "source_location": "L377",
+      "weight": 1.0,
+      "_src": "clients_githubclient_listnamespaces",
+      "_tgt": "clients_githubclient_generatejwt",
+      "source": "clients_githubclient_generatejwt",
+      "target": "clients_githubclient_listnamespaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/types/types.go",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_src": "types",
+      "_tgt": "types_tokenrefreshresponse",
+      "source": "types",
+      "target": "types_tokenrefreshresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/types/types.go",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_src": "types",
+      "_tgt": "types_providerclient",
+      "source": "types",
+      "target": "types_providerclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/types/types.go",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_src": "types",
+      "_tgt": "types_contentitem",
+      "source": "types",
+      "target": "types_contentitem",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/types/types.go",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_src": "types",
+      "_tgt": "types_repository",
+      "source": "types",
+      "target": "types_repository",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "connections/types/types.go",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_src": "types",
+      "_tgt": "types_namespace",
+      "source": "types",
+      "target": "types_namespace",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "request/binder_test.go",
@@ -6635,6 +8183,30 @@
       "_tgt": "request_binder_bindform",
       "source": "request_binder_decodeandvalidate",
       "target": "request_binder_bindform",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "executil/executil_test.go",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_src": "executil_test",
+      "_tgt": "executil_test_testcommandcontext",
+      "source": "executil_test",
+      "target": "executil_test_testcommandcontext",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "executil/executil.go",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_src": "executil",
+      "_tgt": "executil_commandcontext",
+      "source": "executil",
+      "target": "executil_commandcontext",
       "confidence_score": 1.0
     },
     {
@@ -7572,6 +9144,18 @@
       "source": "router_router_buildhandler",
       "target": "router_router_servehttp",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.6,
+      "source_file": "README.md",
+      "source_location": null,
+      "weight": 1.0,
+      "_src": "readme_go_common",
+      "_tgt": "graph_report",
+      "source": "readme_go_common",
+      "target": "graph_report"
     }
   ],
   "hyperedges": []

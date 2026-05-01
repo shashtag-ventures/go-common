@@ -1,318 +1,335 @@
-# Graph Report - /Users/shashwatguta/Desktop/go projects/go-common  (2026-04-18)
+# Graph Report - .  (2026-05-02)
 
 ## Corpus Check
-- Corpus is ~25,981 words - fits in a single context window. You may not need a graph.
+- Corpus is ~26,368 words - fits in a single context window. You may not need a graph.
 
 ## Summary
-- 385 nodes · 374 edges · 61 communities detected
-- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
+- 447 nodes · 464 edges · 63 communities detected
+- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 1 edges (avg confidence: 0.6)
 - Token cost: 0 input · 0 output
 
 ## God Nodes (most connected - your core abstractions)
 1. `mockFieldError` - 13 edges
-2. `Repository[T]` - 10 edges
-3. `gcpService` - 8 edges
-4. `MockService` - 8 edges
-5. `InMemFile` - 7 edges
-6. `GormLogger` - 6 edges
-7. `RealGothProvider` - 5 edges
-8. `mockTracker` - 5 edges
-9. `PostHogTracker` - 5 edges
-10. `MultiTracker` - 5 edges
+2. `ConnectionService` - 12 edges
+3. `GitHubClient` - 11 edges
+4. `Repository[T]` - 10 edges
+5. `gcpService` - 8 edges
+6. `MockService` - 8 edges
+7. `InMemFile` - 7 edges
+8. `connectionRepository` - 7 edges
+9. `GormLogger` - 6 edges
+10. `RealGothProvider` - 5 edges
 
 ## Surprising Connections (you probably didn't know these)
-- None detected - all connections are within the same source files.
+- `Go Common README` --conceptually_related_to--> `Graph Report`  [INFERRED]
+  README.md → graphify-out/GRAPH_REPORT.md
 
 ## Communities
 
-### Community 0 - "Module 0"
-Cohesion: 0.07
-Nodes (9): GetAuthenticatedUser(), GetAuthenticatedUserID(), MembershipStore, Repository, ErrorResponse, SendAutoErrorResponse(), SendErrorResponse(), Claims (+1 more)
+### Community 0 - "Connection Service"
+Cohesion: 0.1
+Nodes (4): ConnectionService, ConnectionStorage, gcpService, Service
 
-### Community 1 - "Module 1"
+### Community 1 - "Authorization & JSON Response"
+Cohesion: 0.09
+Nodes (9): ErrorResponse, SendAutoErrorResponse(), SendErrorResponse(), Claims, AuthenticatedUser, RateLimitConfig, RateLimitStore, RateLimitMiddleware() (+1 more)
+
+### Community 2 - "Auth Helpers & Errors"
+Cohesion: 0.1
+Nodes (8): GetAuthenticatedUser(), GetAuthenticatedUserID(), MembershipStore, mockRoundTripper, TestRetryRoundTripper(), RunSync(), SafeGo(), Task
+
+### Community 3 - "GitHub Client"
+Cohesion: 0.22
+Nodes (5): GitHubClient, githubRepo, githubRepoWrapper, extractNextPageURL(), isInstallationContext()
+
+### Community 4 - "JSON Validation Mocks"
 Cohesion: 0.13
 Nodes (3): mockFieldError, TestJsonError(), TestSendErrorResponse()
 
-### Community 2 - "Module 2"
+### Community 5 - "Config Structs"
 Cohesion: 0.12
 Nodes (14): BitbucketConfig, CorsConfig, DatabaseConfig, GitHubConfig, GitLabConfig, GoogleConfig, JWTConfig, Level (+6 more)
 
-### Community 3 - "Module 3"
+### Community 6 - "Database & OTel"
+Cohesion: 0.14
+Nodes (1): DBConfig
+
+### Community 7 - "Crypto & Service Tests"
+Cohesion: 0.14
+Nodes (5): ContentItem, Namespace, ProviderClient, Repository, TokenRefreshResponse
+
+### Community 8 - "Context Keys & Logging"
 Cohesion: 0.19
 Nodes (6): EnrichLogger(), GetLoggerFromContext(), GetTraceID(), CtxKey, LogState, TraceIDExtractor
 
-### Community 4 - "Module 4"
-Cohesion: 0.18
-Nodes (1): DBConfig
-
-### Community 5 - "Module 5"
+### Community 9 - "Archive Buffering"
 Cohesion: 0.17
 Nodes (2): BufferFile, InMemFile
 
-### Community 6 - "Module 6"
+### Community 10 - "OAuth Providers"
 Cohesion: 0.17
 Nodes (5): GothConfig, GothInitializer, GothProvider, OAuthProviderInitializer, RealGothProvider
 
-### Community 7 - "Module 7"
-Cohesion: 0.17
-Nodes (2): gcpService, Service
+### Community 11 - "Connection Repository"
+Cohesion: 0.18
+Nodes (2): connectionRepository, Repository
 
-### Community 8 - "Module 8"
+### Community 12 - "Generic GORM Repository"
 Cohesion: 0.27
 Nodes (1): Repository[T]
 
-### Community 9 - "Module 9"
+### Community 13 - "Server Lifecycle"
 Cohesion: 0.22
 Nodes (4): AddGracefulShutdownGoroutine(), DoneGracefulShutdownGoroutine(), Server, Server
 
-### Community 10 - "Module 10"
+### Community 14 - "Logger & Request Logging"
 Cohesion: 0.24
 Nodes (4): getRealIP(), RequestLogger(), scrubPayload(), responseWriter
 
-### Community 11 - "Module 11"
+### Community 15 - "GCP Mock Service"
 Cohesion: 0.2
 Nodes (1): MockService
 
-### Community 12 - "Module 12"
+### Community 16 - "GORM Logger"
 Cohesion: 0.31
 Nodes (2): GormLogger, Config
 
-### Community 13 - "Module 13"
+### Community 17 - "Env Config Loading"
 Cohesion: 0.25
 Nodes (2): GetEnvAsHexBytes(), GetRequiredEnv()
 
-### Community 14 - "Module 14"
+### Community 18 - "Telemetry Multi-Tracker"
 Cohesion: 0.22
 Nodes (3): Event, MultiTracker, Tracker
 
-### Community 15 - "Module 15"
+### Community 19 - "GA4 Analytics"
 Cohesion: 0.25
 Nodes (3): ga4Event, ga4Payload, GA4Tracker
 
-### Community 16 - "Module 16"
+### Community 20 - "Router"
 Cohesion: 0.25
 Nodes (2): Config, Router
 
-### Community 17 - "Module 17"
-Cohesion: 0.25
-Nodes (0): 
-
-### Community 18 - "Module 18"
-Cohesion: 0.25
-Nodes (0): 
-
-### Community 19 - "Module 19"
+### Community 21 - "CSRF & URL Utils"
 Cohesion: 0.32
 Nodes (1): CSRFConfig
 
-### Community 20 - "Module 20"
+### Community 22 - "Middleware Tests"
+Cohesion: 0.25
+Nodes (0): 
+
+### Community 23 - "Env Config Tests"
+Cohesion: 0.25
+Nodes (0): 
+
+### Community 24 - "Telemetry Mocks & Tests"
 Cohesion: 0.32
 Nodes (3): mockTracker, TestGA4Tracker(), TestMultiTracker()
 
-### Community 21 - "Module 21"
+### Community 25 - "HTTP Transport"
 Cohesion: 0.29
 Nodes (2): ResponseWriterWrapper, RetryRoundTripper
 
-### Community 22 - "Module 22"
+### Community 26 - "Request Binder"
 Cohesion: 0.43
 Nodes (2): DecodeAndValidate(), Binder
 
-### Community 23 - "Module 23"
+### Community 27 - "Git Cloner & Exec"
+Cohesion: 0.29
+Nodes (2): DefaultGitCloner, GitCloner
+
+### Community 28 - "PostHog Tracker"
 Cohesion: 0.33
 Nodes (1): PostHogTracker
 
-### Community 24 - "Module 24"
-Cohesion: 0.38
-Nodes (3): RunSync(), SafeGo(), Task
-
-### Community 25 - "Module 25"
-Cohesion: 0.4
-Nodes (4): RateLimitConfig, RateLimitStore, RateLimitMiddleware(), RateLimitMiddlewareWithContext()
-
-### Community 26 - "Module 26"
+### Community 29 - "Metrics Middleware"
 Cohesion: 0.4
 Nodes (1): loggingResponseWriter
 
-### Community 27 - "Module 27"
+### Community 30 - "Connection Storage"
 Cohesion: 0.6
 Nodes (2): ETag(), responseBuffer
 
-### Community 28 - "Module 28"
+### Community 31 - "Tracing"
 Cohesion: 0.4
 Nodes (3): DiscordEmbed, DiscordEmbedField, DiscordWebhook
 
-### Community 29 - "Module 29"
-Cohesion: 0.4
-Nodes (0): 
+### Community 32 - "Worker Queue"
+Cohesion: 0.5
+Nodes (1): TestModel
 
-### Community 30 - "Module 30"
-Cohesion: 0.4
-Nodes (2): DefaultGitCloner, GitCloner
+### Community 33 - "JWT Middleware"
+Cohesion: 0.5
+Nodes (2): ExternalConnection, BaseModel
 
-### Community 31 - "Module 31"
-Cohesion: 0.67
-Nodes (2): mockRoundTripper, TestRetryRoundTripper()
-
-### Community 32 - "Module 32"
+### Community 34 - "Slug Utils"
 Cohesion: 0.5
 Nodes (1): txKey
 
-### Community 33 - "Module 33"
+### Community 35 - "Request ID"
+Cohesion: 0.5
+Nodes (0): 
+
+### Community 36 - "Rate Limiting"
 Cohesion: 0.5
 Nodes (1): TestUser
 
-### Community 34 - "Module 34"
+### Community 37 - "ETag Middleware"
 Cohesion: 0.5
 Nodes (0): 
 
-### Community 35 - "Module 35"
+### Community 38 - "Trailing Slash"
 Cohesion: 0.5
 Nodes (0): 
 
-### Community 36 - "Module 36"
+### Community 39 - "Cookie Middleware"
 Cohesion: 0.67
 Nodes (2): PaginatedResponse, PaginationParams
 
-### Community 37 - "Module 37"
+### Community 40 - "CORS Middleware"
 Cohesion: 1.0
 Nodes (1): CorsConfig
 
-### Community 38 - "Module 38"
+### Community 41 - "Recovery Middleware"
 Cohesion: 0.67
 Nodes (0): 
 
-### Community 39 - "Module 39"
+### Community 42 - "JWT Token"
 Cohesion: 0.67
 Nodes (0): 
 
-### Community 40 - "Module 40"
+### Community 43 - "Domain Utils"
 Cohesion: 0.67
 Nodes (0): 
 
-### Community 41 - "Module 41"
-Cohesion: 0.67
-Nodes (1): TestModel
-
-### Community 42 - "Module 42"
-Cohesion: 0.67
-Nodes (1): BaseModel
-
-### Community 43 - "Module 43"
+### Community 44 - "GCP Storage"
 Cohesion: 0.67
 Nodes (0): 
 
-### Community 44 - "Module 44"
+### Community 45 - "GCP Cloud Run"
 Cohesion: 0.67
 Nodes (0): 
 
-### Community 45 - "Module 45"
+### Community 46 - "GCP Cloud Build"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 46 - "Module 46"
+### Community 47 - "Connection Types"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 47 - "Module 47"
+### Community 48 - "Discord Notify"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 48 - "Module 48"
+### Community 49 - "Pagination DTO"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 49 - "Module 49"
+### Community 50 - "GORM Transaction"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 50 - "Module 50"
+### Community 51 - "GORM Model"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 51 - "Module 51"
+### Community 52 - "Test DB Setup"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 52 - "Module 52"
+### Community 53 - "Test Helpers"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 53 - "Module 53"
+### Community 54 - "Random String"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 54 - "Module 54"
+### Community 55 - "Exec Tests"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 55 - "Module 55"
+### Community 56 - "Binder Tests"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 56 - "Module 56"
+### Community 57 - "HTTP Transport Tests"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 57 - "Module 57"
+### Community 58 - "URL Tests"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 58 - "Module 58"
+### Community 59 - "Postgres Tests"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 59 - "Module 59"
+### Community 60 - "GitHub Client Tests"
+Cohesion: 1.0
+Nodes (2): Graph Report, Go Common README
+
+### Community 61 - "Repository Tests"
 Cohesion: 1.0
 Nodes (0): 
 
-### Community 60 - "Module 60"
+### Community 62 - "Connection Repo Tests"
 Cohesion: 1.0
 Nodes (0): 
 
 ## Knowledge Gaps
-- **42 isolated node(s):** `ErrorResponse`, `PaginationParams`, `PaginatedResponse`, `Claims`, `CSRFConfig` (+37 more)
+- **52 isolated node(s):** `ErrorResponse`, `PaginationParams`, `PaginatedResponse`, `Claims`, `CSRFConfig` (+47 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **Thin community `Module 45`** (2 nodes): `recovery.go`, `Recovery()`
+- **Thin community `GCP Cloud Build`** (2 nodes): `recovery.go`, `Recovery()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Module 46`** (2 nodes): `request_id_test.go`, `TestRequestIDMiddleware()`
+- **Thin community `Connection Types`** (2 nodes): `request_id_test.go`, `TestRequestIDMiddleware()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Module 47`** (2 nodes): `logging_test.go`, `TestScrubPayload()`
+- **Thin community `Discord Notify`** (2 nodes): `logging_test.go`, `TestScrubPayload()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Module 48`** (2 nodes): `trailing_slash_test.go`, `TestTrailingSlashMiddleware()`
+- **Thin community `Pagination DTO`** (2 nodes): `trailing_slash_test.go`, `TestTrailingSlashMiddleware()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Module 49`** (2 nodes): `csrf_test.go`, `TestCSRFMiddleware()`
+- **Thin community `GORM Transaction`** (2 nodes): `csrf_test.go`, `TestCSRFMiddleware()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Module 50`** (2 nodes): `request_id.go`, `RequestIDMiddleware()`
+- **Thin community `GORM Model`** (2 nodes): `request_id.go`, `RequestIDMiddleware()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Module 51`** (2 nodes): `trailing_slash.go`, `TrailingSlashMiddleware()`
+- **Thin community `Test DB Setup`** (2 nodes): `trailing_slash.go`, `TrailingSlashMiddleware()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Module 52`** (2 nodes): `goth_initializer_test.go`, `TestGothInitializer()`
+- **Thin community `Test Helpers`** (2 nodes): `goth_initializer_test.go`, `TestGothInitializer()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Module 53`** (2 nodes): `random.go`, `RandomString()`
+- **Thin community `Random String`** (2 nodes): `random.go`, `RandomString()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Module 54`** (2 nodes): `slug_test.go`, `TestSlugify()`
+- **Thin community `Exec Tests`** (2 nodes): `slug_test.go`, `TestSlugify()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Module 55`** (2 nodes): `server_test.go`, `TestServer_StartAndShutdown()`
+- **Thin community `Binder Tests`** (2 nodes): `server_test.go`, `TestServer_StartAndShutdown()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Module 56`** (2 nodes): `service_test.go`, `TestGCPService_CoveragePlaceholder()`
+- **Thin community `HTTP Transport Tests`** (2 nodes): `executil_test.go`, `TestCommandContext()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Module 57`** (2 nodes): `domain.go`, `IsValidSubdomain()`
+- **Thin community `URL Tests`** (2 nodes): `domain.go`, `IsValidSubdomain()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Module 58`** (2 nodes): `db_test.go`, `TestSetupTestDatabase()`
+- **Thin community `Postgres Tests`** (2 nodes): `db_test.go`, `TestSetupTestDatabase()`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Module 59`** (1 nodes): `run.go`
+- **Thin community `GitHub Client Tests`** (2 nodes): `Graph Report`, `Go Common README`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Module 60`** (1 nodes): `build.go`
+- **Thin community `Repository Tests`** (1 nodes): `run.go`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Connection Repo Tests`** (1 nodes): `build.go`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **What connects `ErrorResponse`, `PaginationParams`, `PaginatedResponse` to the rest of the system?**
-  _42 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `Module 0` be split into smaller, more focused modules?**
-  _Cohesion score 0.07 - nodes in this community are weakly interconnected._
-- **Should `Module 1` be split into smaller, more focused modules?**
+  _52 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `Connection Service` be split into smaller, more focused modules?**
+  _Cohesion score 0.1 - nodes in this community are weakly interconnected._
+- **Should `Authorization & JSON Response` be split into smaller, more focused modules?**
+  _Cohesion score 0.09 - nodes in this community are weakly interconnected._
+- **Should `Auth Helpers & Errors` be split into smaller, more focused modules?**
+  _Cohesion score 0.1 - nodes in this community are weakly interconnected._
+- **Should `JSON Validation Mocks` be split into smaller, more focused modules?**
   _Cohesion score 0.13 - nodes in this community are weakly interconnected._
-- **Should `Module 2` be split into smaller, more focused modules?**
+- **Should `Config Structs` be split into smaller, more focused modules?**
   _Cohesion score 0.12 - nodes in this community are weakly interconnected._
+- **Should `Database & OTel` be split into smaller, more focused modules?**
+  _Cohesion score 0.14 - nodes in this community are weakly interconnected._
