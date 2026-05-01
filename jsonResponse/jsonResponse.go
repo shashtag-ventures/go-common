@@ -35,8 +35,9 @@ func JsonResponse(w http.ResponseWriter, statusCode int, data interface{}) error
 	return json.NewEncoder(w).Encode(data)
 }
 
-// SendErrorResponse sends a consistent JSON error response.
-// It handles validation errors specifically and provides a generic error response otherwise.
+// SendErrorResponse sends a consistent JSON error response using the given statusCode.
+// It formats validation errors into human-readable messages but does not override the status code.
+// For automatic status code detection from error types, use SendAutoErrorResponse instead.
 func SendErrorResponse(w http.ResponseWriter, err error, statusCode int) {
 	w.Header().Set("Content-Type", "application/json")
 
@@ -44,16 +45,14 @@ func SendErrorResponse(w http.ResponseWriter, err error, statusCode int) {
 	errorResponse.Status = statusCode
 	errorResponse.Error = http.StatusText(statusCode)
 	if err != nil {
-		errorResponse.Message = err.Error() // Default message
+		errorResponse.Message = err.Error()
 	} else {
 		errorResponse.Message = errorResponse.Error
 	}
 
 	var validationErrs validator.ValidationErrors
-	// Check if the error is a validation error.
 	if errors.As(err, &validationErrs) {
 		var errMSGS []string
-		// Iterate over validation errors and create human-readable messages.
 		for _, e := range validationErrs {
 			switch e.ActualTag() {
 			case "required":
@@ -68,23 +67,10 @@ func SendErrorResponse(w http.ResponseWriter, err error, statusCode int) {
 				errMSGS = append(errMSGS, e.Field()+" is invalid")
 			}
 		}
-		errorResponse.Status = http.StatusBadRequest
 		errorResponse.Error = "Validation Error"
 		errorResponse.Message = strings.Join(errMSGS, ", ")
-	} else {
-		// Check for custom errors and map them to appropriate status codes.
-		for customErr, mappedStatusCode := range errorStatusCodeMap {
-			if errors.Is(err, customErr) {
-				errorResponse.Status = mappedStatusCode
-				errorResponse.Error = http.StatusText(mappedStatusCode)
-				if customErr == customErrors.ErrInternal {
-					errorResponse.Message = "An unexpected internal server error occurred."
-				} else {
-					errorResponse.Message = err.Error()
-				}
-				break
-			}
-		}
+	} else if errors.Is(err, customErrors.ErrInternal) {
+		errorResponse.Message = "An unexpected internal server error occurred."
 	}
 
 	w.WriteHeader(errorResponse.Status)
