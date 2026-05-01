@@ -38,7 +38,12 @@ func TestConnectionService(t *testing.T) {
 	accessToken := "secret-token"
 
 	t.Run("SaveConnection encrypts tokens", func(t *testing.T) {
-		err := service.SaveConnection(ctx, userID, provider, "p-user-1", "user1", "https://avatar.com", accessToken, "refresh-123", time.Now().Add(1*time.Hour), "")
+		err := service.SaveConnection(ctx, SaveConnectionParams{
+			UserID: userID, Provider: provider, ProviderUserID: "p-user-1",
+			Username: "user1", AvatarURL: "https://avatar.com",
+			AccessToken: accessToken, RefreshToken: "refresh-123",
+			ExpiresAt: time.Now().Add(1 * time.Hour),
+		})
 		assert.NoError(t, err)
 
 		// Verify in DB that it is encrypted
@@ -80,7 +85,10 @@ func TestConnectionService(t *testing.T) {
 
 	t.Run("ListUserRepositories returns error for unsupported provider", func(t *testing.T) {
 		// First save a connection for an unsupported provider
-		err := service.SaveConnection(ctx, userID, "unsupported", "p-user-2", "user2", "", "token", "", time.Now(), "")
+		err := service.SaveConnection(ctx, SaveConnectionParams{
+			UserID: userID, Provider: "unsupported", ProviderUserID: "p-user-2",
+			Username: "user2", AccessToken: "token", ExpiresAt: time.Now(),
+		})
 		assert.NoError(t, err)
 
 		_, err = service.ListUserRepositories(ctx, userID, "unsupported")

@@ -16,8 +16,21 @@ import (
 // coupling this package to any specific middleware implementation.
 type LoggerFunc func(context.Context) *slog.Logger
 
+// SaveConnectionParams holds all data needed to save or update an external connection.
+type SaveConnectionParams struct {
+	UserID         uuid.UUID
+	Provider       string
+	ProviderUserID string
+	Username       string
+	AvatarURL      string
+	AccessToken    string
+	RefreshToken   string
+	ExpiresAt      time.Time
+	InstallationID string
+}
+
 type ConnectionService interface {
-	SaveConnection(ctx context.Context, userID uuid.UUID, provider string, providerUserID string, username string, avatarURL string, accessToken string, refreshToken string, expiresAt time.Time, installationID string) error
+	SaveConnection(ctx context.Context, params SaveConnectionParams) error
 	SaveInstallation(ctx context.Context, userID uuid.UUID, provider string, installationID string) error
 	GetConnection(ctx context.Context, userID uuid.UUID, provider string) (*ExternalConnection, error)
 	GetConnectionByProviderID(ctx context.Context, provider string, providerUserID string) (*ExternalConnection, error)
@@ -50,37 +63,37 @@ func NewConnectionService(db ConnectionStorage, tokenEncryptionKey string, clien
 	}
 }
 
-func (s *connectionService) SaveConnection(ctx context.Context, userID uuid.UUID, provider string, providerUserID string, username string, avatarURL string, accessToken string, refreshToken string, expiresAt time.Time, installationID string) error {
+func (s *connectionService) SaveConnection(ctx context.Context, params SaveConnectionParams) error {
 	logger := s.getLogger(ctx)
 
 	// Encrypt tokens before saving
-	encryptedAccess, err := crypto.Encrypt(accessToken, s.tokenEncryptionKey)
+	encryptedAccess, err := crypto.Encrypt(params.AccessToken, s.tokenEncryptionKey)
 	if err != nil {
 		return fmt.Errorf("failed to encrypt access token: %w", err)
 	}
 
 	var encryptedRefresh string
-	if refreshToken != "" {
-		encryptedRefresh, err = crypto.Encrypt(refreshToken, s.tokenEncryptionKey)
+	if params.RefreshToken != "" {
+		encryptedRefresh, err = crypto.Encrypt(params.RefreshToken, s.tokenEncryptionKey)
 		if err != nil {
 			return fmt.Errorf("failed to encrypt refresh token: %w", err)
 		}
 	}
 
 	conn := &ExternalConnection{
-		UserID:         userID,
-		Provider:       provider,
-		ProviderUserID: providerUserID,
+		UserID:         params.UserID,
+		Provider:       params.Provider,
+		ProviderUserID: params.ProviderUserID,
 		AccessToken:    encryptedAccess,
 		RefreshToken:   encryptedRefresh,
-		ExpiresAt:      expiresAt,
-		Username:       username,
-		AvatarURL:      avatarURL,
-		InstallationID: installationID,
+		ExpiresAt:      params.ExpiresAt,
+		Username:       params.Username,
+		AvatarURL:      params.AvatarURL,
+		InstallationID: params.InstallationID,
 	}
 
 	if err := s.db.SaveConnection(ctx, conn); err != nil {
-		logger.Error("Failed to save connection", "userID", userID, "provider", provider, "error", err)
+		logger.Error("Failed to save connection", "userID", params.UserID, "provider", params.Provider, "error", err)
 		return err
 	}
 
