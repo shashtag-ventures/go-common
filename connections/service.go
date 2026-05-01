@@ -3,13 +3,18 @@ package connections
 import (
 	"context"
 	"fmt"
+	"log/slog"
 
 	"github.com/google/uuid"
 	"github.com/shashtag-ventures/go-common/crypto"
 	"github.com/shashtag-ventures/go-common/connections/types"
-	"github.com/shashtag-ventures/go-common/middleware"
 	"time"
 )
+
+// LoggerFunc extracts a logger from context. This allows callers to inject
+// their own logger strategy (e.g. middleware.GetLoggerFromContext) without
+// coupling this package to any specific middleware implementation.
+type LoggerFunc func(context.Context) *slog.Logger
 
 type ConnectionService interface {
 	SaveConnection(ctx context.Context, userID uuid.UUID, provider string, providerUserID string, username string, avatarURL string, accessToken string, refreshToken string, expiresAt time.Time, installationID string) error
@@ -28,19 +33,25 @@ type connectionService struct {
 	db                 ConnectionStorage
 	tokenEncryptionKey string
 	clients            map[string]types.ProviderClient
+	getLogger          LoggerFunc
 }
 
 // NewConnectionService creates a new instance of ConnectionService.
-func NewConnectionService(db ConnectionStorage, tokenEncryptionKey string, clients map[string]types.ProviderClient) ConnectionService {
+// logFn is used to extract a logger from context for structured logging.
+func NewConnectionService(db ConnectionStorage, tokenEncryptionKey string, clients map[string]types.ProviderClient, logFn LoggerFunc) ConnectionService {
+	if logFn == nil {
+		logFn = func(_ context.Context) *slog.Logger { return slog.Default() }
+	}
 	return &connectionService{
 		db:                 db,
 		tokenEncryptionKey: tokenEncryptionKey,
 		clients:            clients,
+		getLogger:          logFn,
 	}
 }
 
 func (s *connectionService) SaveConnection(ctx context.Context, userID uuid.UUID, provider string, providerUserID string, username string, avatarURL string, accessToken string, refreshToken string, expiresAt time.Time, installationID string) error {
-	logger := middleware.GetLoggerFromContext(ctx)
+	logger := s.getLogger(ctx)
 
 	// Encrypt tokens before saving
 	encryptedAccess, err := crypto.Encrypt(accessToken, s.tokenEncryptionKey)
@@ -89,7 +100,7 @@ func (s *connectionService) GetUserConnections(ctx context.Context, userID uuid.
 }
 
 func (s *connectionService) SaveInstallation(ctx context.Context, userID uuid.UUID, provider string, installationID string) error {
-	logger := middleware.GetLoggerFromContext(ctx)
+	logger := s.getLogger(ctx)
 	if err := s.db.UpdateInstallationID(ctx, userID, provider, installationID); err != nil {
 		logger.Error("Failed to save installation", "userID", userID, "provider", provider, "installationID", installationID, "error", err)
 		return err
@@ -119,7 +130,7 @@ func (s *connectionService) ensureValidToken(ctx context.Context, conn *External
 
 				encryptedAccess, err := crypto.Encrypt(refreshResp.AccessToken, s.tokenEncryptionKey)
 				if err != nil {
-					middleware.GetLoggerFromContext(ctx).Error("Failed to encrypt refreshed access token", "error", err)
+					s.getLogger(ctx).Error("Failed to encrypt refreshed access token", "error", err)
 					return accessToken, nil
 				}
 				conn.AccessToken = encryptedAccess
@@ -127,7 +138,7 @@ func (s *connectionService) ensureValidToken(ctx context.Context, conn *External
 				if refreshResp.RefreshToken != "" {
 					encryptedRefresh, err := crypto.Encrypt(refreshResp.RefreshToken, s.tokenEncryptionKey)
 					if err != nil {
-						middleware.GetLoggerFromContext(ctx).Error("Failed to encrypt refreshed refresh token", "error", err)
+						s.getLogger(ctx).Error("Failed to encrypt refreshed refresh token", "error", err)
 						return accessToken, nil
 					}
 					conn.RefreshToken = encryptedRefresh
@@ -137,10 +148,10 @@ func (s *connectionService) ensureValidToken(ctx context.Context, conn *External
 				}
 
 				if err := s.db.SaveConnection(ctx, conn); err != nil {
-					middleware.GetLoggerFromContext(ctx).Error("Failed to save refreshed token", "error", err)
+					s.getLogger(ctx).Error("Failed to save refreshed token", "error", err)
 				}
 			} else {
-				middleware.GetLoggerFromContext(ctx).Error("Failed to refresh token", "error", err)
+				s.getLogger(ctx).Error("Failed to refresh token", "error", err)
 			}
 		}
 	}
@@ -236,7 +247,7 @@ func (s *connectionService) ListRepositoryContents(ctx context.Context, userID u
 }
 
 func (s *connectionService) DeleteConnection(ctx context.Context, userID uuid.UUID, provider string) error {
-	logger := middleware.GetLoggerFromContext(ctx)
+	logger := s.getLogger(ctx)
 	if err := s.db.DeleteConnection(ctx, userID, provider); err != nil {
 		logger.Error("Failed to delete connection", "userID", userID, "provider", provider, "error", err)
 		return err

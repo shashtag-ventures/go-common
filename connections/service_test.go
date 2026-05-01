@@ -31,7 +31,7 @@ func TestConnectionService(t *testing.T) {
 	clientsMap := map[string]types.ProviderClient{
 		"github": ghClient,
 	}
-	service := NewConnectionService(storage, encryptionKey, clientsMap)
+	service := NewConnectionService(storage, encryptionKey, clientsMap, nil)
 
 	userID := uuid.New()
 	provider := "github"
