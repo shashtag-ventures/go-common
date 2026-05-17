@@ -122,4 +122,50 @@ func TestRetryRoundTripper(t *testing.T) {
 		assert.Equal(t, http.StatusOK, resp.StatusCode)
 		assert.Equal(t, 2, mock.attempts)
 	})
+
+	t.Run("POST body is reset on 503 retry", func(t *testing.T) {
+		bodyContent := `{"jsonrpc":"2.0","method":"initialize"}`
+		var capturedBodies []string
+
+		mock := &mockRoundTripper{
+			responses: []*http.Response{
+				{StatusCode: http.StatusServiceUnavailable},
+				{StatusCode: http.StatusOK},
+			},
+		}
+
+		// Override the mock to capture bodies
+		originalRT := mock
+		capturingRT := roundTripFunc(func(req *http.Request) (*http.Response, error) {
+			if req.Body != nil {
+				b, _ := io.ReadAll(req.Body)
+				capturedBodies = append(capturedBodies, string(b))
+			}
+			return originalRT.RoundTrip(req)
+		})
+
+		rt := &RetryRoundTripper{
+			Base:       capturingRT,
+			MaxRetries: 3,
+			Backoff:    func(i int) time.Duration { return 0 },
+		}
+
+		req, _ := http.NewRequest("POST", "http://example.com/mcp", strings.NewReader(bodyContent))
+		req.Header.Set("Content-Type", "application/json")
+		resp, err := rt.RoundTrip(req)
+
+		assert.NoError(t, err)
+		assert.Equal(t, http.StatusOK, resp.StatusCode)
+		// Both attempts should have received the full body
+		assert.Len(t, capturedBodies, 2)
+		assert.Equal(t, bodyContent, capturedBodies[0], "first attempt should have full body")
+		assert.Equal(t, bodyContent, capturedBodies[1], "retry should have full body (reset via GetBody)")
+	})
+}
+
+// roundTripFunc adapts a function to http.RoundTripper
+type roundTripFunc func(*http.Request) (*http.Response, error)
+
+func (f roundTripFunc) RoundTrip(req *http.Request) (*http.Response, error) {
+	return f(req)
 }

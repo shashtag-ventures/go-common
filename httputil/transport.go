@@ -64,6 +64,25 @@ func (rt *RetryRoundTripper) RoundTrip(req *http.Request) (*http.Response, error
 				)
 			}
 			time.Sleep(waitTime)
+
+			// Reset request body before retrying (skip nil and http.NoBody)
+			if req.Body != nil && req.Body != http.NoBody {
+				if req.GetBody != nil {
+					newBody, err := req.GetBody()
+					if err != nil {
+						if rt.Logger != nil {
+							rt.Logger.Error("Failed to get new body for retry", "error", err)
+						}
+						break
+					}
+					req.Body = newBody
+				} else {
+					if rt.Logger != nil {
+						rt.Logger.Warn("Cannot retry HTTP request, GetBody is nil", "url", req.URL.String())
+					}
+					break
+				}
+			}
 		}
 
 		resp, err = rt.Base.RoundTrip(req)
