@@ -22,6 +22,7 @@ type DBConfig struct {
 	MaxIdleConns    int
 	MaxOpenConns    int
 	ConnMaxLifetime int // In minutes
+	ConnMaxIdleTime int // In minutes
 }
 
 // New initializes a new PostgreSQL database connection using GORM.
@@ -54,6 +55,9 @@ func New(cfg DBConfig) (*gorm.DB, error) {
 	sqlDb.SetMaxIdleConns(cfg.MaxIdleConns)
 	sqlDb.SetMaxOpenConns(cfg.MaxOpenConns)
 	sqlDb.SetConnMaxLifetime(time.Duration(cfg.ConnMaxLifetime) * time.Minute)
+	if cfg.ConnMaxIdleTime > 0 {
+		sqlDb.SetConnMaxIdleTime(time.Duration(cfg.ConnMaxIdleTime) * time.Minute)
+	}
 
 	// Ping the database to verify the connection is alive.
 	err = sqlDb.Ping()

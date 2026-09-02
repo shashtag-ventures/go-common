@@ -83,6 +83,7 @@ type DatabaseConfig struct {
 	MaxIdleConns    int    `env:"DB_MAX_IDLE_CONNS" envDefault:"10"`
 	MaxOpenConns    int    `env:"DB_MAX_OPEN_CONNS" envDefault:"100"`
 	ConnMaxLifetime int    `env:"DB_CONN_MAX_LIFETIME" envDefault:"5"` // In minutes
+	ConnMaxIdleTime int    `env:"DB_CONN_MAX_IDLE_TIME" envDefault:"5"` // In minutes
 }
 
 // Level wraps slog.Level to provide a more robust unmarshaler that handles both numeric strings and names.
