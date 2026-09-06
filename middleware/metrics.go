@@ -79,3 +79,14 @@ func (lw *loggingResponseWriter) Write(data []byte) (int, error) {
 	lw.size += size
 	return size, err
 }
+
+func (lw *loggingResponseWriter) Unwrap() http.ResponseWriter {
+	return lw.ResponseWriter
+}
+
+func (lw *loggingResponseWriter) Flush() {
+	if f, ok := lw.ResponseWriter.(http.Flusher); ok {
+		f.Flush()
+	}
+}
+
