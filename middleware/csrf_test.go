@@ -45,6 +45,31 @@ func TestCSRFMiddleware(t *testing.T) {
 		assert.Equal(t, http.StatusForbidden, rr.Code)
 	})
 
+	t.Run("POST Request - Exempt Paths - Succeeds without token", func(t *testing.T) {
+		exemptCfg := middleware.CSRFConfig{
+			Enabled:     true,
+			Secret:      secret,
+			ExemptPaths: []string{"/oauth/", "/webhook"},
+		}
+		exemptHandler := middleware.CSRFMiddleware(exemptCfg)(nextHandler)
+
+		req1 := httptest.NewRequest(http.MethodPost, "/oauth/register", nil)
+		rr1 := httptest.NewRecorder()
+		exemptHandler.ServeHTTP(rr1, req1)
+		assert.Equal(t, http.StatusOK, rr1.Code)
+
+		req2 := httptest.NewRequest(http.MethodPost, "/webhook", nil)
+		rr2 := httptest.NewRecorder()
+		exemptHandler.ServeHTTP(rr2, req2)
+		assert.Equal(t, http.StatusOK, rr2.Code)
+
+		// Non-exempt path should still fail with 403
+		req3 := httptest.NewRequest(http.MethodPost, "/projects/create", nil)
+		rr3 := httptest.NewRecorder()
+		exemptHandler.ServeHTTP(rr3, req3)
+		assert.Equal(t, http.StatusForbidden, rr3.Code)
+	})
+
 	t.Run("Disabled CSRF - Succeeds without token", func(t *testing.T) {
 		disabledCfg := middleware.CSRFConfig{Enabled: false}
 		disabledHandler := middleware.CSRFMiddleware(disabledCfg)(nextHandler)

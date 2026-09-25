@@ -15,6 +15,7 @@ type CSRFConfig struct {
 	Secure         bool     // Use true for production (HTTPS)
 	Domain         string   // Cookie domain
 	TrustedOrigins []string // Origins allowed to send state-changing requests (e.g., "https://www.example.com")
+	ExemptPaths    []string // Paths that should bypass CSRF checks (e.g. "/oauth/", "/webhook")
 }
 
 // CSRFMiddleware wraps gorilla/csrf to provide CSRF protection.
@@ -54,7 +55,24 @@ func CSRFMiddleware(cfg CSRFConfig) func(http.Handler) http.Handler {
 		opts = append(opts, csrf.TrustedOrigins(hosts))
 	}
 
-	return csrf.Protect(key[:], opts...)
+	csrfProtect := csrf.Protect(key[:], opts...)
+
+	if len(cfg.ExemptPaths) == 0 {
+		return csrfProtect
+	}
+
+	return func(next http.Handler) http.Handler {
+		protectedHandler := csrfProtect(next)
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			for _, exempt := range cfg.ExemptPaths {
+				if r.URL.Path == exempt || (len(exempt) > 0 && exempt[len(exempt)-1] == '/' && len(r.URL.Path) >= len(exempt) && r.URL.Path[:len(exempt)] == exempt) || (len(exempt) > 0 && len(r.URL.Path) >= len(exempt) && r.URL.Path[:len(exempt)] == exempt) {
+					next.ServeHTTP(w, r)
+					return
+				}
+			}
+			protectedHandler.ServeHTTP(w, r)
+		})
+	}
 }
 
 // GetCSRFToken returns the CSRF token for the current request.
